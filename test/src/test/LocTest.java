@@ -1,22 +1,7 @@
 package test;
-
 public class LocTest {
 	
-	/*
-	 * Multi line comment
-	 */
-	//Single line comment
-	public void test() {
+	public static void main(String[] args) {
 		
 	}
-  	
-	/** Another multiline comment
-	 * 
-	 * */
-	public void test2() {
-		
-	}
-	// Another one line comment
-  
-  
 }
