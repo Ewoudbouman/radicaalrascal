@@ -31,10 +31,10 @@ public str readResource(loc resource) {
  */
 public int locOfResource(loc resource) {
 	str strippedText = readResource(resource);
-	//strippedText = removeTabsAndSpaces(strippedText);
+	strippedText = removeTabsAndSpaces(strippedText);
 	strippedText = removeComments(strippedText);
 	list[str] splitText = splitByNewLine(strippedText);
-	return size(splitText);
+	return size(filterEmptyStrings(splitText));
 }
 
 private str removeTabsAndSpaces(str text) {
@@ -42,12 +42,14 @@ private str removeTabsAndSpaces(str text) {
 	return replaceAll(noTabs, " ", "");
 }
 
-private str removeComments(str text) {
+/** 
+ * Removes all comments from the given text
+ * https://stackoverflow.com/questions/1657066/java-regular-expression-finding-comments-in-code
+ */
+public str removeComments(str text) {
 	return visit(text){
-		// Multi line comments. Every single amount of any char between /* and */
-		case /\/\*([\s\S]*)\*\// => ""
-		// Single line comments (starting with // and everything beyond till line break
-		case /\/\/.*/ => ""
+		// Multi lined and single line comments
+		case /\/\/.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)\/\\*.*?\\*\// => ""
 	};
 }
 

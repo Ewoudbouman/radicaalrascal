@@ -11,8 +11,8 @@ public void main() {
 	tuple[int linesOfCode, int rating] volumeMeasure;
 	
 	M3 testProject = createM3FromEclipseProject(|project://test|);
-	volumeMeasure = volumeMetricForProject(testProject);
 	println("Measures for \"test\" project:");
+	volumeMeasure = volumeMetricForProject(testProject);
 	print("Lines of code: ");
 	print(volumeMeasure.linesOfCode);
 	print("\nVolume rating: ");
@@ -21,8 +21,8 @@ public void main() {
 	println();
 	
 	M3 smallSqlProject = createM3FromEclipseProject(|project://smallsql0.21_src|);
-	volumeMeasure = volumeMetricForProject(smallSqlProject);
 	println("Measures for \"smallsql0.21_src\" project:");
+	volumeMeasure = volumeMetricForProject(smallSqlProject);
 	print("Lines of code: ");
 	print(volumeMeasure.linesOfCode);
 	print("\nVolume rating: ");
@@ -32,8 +32,8 @@ public void main() {
 	
 	
 	M3 hsqldbProject = createM3FromEclipseProject(|project://hsqldb-2.3.1|);
-	volumeMeasure = volumeMetricForProject(hsqldbProject);
 	println("Measures for \"hsqldb-2.3.1\" project:");
+	volumeMeasure = volumeMetricForProject(hsqldbProject);
 	print("Lines of code: ");
 	print(volumeMeasure.linesOfCode);
 	print("\nVolume rating: ");

@@ -8,11 +8,15 @@ public class LocTest {
 	//Single line comment
 	public void test() {
 		
-		//Outcome should be 4 loc
-		
 	}
   	
-
+	/** Another multiline comment
+	 * 
+	 * */
+	public void test2() {
+		
+	}
+	// Another one line comment
   
   
 }
