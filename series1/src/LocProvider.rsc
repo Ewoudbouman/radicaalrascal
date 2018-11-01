@@ -4,6 +4,7 @@ import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import IO;
 import List;
+import Set;
 import String;
 
 /**
@@ -13,7 +14,7 @@ import String;
  * https://github.com/usethesource/rascal/blob/master/src/org/rascalmpl/library/lang/java/m3/Core.rsc (#187)
  */
 public int locOfProject(M3 project) {
-	return sum( [locOfResource(class) | class <- classes(project)]);
+	return sum( [locOfResource(resource) | resource <- files(project)]);
 }
 
 /**
@@ -30,9 +31,9 @@ public str readResource(loc resource) {
  */
 public int locOfResource(loc resource) {
 	str strippedText = readResource(resource);
-	strippedText = removeTabsAndSpaces(strippedText);
+	//strippedText = removeTabsAndSpaces(strippedText);
 	strippedText = removeComments(strippedText);
-	list[str] splitText = filterEmptyStrings(splitByNewLine(strippedText));
+	list[str] splitText = splitByNewLine(strippedText);
 	return size(splitText);
 }
 
