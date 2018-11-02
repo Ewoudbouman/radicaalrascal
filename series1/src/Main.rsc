@@ -6,6 +6,7 @@ import IO;
 
 import LocProvider;
 import VolumeMetric;
+import DuplicateMetric;
 
 public void main() {
 	tuple[int linesOfCode, int rating] volumeMeasure;
@@ -17,7 +18,9 @@ public void main() {
 	print(volumeMeasure.linesOfCode);
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
-	println();
+	println("\nDuplicates test ");
+	duplicateMeasure = duplicateMetricForProject(testProject);
+	print(duplicateMeasure);
 	println();
 	
 	M3 smallSqlProject = createM3FromEclipseProject(|project://smallsql0.21_src|);
@@ -29,7 +32,6 @@ public void main() {
 	print(volumeMeasure.rating);
 	println();
 	println();
-	
 	
 	M3 hsqldbProject = createM3FromEclipseProject(|project://hsqldb-2.3.1|);
 	println("Measures for \"hsqldb-2.3.1\" project:");
