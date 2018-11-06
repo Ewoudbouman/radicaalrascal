@@ -6,6 +6,7 @@ import IO;
 
 import VolumeMetric;
 import ComplexityMetric;
+import DuplicateMetric;
 
 public void main() {
 	tuple[int linesOfCode, int rating] volumeMeasure;
@@ -20,6 +21,9 @@ public void main() {
 	println();
 	print("Complexity rating: ");
 	print(projectComplexity(testProject));
+	println("\nDuplicates test ");
+	duplicateMeasure = duplicateMetricForProject(testProject);
+	print(duplicateMeasure);
 	println();
 	
 	M3 smallSqlProject = createM3FromEclipseProject(|project://smallsql0.21_src|);
