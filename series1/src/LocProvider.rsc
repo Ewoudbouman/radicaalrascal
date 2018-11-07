@@ -17,6 +17,12 @@ public int locOfProject(M3 project) {
 	return sum( [locOfResource(resource) | resource <- classes(project)]);
 }
 
+public real locPercentage(int linesOfCode, int totalLinesOfCode) {
+	real lines = 1.0 * linesOfCode;
+	real total = 1.0 * totalLinesOfCode;
+	return (lines / total) * 100;
+}
+
 /**
  * Reads a resource location and returns a list of strings for every line that's in the resource location
  * http://tutor.rascal-mpl.org/Rascal/Rascal.html#/Rascal/Libraries/Prelude/IO/readFileLines/readFileLines.html

@@ -10,19 +10,21 @@ import String;
 import Set;
 
 
-public int rateComplexity(tuple[real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, real veryHighRiskPercentage] complexity) {
+public int rateComplexity(real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, real veryHighRiskPercentage) {
 	
-	//println("moderate percentage: <complexity.moderateRiskPercentage>");
-	//println("high percentage: <complexity.highRiskPercentage>");
-	//println("very high percentage:<complexity.veryHighRiskPercentage>");
+	println("\nComplexity groups: ");
+	println("Low risk percentage: <lowRiskPercentage>");
+	println("Moderate risk percentage: <moderateRiskPercentage>");
+	println("High risk percentage: <highRiskPercentage>");
+	println("Very High risk percentage: <veryHighRiskPercentage>\n");
 	
-	if(complexity.moderateRiskPercentage <= 25.0 && complexity.highRiskPercentage <= 0.0 && complexity.veryHighRiskPercentage <= 0.0) {
+	if(moderateRiskPercentage <= 25.0 && highRiskPercentage <= 0.0 && veryHighRiskPercentage <= 0.0) {
 		return 5;
-	} else if(complexity.moderateRiskPercentage <= 30.0 && complexity.highRiskPercentage <= 5.0 && complexity.veryHighRiskPercentage <= 0.0) {
+	} else if(moderateRiskPercentage <= 30.0 && highRiskPercentage <= 5.0 && veryHighRiskPercentage <= 0.0) {
 		return 4;
-	} else if(complexity.moderateRiskPercentage <= 40.0 && complexity.highRiskPercentage <= 10.0 && complexity.veryHighRiskPercentage <= 0.0) {
+	} else if(moderateRiskPercentage <= 40.0 && highRiskPercentage <= 10.0 && veryHighRiskPercentage <= 0.0) {
 		return 3;
-	} else if(complexity.moderateRiskPercentage <= 50.0 && complexity.highRiskPercentage <= 15.0 && complexity.veryHighRiskPercentage <= 5.0) {
+	} else if(moderateRiskPercentage <= 50.0 && highRiskPercentage <= 15.0 && veryHighRiskPercentage <= 5.0) {
 		return 2;
 	} else {
 		return 1;
@@ -36,7 +38,8 @@ public int rateComplexity(tuple[real lowRiskPercentage, real moderateRiskPercent
  * NOTE: it's very important to take the FILES.. not the classes. otherwise the ASTs method locations are messed up 
  * due to not taking anything above the class declaration into account.
  */
-public tuple[real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, real veryHighRiskPercentage] projectComplexity(M3 project) {
+public tuple[real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, 
+		real veryHighRiskPercentage, list[int] unitSizes] projectComplexity(M3 project) {
 	lrel[int,int] results = [];
 	for (file <- files(project)){
 		results += fileComplexity(file);
@@ -45,7 +48,8 @@ public tuple[real lowRiskPercentage, real moderateRiskPercentage, real highRiskP
 	real moderateRiskPercentage = 0.0;
 	real highRiskPercentage = 0.0;
 	real veryHighRiskPercentage = 0.0;
-	int totalLinesMeasured = sum([ y | <x,y> <- results]);	
+	list[int] unitSizes = [ y | <x,y> <- results];
+	int totalLinesMeasured = sum(unitSizes);	
 	
 	for(<x,y> <- [<rateComplexity(x),locPercentage(y, totalLinesMeasured)> | <x,y> <- results]) {
 		switch(x) {
@@ -55,7 +59,7 @@ public tuple[real lowRiskPercentage, real moderateRiskPercentage, real highRiskP
 			case 4: veryHighRiskPercentage += y;
 		}
 	}
-	return <lowRiskPercentage, moderateRiskPercentage, highRiskPercentage, veryHighRiskPercentage>;
+	return <lowRiskPercentage, moderateRiskPercentage, highRiskPercentage, veryHighRiskPercentage, unitSizes>;
 }
 
 /**
@@ -75,12 +79,6 @@ private int rateComplexity(int cc) {
 	} else {
 		return 4;
 	}	
-}
-
-public real locPercentage(int linesOfCode, int totalLinesOfCode) {
-	real lines = 1.0 * linesOfCode;
-	real total = 1.0 * totalLinesOfCode;
-	return (lines / total) * 100;
 }
 
 /**

@@ -7,6 +7,7 @@ import IO;
 import VolumeMetric;
 import ComplexityMetric;
 import DuplicateMetric;
+import UnitSizeMetric;
 
 public void main() {
 	tuple[int linesOfCode, int rating] volumeMeasure;
@@ -19,9 +20,12 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
+	
 	complexity = projectComplexity(testProject);
-	println("Complexity groups: <complexity>");
-	println("Complexity rating: <rateComplexity(complexity)>");
+	println("Complexity rating: <rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage)>");
+		
+	println("Unit size rating: <rateUnitSizes(complexity.unitSizes)>");
+	
 	println();
 	println("\nDuplicates test ");
 	duplicateMeasure = duplicateMetricForProject(testProject);
@@ -36,10 +40,12 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
+	
 	complexity = projectComplexity(smallSqlProject);
-	println("Complexity groups: <complexity>");
-	println("Complexity rating: <rateComplexity(complexity)>");
-	println();
+	println("Complexity rating: <rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage)>");
+	
+	println("Unit size rating: <rateUnitSizes(complexity.unitSizes)>");
+	
 	println("\nDuplicates test ");
 	duplicateMeasure = duplicateMetricForProject(smallSqlProject);
 	print(duplicateMeasure);
@@ -53,10 +59,12 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
+	
 	complexity = projectComplexity(hsqldbProject);
-	println("Complexity groups: <complexity>");
-	println("Complexity rating: <rateComplexity(complexity)>");
-	println();
+	println("Complexity rating: <rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage)>");
+	
+	println("Unit size rating: <rateUnitSizes(complexity.unitSizes)>");
+	
 	println("\nDuplicates test ");
 	duplicateMeasure = duplicateMetricForProject(hsqldbProject);
 	print(duplicateMeasure);
