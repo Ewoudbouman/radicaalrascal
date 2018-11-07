@@ -9,6 +9,26 @@ import List;
 import String;
 import Set;
 
+
+public int rateComplexity(tuple[real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, real veryHighRiskPercentage] complexity) {
+	
+	//println("moderate percentage: <complexity.moderateRiskPercentage>");
+	//println("high percentage: <complexity.highRiskPercentage>");
+	//println("very high percentage:<complexity.veryHighRiskPercentage>");
+	
+	if(complexity.moderateRiskPercentage <= 25.0 && complexity.highRiskPercentage <= 0.0 && complexity.veryHighRiskPercentage <= 0.0) {
+		return 5;
+	} else if(complexity.moderateRiskPercentage <= 30.0 && complexity.highRiskPercentage <= 5.0 && complexity.veryHighRiskPercentage <= 0.0) {
+		return 4;
+	} else if(complexity.moderateRiskPercentage <= 40.0 && complexity.highRiskPercentage <= 10.0 && complexity.veryHighRiskPercentage <= 0.0) {
+		return 3;
+	} else if(complexity.moderateRiskPercentage <= 50.0 && complexity.highRiskPercentage <= 15.0 && complexity.veryHighRiskPercentage <= 5.0) {
+		return 2;
+	} else {
+		return 1;
+	}
+}
+
 /** 
  * Creates a complexity report of the project
  *

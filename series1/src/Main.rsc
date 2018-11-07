@@ -19,8 +19,10 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
-	print("Complexity rating: ");
-	print(projectComplexity(testProject));
+	complexity = projectComplexity(testProject);
+	println("Complexity groups: <complexity>");
+	println("Complexity rating: <rateComplexity(complexity)>");
+	println();
 	println("\nDuplicates test ");
 	duplicateMeasure = duplicateMetricForProject(testProject);
 	print(duplicateMeasure);
@@ -34,9 +36,13 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
-	print("Complexity rating: ");
-	print(projectComplexity(smallSqlProject));
+	complexity = projectComplexity(smallSqlProject);
+	println("Complexity groups: <complexity>");
+	println("Complexity rating: <rateComplexity(complexity)>");
 	println();
+	println("\nDuplicates test ");
+	duplicateMeasure = duplicateMetricForProject(smallSqlProject);
+	print(duplicateMeasure);
 	println();
 	
 	M3 hsqldbProject = createM3FromEclipseProject(|project://hsqldb-2.3.1|);
@@ -47,8 +53,13 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
-	print("Complexity rating: ");
-	print(projectComplexity(hsqldbProject));
+	complexity = projectComplexity(hsqldbProject);
+	println("Complexity groups: <complexity>");
+	println("Complexity rating: <rateComplexity(complexity)>");
+	println();
+	println("\nDuplicates test ");
+	duplicateMeasure = duplicateMetricForProject(hsqldbProject);
+	print(duplicateMeasure);
 	println();
 	println();
 }

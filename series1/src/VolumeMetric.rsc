@@ -13,13 +13,13 @@ public tuple[int linesOfCode, int rating]  volumeMetricForProject(M3 project) {
 	int linesOfCode = locOfProject(project);
 	int rating;
 	if(linesOfCode > 0 && linesOfCode <= 66000) {
-		rating = 0;
-	} else if(linesOfCode >  66000 && linesOfCode <= 246000) {
 		rating = 1;
-	} else if(linesOfCode > 246000 && linesOfCode <= 665000) {
+	} else if(linesOfCode >  66000 && linesOfCode <= 246000) {
 		rating = 2;
-	} else if(linesOfCode > 665000 && linesOfCode <= 1310000) {
+	} else if(linesOfCode > 246000 && linesOfCode <= 665000) {
 		rating = 3;
+	} else if(linesOfCode > 665000 && linesOfCode <= 1310000) {
+		rating = 4;
 	} else {
 		rating = 5;
 	}
