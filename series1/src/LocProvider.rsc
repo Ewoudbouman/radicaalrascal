@@ -14,7 +14,7 @@ import String;
  * https://github.com/usethesource/rascal/blob/master/src/org/rascalmpl/library/lang/java/m3/Core.rsc (#187)
  */
 public int locOfProject(M3 project) {
-	return sum( [locOfResource(resource) | resource <- files(project)]);
+	return sum( [locOfResource(resource) | resource <- classes(project)]);
 }
 
 /**

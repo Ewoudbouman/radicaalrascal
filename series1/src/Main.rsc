@@ -4,8 +4,8 @@ import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import IO;
 
-import LocProvider;
 import VolumeMetric;
+import ComplexityMetric;
 import DuplicateMetric;
 
 public void main() {
@@ -18,6 +18,9 @@ public void main() {
 	print(volumeMeasure.linesOfCode);
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
+	println();
+	print("Complexity rating: ");
+	print(projectComplexity(testProject));
 	println("\nDuplicates test ");
 	duplicateMeasure = duplicateMetricForProject(testProject);
 	print(duplicateMeasure);
@@ -31,6 +34,9 @@ public void main() {
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
 	println();
+	print("Complexity rating: ");
+	print(projectComplexity(smallSqlProject));
+	println();
 	println();
 	
 	M3 hsqldbProject = createM3FromEclipseProject(|project://hsqldb-2.3.1|);
@@ -40,6 +46,9 @@ public void main() {
 	print(volumeMeasure.linesOfCode);
 	print("\nVolume rating: ");
 	print(volumeMeasure.rating);
+	println();
+	print("Complexity rating: ");
+	print(projectComplexity(hsqldbProject));
 	println();
 	println();
 }
