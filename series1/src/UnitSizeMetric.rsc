@@ -12,11 +12,11 @@ import Set;
 public int rateUnitSizes(list[int] unitSizes) {
    	tuple[real small, real moderate, real large, real veryLarge] percentages = groupUnitSizesWithPercentage(unitSizes);
    	
-   	println("\nUnit size groups: ");
-   	println("Small sized percentage: <percentages.small>");
-	println("Moderate sized percentage: <percentages.moderate>");
-	println("Large sized percentage: <percentages.large>");
-	println("Very large sized risk percentage: <percentages.veryLarge>\n");
+   	println("\nUnit size groups:");
+   	println("Small sized percentage:            <percentages.small>");
+	println("Moderate sized percentage:         <percentages.moderate>");
+	println("Large sized percentage:            <percentages.large>");
+	println("Very large sized risk percentage:  <percentages.veryLarge>\n");
 	
 	if(percentages.moderate <= 25.0 && percentages.large <= 0.0 && percentages.veryLarge <= 0.0) {
 		return 5;

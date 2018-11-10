@@ -21,18 +21,18 @@ public real duplicateMetricForProject(M3 project) {
 /**
  * 
  */
-public str rateDuplicates(real stats) {
+public int rateDuplicates(real stats) {
 
 	if (stats <= 3.0) {
-		return ("++");
+		return 5;
 	} else if (stats > 3.0 && stats <= 5.0) {
-		return ("+");
+		return 4;
 	} else if (stats > 5.0 && stats <= 10.0) {
-		return ("o");
+		return 3;
 	} else if (stats > 10.0 && stats <= 20.0) {
-		return "-";
+		return 2;
 	} else {
-		return "--";
+		return 1;
 	}	
 }
 
