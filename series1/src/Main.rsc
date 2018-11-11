@@ -12,7 +12,7 @@ import util::Benchmark;
 import util::Math;
 
 public void main() {
-	performAnalysis(|project://test|);
+	//performAnalysis(|project://test|);
 	performAnalysis(|project://smallsql0.21_src|);
 	performAnalysis(|project://hsqldb-2.3.1|);
 
@@ -26,23 +26,25 @@ private void performAnalysis(loc project) {
 	volumeMeasure = volumeMetricForProject(m3);
 	complexity = projectComplexity(m3);
 	duplicateMeasure = duplicateMetricForProject(m3);
-	overallMeasure = overallRating(volumeMeasure.rating, rateUnitSizes(complexity.unitSizes), 
-		rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage), rateDuplicates(duplicateMeasure));
 	
 	println("Volume metric:\n");
 	println("Total lines of java code:             <volumeMeasure.linesOfCode>");
 	println("Volume rating based on lines of code: <ratingDisplayValue(volumeMeasure.rating)>\n");
 	println("-------");
 	println("Complexity metric:");
-	println("Complexity rating: <ratingDisplayValue(rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage))>\n");
+	complexityRating = rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage);
+	println("Complexity rating: <ratingDisplayValue(complexityRating)>\n");
 	println("-------");
 	println("Unit size metric:");
-	println("Unit size rating: <ratingDisplayValue(rateUnitSizes(complexity.unitSizes))>\n");
+	unitSizeRating = rateUnitSizes(complexity.unitSizes);
+	println("Unit size rating: <ratingDisplayValue(unitSizeRating)>\n");
 	println("-------");
 	println("Duplicates metric:\n");
-	println("Duplicates rating: <ratingDisplayValue(rateDuplicates(duplicateMeasure))>\n");
+	duplicationRating = rateDuplicates(duplicateMeasure);
+	println("Duplicates rating: <ratingDisplayValue(duplicationRating)>\n");
 	println("-------");
 	println("Overal scores:\n");
+	overallMeasure = overallRating(volumeMeasure.rating, unitSizeRating, complexityRating, duplicationRating);
 	println("Analysability: <ratingDisplayValue(overallMeasure.analysability)>");
 	println("Changeability: <ratingDisplayValue(overallMeasure.changeability)>");
 	println("Testability: <ratingDisplayValue(overallMeasure.testability)>\n");
