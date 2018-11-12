@@ -62,7 +62,7 @@ tuple[bool, int] compareWindow(str windowText, bool windowOverlap, set[str] wind
 	if (windowText in windows && windowOverlap) {
 		return <true, 1>;
 	} else if (windowText in windows) {
-		return <true, 1>;
+		return <true, windowBlock>;
 	} else {
 		return <false, 0>;
 	}
@@ -88,6 +88,7 @@ tuple[set[str], int, int] moveWindow(list[str] text, set[str] blocks, int window
 		blocks += flatten;
 		countBlock += 1;
 	}
+	
 	return <blocks, count, countBlock>;
 }
 

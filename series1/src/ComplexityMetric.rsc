@@ -10,13 +10,15 @@ import String;
 import Set;
 
 
-public int rateComplexity(real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, real veryHighRiskPercentage) {
+public int rateComplexity(real lowRiskPercentage, real moderateRiskPercentage, real highRiskPercentage, real veryHighRiskPercentage, bool output=true) {
 	
-	println("\nComplexity groups:");
-	println("Low risk percentage:         <lowRiskPercentage>");
-	println("Moderate risk percentage:    <moderateRiskPercentage>");
-	println("High risk percentage:        <highRiskPercentage>");
-	println("Very High risk percentage:   <veryHighRiskPercentage>\n");
+	if (output) {
+		println("\nComplexity groups:");
+		println("Low risk percentage:         <lowRiskPercentage>");
+		println("Moderate risk percentage:    <moderateRiskPercentage>");
+		println("High risk percentage:        <highRiskPercentage>");
+		println("Very High risk percentage:   <veryHighRiskPercentage>\n");
+	}
 	
 	if(moderateRiskPercentage <= 25.0 && highRiskPercentage <= 0.0 && veryHighRiskPercentage <= 0.0) {
 		return 5;

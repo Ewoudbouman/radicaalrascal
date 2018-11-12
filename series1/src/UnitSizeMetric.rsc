@@ -9,14 +9,16 @@ import List;
 import String;
 import Set;
 
-public int rateUnitSizes(list[int] unitSizes) {
+public int rateUnitSizes(list[int] unitSizes, bool output=true) {
    	tuple[real small, real moderate, real large, real veryLarge] percentages = groupUnitSizesWithPercentage(unitSizes);
    	
-   	println("\nUnit size groups:");
-   	println("Small sized percentage:            <percentages.small>");
-	println("Moderate sized percentage:         <percentages.moderate>");
-	println("Large sized percentage:            <percentages.large>");
-	println("Very large sized risk percentage:  <percentages.veryLarge>\n");
+   	if (output) {
+	   	println("\nUnit size groups:");
+	   	println("Small sized percentage:            <percentages.small>");
+		println("Moderate sized percentage:         <percentages.moderate>");
+		println("Large sized percentage:            <percentages.large>");
+		println("Very large sized risk percentage:  <percentages.veryLarge>\n");
+	}
 	
 	if(percentages.moderate <= 25.0 && percentages.large <= 0.0 && percentages.veryLarge <= 0.0) {
 		return 5;
@@ -31,13 +33,17 @@ public int rateUnitSizes(list[int] unitSizes) {
 	}
 }
 
-private tuple[real smallSizePercentage, real moderateSizePercentage, real largeSizePercentage, real veryLargeSizePercentage] 
+// private -> public
+public tuple[real smallSizePercentage, real moderateSizePercentage, real largeSizePercentage, real veryLargeSizePercentage] 
 		groupUnitSizesWithPercentage(list[int] unitSizes) {
 	real smallSize = 0.0;
 	real moderateSize = 0.0;
 	real largeSize = 0.0;
 	real veryLargeSize = 0.0;
 	int totalSize = sum(unitSizes);	
+	println("asdf");
+	print(totalSize);
+	print("222qwer");
 	
 	for(<x,y> <- [<rateSize(x),locPercentage(x, totalSize)> | x <- unitSizes]) {
 		switch(x) {
