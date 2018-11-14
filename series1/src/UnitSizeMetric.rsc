@@ -61,11 +61,11 @@ public tuple[real smallSizePercentage, real moderateSizePercentage, real largeSi
  * > 50	 -> very large size   -> 4
  */
 private int rateSize(int size) {
-	if(size <= 10) {
+	if(size <= 15) {
 		return 1;
-	} else if(size > 10 && size <= 20) {
+	} else if(size > 15 && size <= 25) {
 		return 2;
-	} else if(size > 20 && size <= 50) {
+	} else if(size > 25 && size <= 55) {
 		return 3;
 	} else {
 		return 4;
