@@ -41,9 +41,6 @@ public tuple[real smallSizePercentage, real moderateSizePercentage, real largeSi
 	real largeSize = 0.0;
 	real veryLargeSize = 0.0;
 	int totalSize = sum(unitSizes);	
-	println("asdf");
-	print(totalSize);
-	print("222qwer");
 	
 	for(<x,y> <- [<rateSize(x),locPercentage(x, totalSize)> | x <- unitSizes]) {
 		switch(x) {
