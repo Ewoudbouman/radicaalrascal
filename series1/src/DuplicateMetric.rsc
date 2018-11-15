@@ -12,17 +12,23 @@ import util::Benchmark;
 /**
  * 
  */
-public real duplicateMetricForProject(M3 project) {
+public tuple[int duplicates, int total] duplicateMetricForProject(M3 project) {
 	tuple[int, int] results = flattenResource((project));
-	real stats = (toReal(results[0])) / (toReal(results[1])) * 100.0;
-	return stats;
+	int duplicates = results[0];
+	int total =  results[1];
+	return <duplicates, total>;
 }
 
 /**
  * 
  */
-public int rateDuplicates(real stats) {
-
+public int rateDuplicates(int duplicates, int total, bool output=true) {
+	real stats = (toReal(duplicates)) / (toReal(total)) * 100.0;
+	if (output) {
+		println("\nDuplication stats:");
+		println("Total amount of duplicate blocks:  <duplicates>");
+		println("Total amount of blocks:            <total>\n");
+	}
 	if (stats <= 3.0) {
 		return 5;
 	} else if (stats > 3.0 && stats <= 5.0) {

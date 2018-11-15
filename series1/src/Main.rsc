@@ -39,8 +39,8 @@ private void performAnalysis(loc project) {
 	unitSizeRating = rateUnitSizes(complexity.unitSizes);
 	println("Unit size rating: <ratingDisplayValue(unitSizeRating)>\n");
 	println("-------");
-	println("Duplicates metric:\n");
-	duplicationRating = rateDuplicates(duplicateMeasure);
+	println("Duplicates metric:");
+	duplicationRating = rateDuplicates(duplicateMeasure.duplicates, duplicateMeasure.total);
 	println("Duplicates rating: <ratingDisplayValue(duplicationRating)>\n");
 	println("-------");
 	println("Overal scores:\n");
