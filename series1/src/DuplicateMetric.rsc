@@ -27,7 +27,8 @@ public int rateDuplicates(int duplicates, int total, bool output=true) {
 	if (output) {
 		println("\nDuplication stats:");
 		println("Total amount of duplicate blocks:  <duplicates>");
-		println("Total amount of blocks:            <total>\n");
+		println("Total amount of blocks:            <total>");
+		println("Percentage of duplicates:          <floor(stats)>%\n");
 	}
 	if (stats <= 3.0) {
 		return 5;
