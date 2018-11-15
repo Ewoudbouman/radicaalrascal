@@ -39,13 +39,17 @@ public int rateDuplicates(real stats) {
 /**
 * Count duplicates as blocks.
 *
-* Can give weird results if there are large number of identical repeating lines,
-* will give a large number of duplicates while sliding over them.
-* Not very problematic for real world codebase examples?
+* We count the number duplicated blocks participating in duplication.
 */
-public int hitWindow(str windowText, set[str] windows) {
+public int hitWindow(str windowText, set[str] windows, set[str] firstDups) {
+	// Duplication, rare event, so start with the condition of no duplicates
 	if (windowText in windows) {
-		return 1;
+		// If this is the first duplication event, flag both blocks as duplicates.
+		if (windowText in firstDups) {
+			return 1;
+		} else {
+			return 2;
+		}
 	} else {
 		return 0;
 	} 
@@ -72,7 +76,7 @@ tuple[bool, int] compareWindow(str windowText, bool windowOverlap, set[str] wind
 * Checks for duplicate blocks.
 */
 
-tuple[set[str], int, int] moveWindow(list[str] text, set[str] blocks, int windowBlock) {
+tuple[set[str], int, int] moveWindow(list[str] text, set[str] blocks, set[str] firstDups, int windowBlock) {
 	int count = 0;
 	int countBlock = 0;
 	// check if file is big enough for a window
@@ -84,7 +88,12 @@ tuple[set[str], int, int] moveWindow(list[str] text, set[str] blocks, int window
 		for (code <- (slice(text, i, windowBlock))){
 			flatten += code;
 		}
-		count += hitWindow(flatten, blocks);
+		int hit = hitWindow(flatten, blocks, firstDups);
+		// check if this is the first duplicate match, if so count bloth blocks as duplicate
+		if (hit == 2) {
+			firstDups += flatten;
+		}
+		count += hit;
 		blocks += flatten;
 		countBlock += 1;
 	}
@@ -128,11 +137,12 @@ tuple[int, int] flattenResource(M3 project) {
 	int windowBlock = 6;
 	int totBlocks = 0;
 	set[str] blocks = {};
+	set[str] firstDups = {};
 	list[str] content = [];
 	
 	for (resource <- files(project)) {
 		content = [ trim(x) | x <- (readFileLines(resource))];
-		tuple[set[str], int, int] dupCheck = moveWindow(content, blocks, windowBlock);
+		tuple[set[str], int, int] dupCheck = moveWindow(content, blocks, firstDups, windowBlock);
 		blocks = dupCheck[0];
 		dups += dupCheck[1];
 		totBlocks += dupCheck[2];

@@ -38,14 +38,23 @@ test bool rateDuplicates5() {
 
 test bool hitWindow1() {
 	S = {"abc", "def", "ghi"};
+	hit = {"abc"};
 	str text = "abc";
-	return (hitWindow(text, S) == 1);
+	return (hitWindow(text, S, hit) == 1);
 }
 
 test bool hitWindow2() {
 	S = {"abc", "def", "ghi"};
+	hit = {""};
+	str text = "abc";
+	return (hitWindow(text, S, hit) == 2);
+}
+
+test bool hitWindow3() {
+	S = {"abc", "def", "ghi"};
+	hit = {};
 	str text = "bcd";
-	return (hitWindow(text, S) == 0);
+	return (hitWindow(text, S, hit) == 0);
 }
 
 /**
@@ -88,5 +97,5 @@ test bool moveWindowLines1(){
 * flattenResource()
 */
 test bool flattenResource1(){
-	return (flattenResource(m3) == <56,107>);
+	return (flattenResource(m3) == <64,107>);
 }
