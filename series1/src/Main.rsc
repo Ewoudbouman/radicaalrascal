@@ -8,6 +8,8 @@ import VolumeMetric;
 import ComplexityMetric;
 import DuplicateMetric;
 import UnitSizeMetric;
+import UnitParamMetric;
+import UnitTestMetric;
 import util::Benchmark;
 import util::Math;
 
@@ -52,6 +54,12 @@ private void performAnalysis(loc project) {
 	println("Analysis took: <nanoToSec(userTime() - before)> seconds\n");
 	println("-------");
 	println("\n*****************************************\n");
+	println("Bonus metric:");
+	println("-------");
+	println("Unit interfacing metric:");
+	unitParams = rateUnitParams(project);
+	println("Unit interfacing: <ratingDisplayValue(unitParams)>\n");
+	
 }
 
 private real nanoToSec(int nano) {
