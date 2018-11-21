@@ -147,7 +147,7 @@ tuple[int, int] flattenResource(M3 project) {
 	set[str] firstDups = {};
 	list[str] content = [];
 	
-	for (resource <- files(project)) {
+	for (resource <- classes(project)) {
 		content = [ trim(x) | x <- (readFileLines(resource))];
 		tuple[set[str], int, int] dupCheck = moveWindow(content, blocks, firstDups, windowBlock);
 		blocks = dupCheck[0];
