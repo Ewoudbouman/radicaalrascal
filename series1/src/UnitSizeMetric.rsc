@@ -20,13 +20,13 @@ public int rateUnitSizes(list[int] unitSizes, bool output=true) {
 		println("Very large sized risk percentage:  <percentages.veryLarge>\n");
 	}
 	
-	if(percentages.moderate <= 25.0 && percentages.large <= 0.0 && percentages.veryLarge <= 0.0) {
+	if(percentages.moderate <= 15.0 && percentages.large <= 5.0 && percentages.veryLarge <= 0.0) {
 		return 5;
-	} else if(percentages.moderate <= 30.0 && percentages.large <= 5.0 && percentages.veryLarge <= 0.0) {
+	} else if(percentages.moderate <= 20.0 && percentages.large <= 15.0 && percentages.veryLarge <= 5.0) {
 		return 4;
-	} else if(percentages.moderate <= 40.0 && percentages.large <= 10.0 && percentages.veryLarge <= 0.0) {
+	} else if(percentages.moderate <= 30.0 && percentages.large <= 20.0 && percentages.veryLarge <= 5.0) {
 		return 3;
-	} else if(percentages.moderate <= 50.0 && percentages.large <= 15.0 && percentages.veryLarge <= 5.0) {
+	} else if(percentages.moderate <= 40.0 && percentages.large <= 25.0 && percentages.veryLarge <= 10.0) {
 		return 2;
 	} else {
 		return 1;
@@ -53,19 +53,12 @@ public tuple[real smallSizePercentage, real moderateSizePercentage, real largeSi
 	return <smallSize, moderateSize, largeSize, veryLargeSize>;
 }
 
-/**
- * Rates the size of a unit
- * 1-10  -> small size		  -> 1
- * 11-20 -> moderate size	  -> 2
- * 21-50 -> large risk 		  -> 3
- * > 50	 -> very large size   -> 4
- */
 private int rateSize(int size) {
 	if(size <= 15) {
 		return 1;
-	} else if(size > 15 && size <= 25) {
+	} else if(size > 15 && size <= 30) {
 		return 2;
-	} else if(size > 25 && size <= 55) {
+	} else if(size > 30 && size <= 60) {
 		return 3;
 	} else {
 		return 4;
