@@ -14,7 +14,7 @@ import String;
  * https://github.com/usethesource/rascal/blob/master/src/org/rascalmpl/library/lang/java/m3/Core.rsc (#187)
  */
 public int locOfProject(M3 project) {
-	return sum( [locOfResource(resource) | resource <- classes(project)]);
+	return sum( [locOfResource(resource) | resource <- files(project)]);
 }
 
 public real locPercentage(int linesOfCode, int totalLinesOfCode) {
@@ -37,10 +37,16 @@ public str readResource(loc resource) {
  */
 public int locOfResource(loc resource) {
 	str strippedText = readResource(resource);
-	strippedText = removeTabsAndSpaces(strippedText);
 	strippedText = removeComments(strippedText);
-	list[str] splitText = splitByNewLine(strippedText);
-	return size(filterEmptyStrings(splitText));
+	list[str] splitText = splitByNewLineAndFilterEmptyLines(strippedText);
+	return size(splitText);
+}
+
+public list[str] splitFilteredStringsOfResource(loc resource) {
+	str strippedText = readResource(resource);
+	strippedText = removeComments(strippedText);
+	list[str] splitText = splitByNewLineAndFilterEmptyLines(strippedText);
+	return splitText;
 }
 
 private str removeTabsAndSpaces(str text) {
@@ -55,14 +61,12 @@ private str removeTabsAndSpaces(str text) {
 public str removeComments(str text) {
 	return visit(text){
 		// Multi lined and single line comments
-		case /\/\/.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)\/\\*.*?\\*\// => ""
+		// TODO fix this, something is not right
+		case /\*(.|[\r\n])*?\*/ => ""
+		case /\/\/.*/ => ""
 	};
 }
 
-private list[str] splitByNewLine(str text) {
-	return split("\n", text);
-}
-
-private list[str] filterEmptyStrings(list[str] strings) {
-	return [ x | str x <- strings, !isEmpty(x)];
+public list[str] splitByNewLineAndFilterEmptyLines(str text) {
+	return [ line | line <- split("\n", text), /^[\s\t]*$/ !:= line ];
 }
