@@ -39,6 +39,11 @@ public int locOfResource(loc resource) {
 	str strippedText = readResource(resource);
 	strippedText = removeComments(strippedText);
 	list[str] splitText = splitByNewLineAndFilterEmptyLines(strippedText);
+	//println("start <resource>");
+	//for(line <- splitText) {
+	//	println(line);
+	//}
+	//println("end <resource>");
 	return size(splitText);
 }
 
@@ -56,14 +61,11 @@ private str removeTabsAndSpaces(str text) {
 
 /** 
  * Removes all comments from the given text
- * https://stackoverflow.com/questions/1657066/java-regular-expression-finding-comments-in-code
+ * https://blog.ostermiller.org/find-comment
  */
 public str removeComments(str text) {
 	return visit(text){
-		// Multi lined and single line comments
-		// TODO fix this, something is not right
-		case /\*(.|[\r\n])*?\*/ => ""
-		case /\/\/.*/ => ""
+		case /(\/\/.*)|(\/\*(?:.|[\n\r])*?\*\/)/ => ""
 	};
 }
 
