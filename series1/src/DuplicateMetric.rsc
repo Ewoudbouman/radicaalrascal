@@ -63,9 +63,8 @@ private set[tuple[loc,int,str]] findDuplicates(list[list[tuple[loc,int,str]]] bl
 	for(block <- blocks){
 		list[str] lines = [];
 		for(<x,y,z> <- block){
-			lines += z;
+			lines += trim(z);
 		}
-
 		if(lines in searchedBlocks) {
 			duplicates += {lineTuple | lineTuple <- (block + searchedBlocks[lines])};
 		} else {
