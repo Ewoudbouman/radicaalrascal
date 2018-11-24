@@ -9,50 +9,55 @@ import List;
 import String;
 import Set;
 
+/**
+ *
+ */
 public int rateUnitSizes(list[int] unitSizes, bool output=true) {
-   	tuple[real small, real moderate, real large, real veryLarge] percentages = groupUnitSizesWithPercentage(unitSizes);
-   	
+   	pct = groupUnitSizes(unitSizes);
+   	// can be disabled for debugging purposes.
    	if (output) {
 	   	println("\nUnit size groups:");
-	   	println("Small sized percentage:            <percentages.small>");
-		println("Moderate sized percentage:         <percentages.moderate>");
-		println("Large sized percentage:            <percentages.large>");
-		println("Very large sized risk percentage:  <percentages.veryLarge>\n");
+	   	println("Small sized percentage:            <pct.small>");
+		println("Moderate sized percentage:         <pct.moderate>");
+		println("Large sized percentage:            <pct.large>");
+		println("Very large sized risk percentage:  <pct.veryLarge>\n");
 	}
-	
-	if(percentages.moderate <= 15.0 && percentages.large <= 5.0 && percentages.veryLarge <= 0.0) {
+	if(pct.moderate <= 15.0 && pct.large <= 5.0 && pct.veryLarge <= 0.0) {
 		return 5;
-	} else if(percentages.moderate <= 20.0 && percentages.large <= 15.0 && percentages.veryLarge <= 5.0) {
+	} else if(pct.moderate <= 20.0 && pct.large <= 15.0 && pct.veryLarge <= 5.0) {
 		return 4;
-	} else if(percentages.moderate <= 30.0 && percentages.large <= 20.0 && percentages.veryLarge <= 5.0) {
+	} else if(pct.moderate <= 30.0 && pct.large <= 20.0 && pct.veryLarge <= 5.0) {
 		return 3;
-	} else if(percentages.moderate <= 40.0 && percentages.large <= 25.0 && percentages.veryLarge <= 10.0) {
+	} else if(pct.moderate <= 40.0 && pct.large <= 25.0 && pct.veryLarge <= 10.0) {
 		return 2;
 	} else {
 		return 1;
 	}
 }
 
-// private -> public
-public tuple[real smallSizePercentage, real moderateSizePercentage, real largeSizePercentage, real veryLargeSizePercentage] 
-		groupUnitSizesWithPercentage(list[int] unitSizes) {
-	real smallSize = 0.0;
-	real moderateSize = 0.0;
-	real largeSize = 0.0;
-	real veryLargeSize = 0.0;
+/**
+ *
+ */
+public tuple[real small, real moderate, real large, real veryLarge] groupUnitSizes(list[int] unitSizes) {
+	real small = 0.0;
+	real moderate = 0.0;
+	real large = 0.0;
+	real veryLarge = 0.0;
 	int totalSize = sum(unitSizes);	
-	
 	for(<x,y> <- [<rateSize(x),locPercentage(x, totalSize)> | x <- unitSizes]) {
 		switch(x) {
-			case 1: smallSize += y;
-			case 2: moderateSize += y;
-			case 3: largeSize += y;
-			case 4: veryLargeSize += y;
+			case 1: small += y;
+			case 2: moderate += y;
+			case 3: large += y;
+			case 4: veryLarge += y;
 		}
 	}
-	return <smallSize, moderateSize, largeSize, veryLargeSize>;
+	return <small, moderate, large, veryLarge>;
 }
 
+/**
+ *
+ */
 private int rateSize(int size) {
 	if(size <= 15) {
 		return 1;

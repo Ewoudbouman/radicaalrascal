@@ -12,6 +12,7 @@ import UnitParamMetric;
 import UnitTestMetric;
 import util::Benchmark;
 import util::Math;
+import List;
 
 public void main() {
 	//performAnalysis(|project://test|);
@@ -33,7 +34,7 @@ private void performAnalysis(loc project) {
 	println("Volume rating based on lines of code: <ratingDisplayValue(volumeMeasure.rating)>\n");
 	println("-------");
 	println("Complexity metric:");
-	complexityRating = rateComplexity(complexity.lowRiskPercentage, complexity.moderateRiskPercentage, complexity.highRiskPercentage, complexity.veryHighRiskPercentage);
+	complexityRating = rateComplexity(complexity);
 	println("Complexity rating: <ratingDisplayValue(complexityRating)>\n");
 	println("-------");
 	println("Unit size metric:");
@@ -54,10 +55,10 @@ private void performAnalysis(loc project) {
 	println("-------");
 	println("\n*****************************************\n");
 	println("Bonus metric:");
-	println("-------");
 	println("Unit interfacing metric:");
-	unitParams = rateUnitParams(project);
+	unitParams = unitParamsForProject(project);
 	println("Unit interfacing: <ratingDisplayValue(unitParams)>\n");
+	println("-------");
 	
 }
 
@@ -66,15 +67,15 @@ private real nanoToSec(int nano) {
 }
 
 private tuple[int analysability, int changeability, int testability, int maintainability] overallRating(int volume, int unitSize, int complexity, int duplication) {
-	real volumeRating = volume * 1.0;
-	real unitSizeRating = unitSize * 1.0;
-	real complexityRating = complexity * 1.0;
-	real duplicationRating = duplication * 1.0;
+	real volumeRating = toReal(volume);
+	real unitSizeRating = toReal(unitSize);
+	real complexityRating = toReal(complexity);
+	real duplicationRating = toReal(duplication);
 	
 	real analysabilityRating = (volumeRating + duplicationRating + unitSizeRating) / 3.0;
 	real changeabilityRating = (complexityRating + duplicationRating) / 2.0;
 	real testabilityRating = (complexityRating + unitSizeRating) / 2.0;
-	real maintainability = (analysabilityRating + changeabilityRating + testabilityRating) / 3;
+	real maintainability = (analysabilityRating + changeabilityRating + testabilityRating) / 3.0;
 	
 	return <round(analysabilityRating), round(changeabilityRating), round(testabilityRating), round(maintainability)>;
 }

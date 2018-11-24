@@ -11,31 +11,36 @@ import String;
 import util::Math;
 import util::Benchmark;
 
+/**
+ *
+ */
+public int duplicatesForProject(M3 project) {
+	blocks = blocksForProject(project);
+	return size(findDuplicates(blocks));
+}
 
-public int rateDuplicates(int duplicates, int total) {
-	real percentage = (toReal(duplicates)) / (toReal(total)) * 100.0;
-	
-	println("Found duplicate lines: 		<duplicates>");
-	println("Total amount of lines:         <total>");
-	println("Duplication percentage:        <percentage>\n");
-	
-	if (percentage <= 3.0) {
+/**
+ *
+ */
+public int rateDuplicates(int duplicates, int total, bool output=true) {
+	real pct = (toReal(duplicates)) / (toReal(total)) * 100.0;
+	// can be disabled for debugging purposes.
+	if (output) {
+		println("Found duplicate lines: 		<duplicates>");
+		println("Total amount of lines:         <total>");
+		println("Duplication percentage:        <pct>\n");
+	}
+	if (pct <= 3.0) {
 		return 5;
-	} else if (percentage > 3.0 && percentage <= 5.0) {
+	} else if (pct > 3.0 && pct <= 5.0) {
 		return 4;
-	} else if (percentage > 5.0 && percentage <= 10.0) {
+	} else if (pct > 5.0 && pct <= 10.0) {
 		return 3;
-	} else if (percentage > 10.0 && percentage <= 20.0) {
+	} else if (pct > 10.0 && pct <= 20.0) {
 		return 2;
 	} else {
 		return 1;
 	}	
-}
-
-
-public int duplicatesForProject(M3 project) {
-	blocks = blocksForProject(project);
-	return size(findDuplicates(blocks));
 }
 
 /**
@@ -56,15 +61,14 @@ private list[list[tuple[loc,int,str]]] blocksForProject(M3 project) {
 	return blocks;	
 }
 
+/**
+ *
+ */
 private set[tuple[loc,int,str]] findDuplicates(list[list[tuple[loc,int,str]]] blocks) {
 	set[tuple[loc,int,str]] duplicates = {};
 	map[list[str], list[tuple[loc,int,str]]] searchedBlocks = ();
-	
 	for(block <- blocks){
-		list[str] lines = [];
-		for(<x,y,z> <- block){
-			lines += trim(z);
-		}
+		list[str] lines = [ trim(line) | <x,y,line> <- block];
 		if(lines in searchedBlocks) {
 			duplicates += {lineTuple | lineTuple <- (block + searchedBlocks[lines])};
 		} else {

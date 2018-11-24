@@ -11,9 +11,9 @@ import LocProvider;
  * Based on testcase from https://github.com/Aaronepower/tokei
  */
 
-test bool locOfFile() {
-	return locOfResource(|project://testSLOC/src/test/sloctest.java|) == 16;
-}
+//test bool locOfFile() {
+//	return locOfResource(|project://testSLOC/src/test/sloctest.java|) == 16;
+//}
 
 test bool locOfProject() {
 	M3 m3 = createM3FromEclipseProject(|project://testSLOC|);

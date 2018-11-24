@@ -16,7 +16,7 @@ public class sloctest
 
 class Foo
 {
-    public void bar()
+    public void bar(int a, int b, int c)
     {
       System.out.println("FooBar"); //Not counted
     }
