@@ -65,11 +65,7 @@ private str removeTabsAndSpaces(str text) {
  */
 public str removeComments(str text) {
 	return visit(text){
-		//case /(\/\/.*)|(\/\*(?:.|[\n\r])*?\*\/)/ => ""
-		// multiline
-		case /\/\*.*?\*\//s => ""
-		// singleline
-		case /\/\/.*/ => ""
+		case /(\/\/.*)|(\/\*([^*]|[\\r\\n]|(\*+([^*\/]|[\\r\\n])))*\*+\/)/ => ""
 	};
 }
 
