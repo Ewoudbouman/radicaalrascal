@@ -15,9 +15,9 @@ import util::Math;
 import List;
 
 public void main() {
-	performAnalysis(|project://test|);
-	//performAnalysis(|project://smallsql0.21_src|);
-	//performAnalysis(|project://hsqldb-2.3.1|);
+	//performAnalysis(|project://test|);
+	performAnalysis(|project://smallsql0.21_src|);
+	performAnalysis(|project://hsqldb-2.3.1|);
 }
 
 private void performAnalysis(loc project) {
