@@ -8,7 +8,7 @@ import Utils;
 import AstCloneFinder;
 
 public void main() {
-	testProject = createProject(|project://testCYCL|);
+	testProject = createProject(|project://test|);
 	
 	println(findType1Clones(testProject));
 }
