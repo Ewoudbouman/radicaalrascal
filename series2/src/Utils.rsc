@@ -45,6 +45,7 @@ public void printNodeSource(node x) {
 	println("---------------");
 	source = nodeSource(x);
 	if(!isEmptyLocation(source)) {
+		println(source);
 		println(resourceContent(source));
 	} else {
 		println("Unknown:\n<x>");

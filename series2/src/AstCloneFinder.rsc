@@ -21,9 +21,9 @@ public lrel[loc fst, loc snd] findType1Clones(M3 project) {
 	
 	for(<a,b> <- pairCombos(subTrees)){
 		if(similarityScore(a,b) == 1.0) {
-			// TODO: This does remove all duplicate clones. Not sure if this is totally what we want
+			// TODO: This does remove all duplicate clones. Not sure if this is totally what we want. No it's not, it's way to aggresive and results in say 4 clones are found only 1 pair remain instead of 6
 			// TODO: Because this results in say a clone class of 4 clones is in the code, this will not result in all cross references between them
-			// TODO: 1 issue remains, which are sub clones remaining in the list of clones. This is caused by smaller subclones being added after bigger ones. might be fixed by sorting first
+			// TODO: 1 other issue remains as well, which are sub clones remaining in the list of clones. This is caused by smaller subclones being added after bigger ones. might be fixed by sorting first
 			// Important to check source locations here, since checking the nodes itself results in matches between 2 identical files, while this doesn't happen on source locations.
 			visit(a) {
 				case node n : {
