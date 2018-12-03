@@ -7,52 +7,64 @@ import IO;
 import List;
 import util::Math;
 import Node;
+import Map;
 import Utils;
-
-private int NODE_MASS_THRESHOLD = 7;
 
 public lrel[loc fst, loc snd] findType1Clones(M3 project) {
 	set[Declaration] asts =  projectAsts(project);
 	lrel[node, node] clones = [];
+	map[node, list[node]] nodeBuckets = (); 
 	
-	// TODO replace this section by hashed bucketing + using buckets later on instead in order to reduce big O		
-	list[node] subTrees = [x | x <- subTrees(asts), subTreeMass(x) >= NODE_MASS_THRESHOLD];
-	// END TODO
+	visit(asts) {
+		case node n: {
+			// unsetRec: reset all keyword parameters of the node and its children back to their default.
+			// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
+			key = unsetRec(n);
+			
+			//TODO the mass threshold here might needs some extra tweaking
+			if(subTreeMass(n) > 6) {
+				if(!nodeBuckets[key]?) nodeBuckets[key] = [];
+				nodeBuckets[key] += n;
+			}
+		}
+	}
 	
 	// Sorting the input makes sure smaller subtrees are not added after adding all big trees
-	list[node] sortedTrees = sort(subTrees, bool(node x, node y) { return subTreeMass(x) < subTreeMass(y); });
+	//list[node] sortedTrees = sort(subTrees, bool(node x, node y) { return subTreeMass(x) < subTreeMass(y); });
 	
-	for(<a,b> <- pairCombos(sortedTrees)){
-		if(similarityScore(a,b) == 1.0) {
-			// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
-			visit(a) {
-				case node n : {
-					// Skip "child nodes" which are the same as the parent
-					if(n != a) {
-						for(<fst, snd> <- clones) {
-							if(fst == n || snd == n){ 
-						 		int i;
-								clones = delete(clones, indexOf(clones, <fst, snd>));
+	for(bucket <- domain(nodeBuckets)) {
+		for(<a,b> <- pairCombos(nodeBuckets[bucket])){
+			if(similarityScore(a,b) == 1.0) {
+				// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
+				visit(a) {
+					case node n : {
+						// Skip "child nodes" which are the same as the parent
+						if(n != a) {
+							for(<fst, snd> <- clones) {
+								if(fst == n || snd == n){ 
+							 		int i;
+									clones = delete(clones, indexOf(clones, <fst, snd>));
+								}
 							}
 						}
 					}
 				}
-			}
-			visit(b) {
-				case node n : {
-					// Skip "child nodes" which are the same as the parent
-					if(n != b) {
-						for(<fst, snd> <- clones) {
-							if(fst == n || snd == n){ 
-						 		int i;
-								clones = delete(clones, indexOf(clones, <fst, snd>));
+				visit(b) {
+					case node n : {
+						// Skip "child nodes" which are the same as the parent
+						if(n != b) {
+							for(<fst, snd> <- clones) {
+								if(fst == n || snd == n){ 
+							 		int i;
+									clones = delete(clones, indexOf(clones, <fst, snd>));
+								}
 							}
 						}
 					}
 				}
+				// Finally adding the clone AFTER deleting subs
+				clones += <a,b>;
 			}
-			// Finally adding the clone AFTER deleting subs
-			clones += <a,b>;
 		}
 	}
 	
