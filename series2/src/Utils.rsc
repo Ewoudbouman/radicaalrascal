@@ -7,6 +7,8 @@ import lang::java::jdt::m3::AST;
 import Node;
 import List;
 
+public loc EMPTY_LOCATION = |file:///thisdoesnotexist|;
+
 public str resourceContent(loc resource) {
 	return readFile(resource);
 }
@@ -41,13 +43,26 @@ public list[node] subTrees(set[Declaration] decls) {
 
 public void printNodeSource(node x) {
 	println("---------------");
-	switch (x) {
-		case Declaration decl: { if(decl.src?) println("Decl:\n<decl.src>\n<resourceContent(decl.src)>"); }
-		case Expression expr: {  if(expr.src?) println("Expr:\n<expr.src>\n<resourceContent(expr.src)>"); }
-		case Statement stmnt: {  if(stmnt.src?) println("Stmnt:\n<stmnt.src>\n<resourceContent(stmnt.src)>"); }
-		default: println("Unknown:\n<x>");
+	source = nodeSource(x);
+	if(!isEmptyLocation(source)) {
+		println(resourceContent(source));
+	} else {
+		println("Unknown:\n<x>");
 	}
 	println("---------------");
+}
+
+public loc nodeSource(node x) {
+ 	switch (x) {
+		case Declaration decl: { if(decl.src?) return decl.src; }
+		case Expression expr: {  if(expr.src?) return expr.src; }
+		case Statement stmnt: {  if(stmnt.src?) return stmnt.src; }
+	}
+	return EMPTY_LOCATION;
+}
+
+public bool isEmptyLocation(loc location) {
+	return location == EMPTY_LOCATION;
 }
 
 public void printNodesSource(list[node] xs) {
