@@ -11,7 +11,7 @@ import Map;
 import Set;
 import Utils;
 
-public lrel[loc fst, loc snd] findType1Clones(M3 project) {
+public lrel[node fst, node snd] findType1Clones(M3 project) {
 
 	//This is kind of the start of the algorithm
 	set[Declaration] asts =  projectAsts(project);
@@ -83,16 +83,7 @@ public lrel[loc fst, loc snd] findType1Clones(M3 project) {
 		}
 	}
 	
-	// TODO: return clones
-	println("Found clones");
-	for(<x, y> <- clones) {
-		println("Pair of:");
-		printNodeSource(x);
-		println("Matching with:");
-		printNodeSource(y);
-		println();
-	}
-	return [];
+	return clones;
 }
 
 // Answer borrowed from post below and rewritten in Rascal
