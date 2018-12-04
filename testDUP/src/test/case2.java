@@ -11,18 +11,18 @@ class Foos2
 {
     public void a() {
     	int b = 1;
-    	int b = 1;
-    	int b = 1;
-    	int b = 1;
-    	int b = 1;
-    	int b = 1;
+    	b = 1;
+    	b = 1;
+    	b = 1;
+    	b = 1;
+    	b = 1;
 	}
     public void b() {
     	int b = 1;
-    	int b = 1;
-    	int b = 1;
-    	int b = 1;
-    	int b = 1;
-    	int b = 1;
+    	b = 1;
+    	b = 1;
+    	b = 1;
+    	b = 1;
+    	b = 1;
 	}
 }
