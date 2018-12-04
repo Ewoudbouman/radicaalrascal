@@ -34,7 +34,7 @@ public lrel[loc fst, loc snd] findType1Clones(M3 project) {
 			int mass = subTreeMass(n);
 			masses[key] = mass;
 			//TODO the mass threshold here might needs some extra tweaking
-			if(mass > 6) {
+			if(mass > 7) {
 				if(!nodeBuckets[key]?) nodeBuckets[key] = [];
 				nodeBuckets[key] += n;
 			}
