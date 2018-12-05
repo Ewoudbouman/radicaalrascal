@@ -55,45 +55,45 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 	
 	// Starting comparisons:
 	println("    Starting comparisons for <size(sortedBuckets)> buckets...");
+	clones = findClones(clones, nodeBuckets, sortedBuckets);
+	
+	return clones;
+}
+
+public lrel[node, node] findClones(lrel[node, node] clones, map[node, list[node]] nodeBuckets, list[node] sortedBuckets){
 	for(bucket <- sortedBuckets) {
 		combos = pairCombos(nodeBuckets[bucket]);
 		for(<a,b> <- combos){
 			if(similarityScore(a,b) == 1.0) {
 				// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
-				visit(a) {
-					case node n : {
-						// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
-						if(n != a && subTreeMass(n) > NODE_MASS_THRESHOLD) {
-							for(<fst, snd> <- clones) {
-								if(fst == n || snd == n){ 
-							 		int i;
-									clones = delete(clones, indexOf(clones, <fst, snd>));
-								}
-							}
-						}
-					}
-				}
-				visit(b) {
-					case node n : {
-						// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
-						if(n != b && subTreeMass(n) > NODE_MASS_THRESHOLD) {
-							for(<fst, snd> <- clones) {
-								if(fst == n || snd == n){ 
-							 		int i;
-									clones = delete(clones, indexOf(clones, <fst, snd>));
-								}
-							}
-						}
-					}
-				}
+				clones = deleteSubTreeClones(clones, a);
+				clones = deleteSubTreeClones(clones, b);
 				// Finally adding the clone AFTER deleting subs
 				clones += <a,b>;
 			}
 		}
 	}
-	
 	return clones;
 }
+
+// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
+public lrel[node, node] deleteSubTreeClones(lrel[node, node] clones, node x){
+	visit(x) {
+		case node n : {
+			// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
+			if(n != x && subTreeMass(n) > NODE_MASS_THRESHOLD) {
+				for(<fst, snd> <- clones) {
+					if(fst == n || snd == n){ 
+				 		int i;
+						clones = delete(clones, indexOf(clones, <fst, snd>));
+					}
+				}
+			}
+		}
+	}
+	return clones;
+}
+
 
 // Answer borrowed from post below and rewritten in Rascal
 // https://stackoverflow.com/questions/5360220/how-to-split-a-list-into-pairs-in-all-possible-ways
