@@ -20,7 +20,7 @@ public map[node, set[node]] convertToCloneClasses(lrel[node, node] clones) {
 		} else {
 			foundClassList = toList(classes[xKey]);
 			int indexOfx = indexOf(foundClassList, x);
-			int indexOfY = indexOf(foundClassList, y);
+			int indexOfy = indexOf(foundClassList, y);
 			
 			// x is not yet in the list
 			if(indexOfx == -1) classes[xKey] += x;
