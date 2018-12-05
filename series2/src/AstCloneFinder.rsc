@@ -40,49 +40,50 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 			}
 		}
 	}
-	
-	println("Sorting sub tree collection");
 	// Sorting the input makes sure smaller subtrees are not added after adding all big trees
 	// After some testing it seems sufficient to sort on the domain of the map and thus sorting each and every node is not required
 	sortedBuckets = sort(toList(domain(nodeBuckets)), bool(node a, node b){ return masses[b] > masses[a]; });
 	
 	// Starting comparisons:
+	clones = RemoveSubTreeClones(clones, nodeBuckets, sortedBuckets);
+	return clones;
+}
+
+/**
+ *
+ */
+public lrel[node, node] RemoveSubTreeClones(lrel[node, node] clones, map[node, list[node]] nodeBuckets, list[node] sortedBuckets){
 	for(bucket <- sortedBuckets) {
 		for(<a,b> <- pairCombos(nodeBuckets[bucket])){
 			if(similarityScore(a,b) == 1.0) {
 				// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
-				visit(a) {
-					case node n : {
-						// Skip "child nodes" which are the same as the parent
-						if(n != a) {
-							for(<fst, snd> <- clones) {
-								if(fst == n || snd == n){ 
-							 		int i;
-									clones = delete(clones, indexOf(clones, <fst, snd>));
-								}
-							}
-						}
-					}
-				}
-				visit(b) {
-					case node n : {
-						// Skip "child nodes" which are the same as the parent
-						if(n != b) {
-							for(<fst, snd> <- clones) {
-								if(fst == n || snd == n){ 
-							 		int i;
-									clones = delete(clones, indexOf(clones, <fst, snd>));
-								}
-							}
-						}
-					}
-				}
+				clones = findSubTreeClones(clones, a);
+				clones = findSubTreeClones(clones, b);
 				// Finally adding the clone AFTER deleting subs
 				clones += <a,b>;
 			}
 		}
 	}
-	
+	return clones;
+}
+
+/**
+ *
+ */
+public lrel[node, node] findSubTreeClones(lrel[node, node] clones, node x){
+	// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
+	visit(x) {
+		case node n : {
+			// Skip "child nodes" which are the same as the parent
+			if(n != x) {
+				for(<fst, snd> <- clones) {
+					if(fst == n || snd == n){ 
+						clones = delete(clones, indexOf(clones, <fst, snd>));
+					}
+				}
+			}
+		}
+	}
 	return clones;
 }
 
@@ -110,7 +111,6 @@ private real similarityScore(node a, node b) {
 	visit(b) {
 		case node n : bs += unsetRec(n);
 	}
-
 	int s = size(as & bs);
 	int l = size(as - bs);
 	int r = size(bs - as);
