@@ -2,13 +2,6 @@
 package test;
 public class case2
 {
-    public static void main(String[] args)
-    {
-    }
-}
-
-class Foos2
-{
     public void a() {
     	int b = 1;
     	b = 1;
