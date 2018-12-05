@@ -7,8 +7,6 @@ import Node;
 import Map;
 import Set;
 import Utils;
-import lang::json::IO;
-
 
 public map[node, set[node]] convertToCloneClasses(lrel[node, node] clones) {
 	map[node, set[node]] classes = ();
@@ -30,9 +28,4 @@ public map[node, set[node]] convertToCloneClasses(lrel[node, node] clones) {
 		}
 	}
 	return classes; 
-}
-
-public void writeClones(lrel[node, node] clones) {
-	
-	writeJSON(|project://series2/src/output/clones.json|, clones);
 }

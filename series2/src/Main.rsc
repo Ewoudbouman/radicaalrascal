@@ -12,6 +12,7 @@ import Set;
 import Utils;
 import AstCloneFinder;
 import CloneUtils;
+import CloneIO;
 
 public void main() {
 	testProject = createProject(|project://testDUP|);
@@ -26,4 +27,7 @@ public void main() {
 			printNodeSource(n);
 		}
 	}
+	
+	println("Creating JSON...");
+	writeClones(typ1CloneClasses, <100.0, 1337, 1337>);
 }
