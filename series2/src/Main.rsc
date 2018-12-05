@@ -10,20 +10,22 @@ import Map;
 import Set;
 
 import Utils;
+import CloneLocProvider;
 import AstCloneFinder;
 import CloneUtils;
+import CloneIO;
 
 public void main() {
+	println("Creating M3...");
+	//testProject = createProject(|project://smallsql0.21_src|);
 	testProject = createProject(|project://testDUP|);
-	
-	type1Clones = findType1Clones(testProject); 
+	println("Initialising clone LOC provider...");
+ 	initCloneLocProvider(testProject);
+ 	println("Gathering type 1 clones...");
+	type1Clones = findType1Clones(testProject);
+	println("Converting clones to clone classes..."); 
 	typ1CloneClasses = convertToCloneClasses(type1Clones);
 	
-	println("Clone classes:");
-	for(<_, c> <- toList(typ1CloneClasses)) {
-		println("Clones class containing:");
-		for(n <- c) {
-			printNodeSource(n);
-		}
-	}
+	println("Creating JSON...");
+	writeClones(typ1CloneClasses, <100.0, 1337>);
 }

@@ -43,7 +43,7 @@ public list[node] subTrees(set[Declaration] decls) {
 
 public void printNodeSource(node x) {
 	println("---------------");
-	source = nodeSource(x);
+	source = nodeSourceLoc(x);
 	if(!isEmptyLocation(source)) {
 		println(source);
 		println(resourceContent(source));
@@ -53,7 +53,16 @@ public void printNodeSource(node x) {
 	println("---------------");
 }
 
-public loc nodeSource(node x) {
+public str getNodeSource(node x) {
+	source = nodeSourceLoc(x);
+	if(!isEmptyLocation(source)) {
+		return resourceContent(source);
+	} else {
+		return "Unknown node source";
+	}
+}
+
+public loc nodeSourceLoc(node x) {
  	switch (x) {
 		case Declaration decl: { if(decl.src?) return decl.src; }
 		case Expression expr: {  if(expr.src?) return expr.src; }
@@ -69,7 +78,7 @@ public bool isEmptyLocation(loc location) {
 public void printNodesSource(list[node] xs) {
 	println("**************");
 	for(x <- xs) {
-		printNodeSource(x);
+		printNodeSourceLoc(x);
 	}
 	println("**************");
 }
