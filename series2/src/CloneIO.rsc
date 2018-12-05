@@ -7,6 +7,7 @@ import Node;
 import Map;
 import Set;
 import Utils;
+import CloneLocProvider;
 import lang::json::IO;
 
 private int idCounter = 0;
@@ -16,16 +17,11 @@ private int createId() {
 	return idCounter;
 }
 
-public void writeClones(map[node, set[node]] cloneClasses, tuple[real dupPercentage, int dupLoc, int totalLoc] projectStats) {
-	tuple[real dupPercentage, int dupLoc, int totalLoc] result = <0.0,0,0>;
-	result.dupPercentage = projectStats.dupPercentage;
-	result.dupLoc = projectStats.dupLoc;
-	result.totalLoc = projectStats.totalLoc;
-	
+public void writeClones(map[node, set[node]] cloneClasses, tuple[real dupPercentage, int dupLoc] projectStats) {
 	writeJSON(|project://series2/src/output/clones.json|, 
 		("duplicatesPercentage" : projectStats.dupPercentage, 
 		"duplicatesLOC" : projectStats.dupLoc, 
-		"totalLOC" : projectStats.totalLoc,
+		"totalLOC" : getTotalProjectLoc(),
 		"cloneClasses" : createCloneClassJsonMap(cloneClasses)));
 }
 

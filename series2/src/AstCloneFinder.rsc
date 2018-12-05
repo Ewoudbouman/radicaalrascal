@@ -11,6 +11,9 @@ import Map;
 import Set;
 import Utils;
 
+// TODO Needs further tweaking between performance and results
+private int NODE_MASS_THRESHOLD = 10;
+
 public lrel[node fst, node snd] findType1Clones(M3 project) {
 
 	//This is kind of the start of the algorithm
@@ -25,7 +28,7 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 	// Keeps track of the key node's masses, so we don't have to calculate it multiple times
 	map[node, int] masses = ();
 	
-	println("Collecting sub trees");
+	println("    Collecting sub trees");
 	visit(asts) {
 		case node n: {
 			// unsetRec: reset all keyword parameters of the node and its children back to their default.
@@ -33,28 +36,34 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 			key = unsetRec(n);
 			int mass = subTreeMass(n);
 			masses[key] = mass;
-			//TODO the mass threshold here might needs some extra tweaking
-			if(mass > 7) {
+			
+			if(mass > NODE_MASS_THRESHOLD) {
 				if(!nodeBuckets[key]?) nodeBuckets[key] = [];
 				nodeBuckets[key] += n;
 			}
 		}
 	}
 	
-	println("Sorting sub tree collection");
+	println("    Sorting sub tree collection");
 	// Sorting the input makes sure smaller subtrees are not added after adding all big trees
 	// After some testing it seems sufficient to sort on the domain of the map and thus sorting each and every node is not required
 	sortedBuckets = sort(toList(domain(nodeBuckets)), bool(node a, node b){ return masses[b] > masses[a]; });
 	
+	println("    Removing buckets with less than 2 records...");
+	//filtering buckets with less than 2 records
+	sortedBuckets = [x | x <- sortedBuckets, size(nodeBuckets[x]) > 1];
+	
 	// Starting comparisons:
+	println("    Starting comparisons for <size(sortedBuckets)> buckets...");
 	for(bucket <- sortedBuckets) {
-		for(<a,b> <- pairCombos(nodeBuckets[bucket])){
+		combos = pairCombos(nodeBuckets[bucket]);
+		for(<a,b> <- combos){
 			if(similarityScore(a,b) == 1.0) {
 				// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
 				visit(a) {
 					case node n : {
-						// Skip "child nodes" which are the same as the parent
-						if(n != a) {
+						// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
+						if(n != a && subTreeMass(n) > NODE_MASS_THRESHOLD) {
 							for(<fst, snd> <- clones) {
 								if(fst == n || snd == n){ 
 							 		int i;
@@ -66,8 +75,8 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 				}
 				visit(b) {
 					case node n : {
-						// Skip "child nodes" which are the same as the parent
-						if(n != b) {
+						// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
+						if(n != b && subTreeMass(n) > NODE_MASS_THRESHOLD) {
 							for(<fst, snd> <- clones) {
 								if(fst == n || snd == n){ 
 							 		int i;
