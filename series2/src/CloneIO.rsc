@@ -7,6 +7,7 @@ import Node;
 import Map;
 import Set;
 import Utils;
+import LocUtils;
 import CloneLocProvider;
 import lang::json::IO;
 
@@ -18,35 +19,38 @@ private int createId() {
 }
 
 public void writeClones(map[node, set[node]] cloneClasses, tuple[real dupPercentage, int dupLoc] projectStats) {
+	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
 	writeJSON(|project://series2/src/output/clones.json|, 
-		("duplicatesPercentage" : projectStats.dupPercentage, 
-		"duplicatesLOC" : projectStats.dupLoc, 
+		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()), 
+		"duplicatesLOC" : cloneClassesJsonMap.duplicateLoc, 
 		"totalLOC" : getTotalProjectLoc(),
-		"cloneClasses" : createCloneClassJsonMap(cloneClasses)));
+		"cloneClasses" : cloneClassesJsonMap.jsonMaps));
 }
 
-public list[map[str, value]] createCloneClassJsonMap(map[node, set[node]] cloneClasses) {
+public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJsonMap(map[node, set[node]] cloneClasses, int projectLoc) {
 	list[map[str, value]] jsonMaps = [];
+	totalDuplicationLoc = 0;
 	for(<_ ,clones> <- toList(cloneClasses)) {
 		linesCount = getCloneClassLoc(clones);
+		totalDuplicationLoc += linesCount;
 		jsonMaps += ("id" : createId(),
 					"LOC" : linesCount, 
-					"percentageOfProject" : 100.0, 
-					"percentageOfDuplicates" : 100.0, 
-					"clones" : createCloneJsonMap(clones));
+					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+					"clones" : createCloneJsonMap(clones, projectLoc, linesCount));
+		
 	}
-	return jsonMaps;
+	return <jsonMaps, totalDuplicationLoc>;
 }
 
-public list[map[str, value]] createCloneJsonMap(set[node] clones) {
+public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc, int classLoc) {
 	list[map[str, value]] jsonMaps = [];
 	for(clone <- clones){
 		linesCount = getCloneLoc(clone);	
 		sourceLoc = nodeSourceLoc(clone);
 		jsonMaps += ("id" : createId(),
 					"LOC" : linesCount, 
-					"percentageOfProject" : 100.0, 
-					"percentageOfClass" : 100.0, 
+					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+					"percentageOfClass" : locPercentage(linesCount, classLoc), 
 					"clone" : getNodeSource(clone),
 					"path": sourceLoc.path,
 					"file": sourceLoc.file);

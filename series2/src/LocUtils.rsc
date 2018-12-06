@@ -6,6 +6,8 @@ import IO;
 import List;
 import Set;
 import String;
+import util::Math;
+
 
 import Utils;
 
@@ -20,9 +22,9 @@ public int locOfProject(M3 project) {
 }
 
 public real locPercentage(int linesOfCode, int totalLinesOfCode) {
-	real lines = 1.0 * linesOfCode;
-	real total = 1.0 * totalLinesOfCode;
-	return (lines / total) * 100;
+	if(linesOfCode == 0) return 0.0;
+	if(totalLinesOfCode == 0) return 100.0;
+	return (toReal(linesOfCode) / toReal(totalLinesOfCode)) * 100.0;
 }
 
 /** 
