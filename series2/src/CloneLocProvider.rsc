@@ -14,6 +14,8 @@ import Utils;
 
 int totalLinesOfCode;
 
+map[node, int] clonesLoc = ();
+
 public void initCloneLocProvider(M3 project) {
 	totalLinesOfCode = locOfProject(project);
 }
@@ -21,3 +23,23 @@ public void initCloneLocProvider(M3 project) {
 public int getTotalProjectLoc() {
 	return totalLinesOfCode;
 }
+
+public int getCloneLoc(node x) {
+	if(clonesLoc[x]?) return clonesLoc[x];
+	source = nodeSourceLoc(x);
+	result = 0;
+	if(!isEmptyLocation(source)) {
+		result = locOfResource(source);
+	} 
+	clonesLoc[x] = result;
+	return result;
+}
+
+public int getCloneClassLoc(set[node] xs) {
+	linesCount = 0;
+	for(x <- xs) {
+		linesCount += getCloneLoc(x);
+	}
+	return linesCount;
+}
+

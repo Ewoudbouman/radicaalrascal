@@ -27,9 +27,10 @@ public void writeClones(map[node, set[node]] cloneClasses, tuple[real dupPercent
 
 public list[map[str, value]] createCloneClassJsonMap(map[node, set[node]] cloneClasses) {
 	list[map[str, value]] jsonMaps = [];
-	for(<_ ,clones> <- toList(cloneClasses)){
+	for(<_ ,clones> <- toList(cloneClasses)) {
+		linesCount = getCloneClassLoc(clones);
 		jsonMaps += ("id" : createId(),
-					"LOC" : 1337, 
+					"LOC" : linesCount, 
 					"percentageOfProject" : 100.0, 
 					"percentageOfDuplicates" : 100.0, 
 					"clones" : createCloneJsonMap(clones));
@@ -40,9 +41,10 @@ public list[map[str, value]] createCloneClassJsonMap(map[node, set[node]] cloneC
 public list[map[str, value]] createCloneJsonMap(set[node] clones) {
 	list[map[str, value]] jsonMaps = [];
 	for(clone <- clones){
+		linesCount = getCloneLoc(clone);	
 		sourceLoc = nodeSourceLoc(clone);
 		jsonMaps += ("id" : createId(),
-					"LOC" : 1337, 
+					"LOC" : linesCount, 
 					"percentageOfProject" : 100.0, 
 					"percentageOfClass" : 100.0, 
 					"clone" : getNodeSource(clone),

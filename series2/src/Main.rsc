@@ -17,8 +17,8 @@ import CloneIO;
 
 public void main() {
 	println("Creating M3...");
-	//testProject = createProject(|project://smallsql0.21_src|);
-	testProject = createProject(|project://testDUP|);
+	testProject = createProject(|project://smallsql0.21_src|);
+	//testProject = createProject(|project://testDUP|);
 	println("Initialising clone LOC provider...");
  	initCloneLocProvider(testProject);
  	println("Gathering type 1 clones...");

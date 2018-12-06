@@ -12,7 +12,7 @@ import Set;
 import Utils;
 
 // TODO Needs further tweaking between performance and results
-private int NODE_MASS_THRESHOLD = 10;
+private int NODE_MASS_THRESHOLD = 11;
 
 public lrel[node fst, node snd] findType1Clones(M3 project) {
 
