@@ -8,6 +8,7 @@ import util::Math;
 import Node;
 import Map;
 import Set;
+import util::Benchmark;
 
 import Utils;
 import CloneLocProvider;
@@ -17,6 +18,8 @@ import CloneUtils;
 import CloneIO;
 
 public void main() {
+	before = userTime();
+
 	println("Creating M3...");
 	//testProject = createProject(|project://smallsql0.21_src|);
 	//testProject = createProject(|project://hsqldb-2.3.1|);
@@ -34,4 +37,10 @@ public void main() {
 	
 	println("Creating JSON...");
 	writeClones(typ1CloneClasses, <100.0, 1337>);
+	
+	println("Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+}
+
+private real nanoToSec(int nano) {
+	return nano / 1000000000.0;
 }

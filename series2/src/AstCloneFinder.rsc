@@ -17,8 +17,6 @@ import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
 private int NODE_MASS_THRESHOLD = 11;
-// temp no massive nodes?
-private int NODE_MAX_THRESHOLD = 100;
 
 /**
  *
@@ -50,23 +48,15 @@ public lrel[node fst, node snd] findType3Clones(M3 project) {
 }
 
 public lrel[node fst, node snd] findClones(set[Declaration] asts) {
-	
-	//List of found clones along the way 
-	lrel[node, node] clones = [];
-	
 	// Buckets of nodes converted to keys containing lists of nodes which are quite similar. This should provide performance according to Baxter
 	map[node, list[node]] nodeBuckets = ();
-	
-	// Does not matter
-	// Performance similar on smallsql, worse on bigsql and others.
-	//map[node, int] masses = ();
 	
 	println("    Collecting sub trees");
 	visit(asts) {
 		case node n: {
 			int mass = subTreeMass(n);
 
-			if(mass > NODE_MASS_THRESHOLD && mass < NODE_MAX_THRESHOLD) {
+			if(mass > NODE_MASS_THRESHOLD) {
 				// unsetRec: reset all keyword parameters of the node and its children back to their default.
 				// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
 				key = unsetRec(n);
@@ -86,10 +76,8 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts) {
 	
 	// Starting comparisons:
 	println("    Starting comparisons for <size(sortedBuckets)> buckets...");
-	//List of found clones along the way 
-	clones = findClones(nodeBuckets, sortedBuckets);
 
-	return clones;
+	return findClones(nodeBuckets, sortedBuckets);
 }
 
 /**
