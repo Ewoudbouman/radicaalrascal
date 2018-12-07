@@ -3,6 +3,8 @@ module AstCloneFinder
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
+import util::Benchmark;
+import DateTime;
 import IO;
 import List;
 import util::Math;
@@ -11,13 +13,43 @@ import Map;
 import Set;
 import Utils;
 
+import CloneUtils;
+
 // TODO Needs further tweaking between performance and results
 private int NODE_MASS_THRESHOLD = 11;
+// temp no massive nodes?
+private int NODE_MAX_THRESHOLD = 100;
 
+/**
+ *
+ */
 public lrel[node fst, node snd] findType1Clones(M3 project) {
 
-	//This is kind of the start of the algorithm
 	set[Declaration] asts =  projectAsts(project);
+	return findClones(asts);
+}
+
+/**
+ *
+ */
+public lrel[node fst, node snd] findType2Clones(M3 project) {
+
+	set[Declaration] asts =  projectAsts(project);
+	// parse AST
+	return findClones(normalizeAst(asts));
+}
+
+/**
+ *
+ */
+public lrel[node fst, node snd] findType3Clones(M3 project) {
+
+	set[Declaration] asts =  projectAsts(project);
+	// parse AST + set thresholds
+	return findClones(asts);
+}
+
+public lrel[node fst, node snd] findClones(set[Declaration] asts) {
 	
 	//List of found clones along the way 
 	lrel[node, node] clones = [];
@@ -25,47 +57,52 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 	// Buckets of nodes converted to keys containing lists of nodes which are quite similar. This should provide performance according to Baxter
 	map[node, list[node]] nodeBuckets = ();
 	
-	// Keeps track of the key node's masses, so we don't have to calculate it multiple times
-	map[node, int] masses = ();
+	// Does not matter
+	// Performance similar on smallsql, worse on bigsql and others.
+	//map[node, int] masses = ();
 	
 	println("    Collecting sub trees");
 	visit(asts) {
 		case node n: {
-			// unsetRec: reset all keyword parameters of the node and its children back to their default.
-			// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
-			key = unsetRec(n);
 			int mass = subTreeMass(n);
-			masses[key] = mass;
-			
-			if(mass > NODE_MASS_THRESHOLD) {
+
+			if(mass > NODE_MASS_THRESHOLD && mass < NODE_MAX_THRESHOLD) {
+				// unsetRec: reset all keyword parameters of the node and its children back to their default.
+				// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
+				key = unsetRec(n);
 				if(!nodeBuckets[key]?) nodeBuckets[key] = [];
 				nodeBuckets[key] += n;
 			}
 		}
 	}
-	
-	println("    Sorting sub tree collection");
+
 	// Sorting the input makes sure smaller subtrees are not added after adding all big trees
 	// After some testing it seems sufficient to sort on the domain of the map and thus sorting each and every node is not required
-	sortedBuckets = sort(toList(domain(nodeBuckets)), bool(node a, node b){ return masses[b] > masses[a]; });
+	sortedBuckets = sort(toList(domain(nodeBuckets)), bool(node a, node b){ return subTreeMass(b) > subTreeMass(a); });
 	
-	println("    Removing buckets with less than 2 records...");
 	//filtering buckets with less than 2 records
+	println("    Removing buckets with less than 2 records...");
 	sortedBuckets = [x | x <- sortedBuckets, size(nodeBuckets[x]) > 1];
 	
 	// Starting comparisons:
 	println("    Starting comparisons for <size(sortedBuckets)> buckets...");
-	clones = findClones(clones, nodeBuckets, sortedBuckets);
-	
+	//List of found clones along the way 
+	clones = findClones(nodeBuckets, sortedBuckets);
+
 	return clones;
 }
 
-public lrel[node, node] findClones(lrel[node, node] clones, map[node, list[node]] nodeBuckets, list[node] sortedBuckets){
+/**
+ *
+ */
+public lrel[node, node] findClones(map[node, list[node]] nodeBuckets, list[node] sortedBuckets){
+	lrel[node, node] clones = [];
 	for(bucket <- sortedBuckets) {
 		combos = pairCombos(nodeBuckets[bucket]);
 		for(<a,b> <- combos){
 			if(similarityScore(a,b) == 1.0) {
-				// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
+				// Deleting possible sub trees already in the clones list. 
+				// These must be removed, because we want the biggest nodes possible
 				clones = deleteSubTreeClones(clones, a);
 				clones = deleteSubTreeClones(clones, b);
 				// Finally adding the clone AFTER deleting subs
@@ -76,15 +113,17 @@ public lrel[node, node] findClones(lrel[node, node] clones, map[node, list[node]
 	return clones;
 }
 
-// Deleting possible sub trees already in the clones list. These must be removed, because we want the biggest nodes possible
+/**
+ *
+ */
 public lrel[node, node] deleteSubTreeClones(lrel[node, node] clones, node x){
 	visit(x) {
 		case node n : {
 			// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
-			if(n != x && subTreeMass(n) > NODE_MASS_THRESHOLD) {
+			if(subTreeMass(n) > NODE_MASS_THRESHOLD && n != x ) {
 				for(<fst, snd> <- clones) {
 					if(fst == n || snd == n){ 
-				 		int i;
+						//clones = delete(clones, indexOf(clones, <fst, snd>));
 						clones = delete(clones, indexOf(clones, <fst, snd>));
 					}
 				}
