@@ -36,7 +36,7 @@ public void main() {
 	//println(typ1CloneClasses);
 	
 	println("Creating JSON...");
-	writeClones(typ1CloneClasses, <100.0, 1337>);
+	writeClones(typ1CloneClasses, <100.0, 1337>, 1, |project://testDUP|);
 	
 	println("Analysis took: <nanoToSec(userTime() - before)> seconds\n");
 }
