@@ -62,6 +62,7 @@ public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc
 					"percentageOfClass" : locPercentage(linesCount, classLoc), 
 					"startLine" : sourceLoc.begin.line,
 					"endLine" : sourceLoc.end.line,
+					"clone" : getNodeSource(clone),
 					"path": sourceLoc.path,
 					"file": sourceLoc.file);
 	}
