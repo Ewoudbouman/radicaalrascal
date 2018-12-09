@@ -14,15 +14,15 @@ import lang::json::IO;
 private int idCounter = 0;
 private int cloneType = -1;
 private loc project;
-private lrel[str id, str source] sources = [];
+private rel[str path, str source] sources = {};
 
 private str createId() {
 	idCounter += 1;
 	return "T<cloneType>-<idCounter>";
 }
 
-public void writeClones(map[node, set[node]] cloneClasses, tuple[real dupPercentage, int dupLoc] projectStats, int writeType, loc projectLoc) {
-	sources = [];
+public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc projectLoc) {
+	sources = {};
 	cloneType = writeType;
 	project = projectLoc;
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
@@ -32,6 +32,7 @@ public void writeClones(map[node, set[node]] cloneClasses, tuple[real dupPercent
 		"totalLOC" : getTotalProjectLoc(),
 		"cloneClasses" : cloneClassesJsonMap.jsonMaps,
 		"fullSources" : createCloneSourcesJsonMap()));
+
 }
 
 public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJsonMap(map[node, set[node]] cloneClasses, int projectLoc) {
@@ -52,19 +53,21 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc, int classLoc) {
 	list[map[str, value]] jsonMaps = [];
 	for(clone <- clones){
-		linesCount = getCloneLoc(clone);	
 		sourceLoc = nodeSourceLoc(clone);
-		id = createId();
-		sources += <id, resourceContent(project + sourceLoc.path)>;
-		jsonMaps += ("id" : id,
-					"LOC" : linesCount, 
-					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
-					"percentageOfClass" : locPercentage(linesCount, classLoc), 
-					"startLine" : sourceLoc.begin.line,
-					"endLine" : sourceLoc.end.line,
-					"clone" : getNodeSource(clone),
-					"path": sourceLoc.path,
-					"file": sourceLoc.file);
+		if(!isEmptyLocation(sourceLoc)) {
+			linesCount = getCloneLoc(clone);	
+			id = createId();
+			sources += <sourceLoc.path, resourceContent(project + sourceLoc.path)>;
+			jsonMaps += ("id" : id,
+						"LOC" : linesCount, 
+						"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+						"percentageOfClass" : locPercentage(linesCount, classLoc), 
+						"startLine" : sourceLoc.begin.line,
+						"endLine" : sourceLoc.end.line,
+						"clone" : getNodeSource(clone),
+						"path": sourceLoc.path,
+						"file": sourceLoc.file);
+		}
 	}
 	return jsonMaps;
 }

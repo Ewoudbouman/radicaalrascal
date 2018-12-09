@@ -16,15 +16,16 @@ import AstCloneFinder;
 
 import CloneUtils;
 import CloneIO;
+import DateTime;
 
 public void main() {
 	before = userTime();
 
-	println("Creating M3...");
-	//testProject = createProject(|project://smallsql0.21_src|);
+	println("<now()>:Creating M3...");
+	testProject = createProject(|project://smallsql0.21_src|);
 	//testProject = createProject(|project://hsqldb-2.3.1|);
 	//testProject = createProject(|project://netbeans-javadoc|);
-	testProject = createProject(|project://testDUP|);
+	//testProject = createProject(|project://testDUP|);
 	println("Initialising clone LOC provider...");
  	initCloneLocProvider(testProject);
  	println("Gathering type 1 clones...");
@@ -36,9 +37,9 @@ public void main() {
 	//println(typ1CloneClasses);
 	
 	println("Creating JSON...");
-	writeClones(typ1CloneClasses, <100.0, 1337>, 1, |project://testDUP|);
+	writeClones(typ1CloneClasses, 1, |project://smallsql0.21_src|);
 	
-	println("Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
 }
 
 private real nanoToSec(int nano) {

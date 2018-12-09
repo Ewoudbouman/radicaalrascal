@@ -16,7 +16,7 @@ import Utils;
 import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
-private int NODE_MASS_THRESHOLD = 11;
+private int NODE_MASS_THRESHOLD = 12;
 
 /**
  *
