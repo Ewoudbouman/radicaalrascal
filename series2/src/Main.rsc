@@ -26,8 +26,9 @@ public void main() {
 	//testProject = createProject(|project://hsqldb-2.3.1|);
 	//testProject = createProject(|project://netbeans-javadoc|);
 	//testProject = createProject(|project://testDUP|);
-	println("Initialising clone LOC provider...");
+	//println("Initialising clone LOC provider...");
  	initCloneLocProvider(testProject);
+ 	//type 1 stuff
  	println("Gathering type 1 clones...");
 	type1Clones = findType1Clones(testProject);
 	println("Converting clones to clone classes..."); 
@@ -38,6 +39,14 @@ public void main() {
 	
 	println("Creating JSON...");
 	writeClones(typ1CloneClasses, 1, |project://smallsql0.21_src|);
+	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	
+	//type 2 stuff
+ 	println("Gathering type 2 clones...");
+	type2Clones = findType2Clones(testProject);
+	println("Converting clones to clone classes..."); 
+	typ2CloneClasses = convertToCloneClasses(type2Clones);
+	println("clonesclasses <size(typ2CloneClasses)>");
 	
 	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
 }
