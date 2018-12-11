@@ -26,7 +26,7 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 	cloneType = writeType;
 	project = projectLoc;
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
-	writeJSON(|project://series2/src/output/clones.json|, 
+	writeJSON(|project://series2/src/output/| + "<writeType>_clones.json", 
 		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()), 
 		"duplicatesLOC" : cloneClassesJsonMap.duplicateLoc, 
 		"totalLOC" : getTotalProjectLoc(),
