@@ -15,10 +15,9 @@ import lang::json::IO;
 /**
  * Changelog
  * 
- * a: changed private str createId() to private int createId(), 
- * a: T<cloneType>-<idCounter>" -> toInt(<cloneType><idCounter>) 
+ * a: renamed "id" to "prefix_id"
  * 
- * b: added id to private rel[str id, str path, str source] sources = {};
+ * b: added id to private rel[str id, str path, str source] sources = {}; // niet nodig meer? check ff
  * 
  * c: renamed writeclones : "cloneClasses" : cloneClassesJsonMap.jsonMaps, -> "nodes" : cloneClassesJsonMap.jsonMaps,
  *
@@ -38,13 +37,20 @@ private int cloneId = 0;
 private map[int, list[int]] cloneMap = ();
 // private rel[str path, str source] sources = {};
 // added id
-private rel[int id, str path, str source] sources = {};
+private rel[str id, str path, str source] sources = {};
 
-//private str createId() {
-private int createId() {
+private str createId() {
 	idCounter += 1;
-	//return "T<cloneType>-<idCounter>";
-	return toInt("<cloneType><idCounter>");
+	return "T<cloneType>-<idCounter>";
+}
+
+private int createIntId() {
+	idCounter += 1;
+	return idCounter;
+}
+
+private int getId() {
+	return toInt("<idCounter>");
 }
 
 private int createCloneId() {
@@ -81,7 +87,8 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 		curClone = createCloneId();
 		linesCount = getCloneClassLoc(clones);
 		totalDuplicationLoc += linesCount;
-		jsonMaps += ("id" : createId(),
+		jsonMaps += ("prefix_id" : createId(),
+					"id" : getId(),
 					//"LOC" : linesCount, 
 					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
 					//"clones" : createCloneJsonMap(clones, projectLoc, linesCount));
@@ -101,9 +108,10 @@ public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc
 		if(!isEmptyLocation(sourceLoc)) {
 			linesCount = getCloneLoc(clone);	
 			id = createId();
-			cloneMap[curClone] += id;
+			cloneMap[curClone] += getId();
 			sources += <id, sourceLoc.path, resourceContent(project + sourceLoc.path)>;
-		jsonMaps += ("id" : id,
+		jsonMaps += ("prefix_id" : id,
+					"id" :  getId(),
 					// moved most to attributes field
 					"attributes": (
 					"LOC" : linesCount, 
