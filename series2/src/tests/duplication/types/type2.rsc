@@ -1,12 +1,27 @@
 module tests::duplication::types::type2
 
-import lang::java::m3::Core;
-import lang::java::jdt::m3::Core;
-import lang::java::jdt::m3::AST;
-import util::Resources;
-import IO;
+private int checkSize(loc fst, loc snd) {
+	set[Declaration] asts = {};
+	asts += createAstFromFile(fst, true);
+	asts += createAstFromFile(snd, true);
+	
+	return size(findClones(asts));
+}
 
-public loc t2A = |project://testDUP/src/t1/CopyTwoA.java|;
-public loc t2B = |project://testDUP/src/t1/CopyTwoB.java|;
-public loc t2C = |project://testDUP/src/t1/CopyTwoC.java|;
-public loc t2D = |project://testDUP/src/t1/CopyTwoD.java|;
+private int checkSizeNormalized(loc fst, loc snd) {
+	set[Declaration] asts = {};
+	asts += createAstFromFile(fst, true);
+	asts += createAstFromFile(snd, true);
+	
+	return size(findClones(normalizeAst(asts)));
+}
+
+test bool T2A2A2() {
+	return (checkSizeNormalized(t2A, t2A) == 4);
+}
+
+test bool T2A2B2() {
+	return (checkSizeNormalized(t2A, t2B) == 4);
+}
+
+// blablalba
