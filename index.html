@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>Bundleview</title>
+
+    <link rel="stylesheet" type="text/css" href="d3-bundleview/dbuggr.css"/>
+    <link rel="stylesheet" type="text/css" href="d3-bundleview/lib/clusterview.css"/>
+    <link rel="stylesheet" type="text/css" href="d3-bundleview/vendor/d3-tip.css"/>
+
+    <!-- external libraries -->
+    <script src="d3-bundleview/vendor/d3.v3.5.13.js"></script>
+    <script src="d3-bundleview/vendor/jquery.js"></script>
+    <script src="d3-bundleview/vendor/bluebird.js"></script>
+    <script src="d3-bundleview/src/external/system.src.js"></script>
+    <script src="d3-bundleview/vendor/d3-tip.js"></script>
+</head>
+<body>
+
+
+
+<h2>Clones</h2>
+<p>WAWA</p>
+<br />
+<div id="clone-view"></div>
+
+<script>
+    System.config({
+        transpiler: 'babel',
+        babelOptions: {stage: 0, optional: ['es7.doExpressions']},
+        map: {
+            babel: 'd3-bundleview/src/external/babel-browser.js'
+        }
+    });
+
+    System.import('d3-bundleview/index.js');
+</script>
+
+</body>
+</html>

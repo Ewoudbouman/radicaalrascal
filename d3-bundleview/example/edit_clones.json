@@ -1,0 +1,106 @@
+{
+    "nodes": {
+            "label":"root",
+            "children":[
+                {
+                "LOC": 8,
+                "percentageOfProject": 25.0,
+                "id": 11,
+                "children": [
+                    {
+                        "LOC": 4,
+                        "path": "/src/test/sloctest2.java",
+                        "percentageOfClass": 50.0,
+                        "percentageOfProject": 12.5,
+                        "endLine": 14,
+                        "startLine": 10,
+                        "attributes": {
+                            "size": "1",
+                            "size2": "1"
+                        },
+                        "id": 12,
+                        "file": "sloctest2.java",
+                        "clone": "{\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }"
+                    },
+                    {
+                        "LOC": 4,
+                        "path": "/src/test/sloctest.java",
+                        "percentageOfClass": 50.0,
+                        "percentageOfProject": 12.5,
+                        "endLine": 14,
+                        "startLine": 10,
+                        "attributes": {
+                            "size": "1",
+                            "size2": "1"
+                        },
+                        "id": 13,
+                        "file": "sloctest.java",
+                        "clone": "{\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }"
+                    }
+                ]
+            },
+            {
+                "LOC": 15,
+                "percentageOfProject": 35.71428571,
+                "id": 14,
+                "children": [
+                    {
+                        "LOC": 5,
+                        "path": "/src/test/sloctest.java",
+                        "percentageOfClass": 33.33333333,
+                        "percentageOfProject": 11.9047619,
+                        "endLine": 31,
+                        "startLine": 27,
+                        "attributes": {
+                            "size": "1",
+                            "size2": "1"
+                        },
+                        "id": 15,
+                        "file": "sloctest.java",
+                        "clone": "{\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }"
+                    },
+                    {
+                        "LOC": 5,
+                        "path": "/src/test/sloctest.java",
+                        "percentageOfClass": 33.33333333,
+                        "percentageOfProject": 11.9047619,
+                        "endLine": 24,
+                        "startLine": 20,
+                        "attributes": {
+                            "size": "1",
+                            "size2": "1"
+                        },
+                        "id": 16,
+                        "file": "sloctest.java",
+                        "clone": "{\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }"
+                    },
+                    {
+                        "LOC": 5,
+                        "path": "/src/test/sloctest2.java",
+                        "percentageOfClass": 33.33333333,
+                        "percentageOfProject": 11.9047619,
+                        "endLine": 24,
+                        "startLine": 20,
+                        "attributes": {
+                            "size": "1",
+                            "size2": "1"
+                        },
+                        "id": 17,
+                        "file": "sloctest2.java",
+                        "clone": "{\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }"
+                    }
+                ]
+            }
+        ]
+    },
+    "relations": [
+        {
+            "target": 12,
+            "source": 13
+        },
+        {
+            "target": 13,
+            "source": 12
+        }
+    ]
+}

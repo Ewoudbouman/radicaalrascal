@@ -19,14 +19,19 @@ import CloneIO;
 import DateTime;
 
 public void main() {
+	
+	loc proj = |project://smallsql0.21_src|;
+	//loc proj = |project://hsqldb-2.3.1|;
+	//loc proj = |project://netbeans-javadoc|;
+	//loc proj = |project://testDUP|;
+	//loc proj = |project://testSLOC|;
+	
 	before = userTime();
 
 	println("<now()>:Creating M3...");
-	testProject = createProject(|project://smallsql0.21_src|);
-	//testProject = createProject(|project://hsqldb-2.3.1|);
-	//testProject = createProject(|project://netbeans-javadoc|);
-	//testProject = createProject(|project://testDUP|);
-	//println("Initialising clone LOC provider...");
+	testProject = createProject(proj);
+	println("Initialising clone LOC provider...");
+	
  	initCloneLocProvider(testProject);
  	//type 1 stuff
  	println("Gathering type 1 clones...");
@@ -38,10 +43,11 @@ public void main() {
 	//println(typ1CloneClasses);
 	
 	println("Creating JSON...");
-	writeClones(typ1CloneClasses, 1, |project://smallsql0.21_src|);
+	writeClones(typ1CloneClasses, 1, proj);
 	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
 	
 	//type 2 stuff
+	/**
  	println("Gathering type 2 clones...");
 	type2Clones = findType2Clones(testProject);
 	println("Converting clones to clone classes..."); 
@@ -49,6 +55,7 @@ public void main() {
 	println("clonesclasses <size(typ2CloneClasses)>");
 	
 	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	*/
 }
 
 private real nanoToSec(int nano) {
