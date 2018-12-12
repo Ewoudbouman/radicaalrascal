@@ -89,7 +89,7 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 		totalDuplicationLoc += linesCount;
 		jsonMaps += ("prefix_id" : createId(),
 					"id" : getId(),
-					//"LOC" : linesCount, 
+					"LOC" : linesCount, 
 					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
 					//"clones" : createCloneJsonMap(clones, projectLoc, linesCount));
 					"children" : createCloneJsonMap(clones, projectLoc, linesCount, curClone));

@@ -16,7 +16,7 @@ import Utils;
 import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
-private int NODE_MASS_THRESHOLD = 40; //12;
+private int NODE_MASS_THRESHOLD = 20;
 
 /**
  *
@@ -33,8 +33,6 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
 public lrel[node fst, node snd] findType2Clones(M3 project) {
 
 	set[Declaration] asts =  projectAsts(project);
-	// parse AST
-	//return findClones(normalizeAst(asts));
 	return findClones(normalizeAst(asts));
 }
 
