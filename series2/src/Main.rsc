@@ -26,7 +26,8 @@ public void main() {
 
 	println("<now()>:Creating M3...");
 	testProject = createProject(projectLocation);
-	//println("Initialising clone LOC provider...");
+	
+	println("Initialising clone LOC provider...");
  	initCloneLocProvider(testProject);
  	
  	//type 1 stuff

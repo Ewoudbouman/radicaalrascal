@@ -1,0 +1,128 @@
+{
+    "duplicatesPercentage": 54.76190476,
+    "fullSources": [
+        {
+            "path": "/src/test/sloctest2.java",
+            "source": "/* 23 lines 16 code 4 comments 3 blanks source: github.com/Aaronepower/tokei */\r\n\r\n/*\r\n * Simple test class\r\n */\r\npublic class sloctest2\r\n{\r\n    int j = 0; // Not counted\r\n    public static void main(String[] args)\r\n    {\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }\r\n}\r\n\r\nclass Foo2\r\n{\r\n    public void bar(int b)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n}"
+        },
+        {
+            "path": "/src/test/sloctest.java",
+            "source": "/* 23 lines 16 code 4 comments 3 blanks source: github.com/Aaronepower/tokei */\r\n\r\n/*\r\n * Simple test class\r\n */\r\npublic class sloctest\r\n{\r\n    int j = 0; // Not counted\r\n    public static void main(String[] args)\r\n    {\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }\r\n}\r\n\r\nclass Foo\r\n{\r\n    public void bar(int a, int b, int c)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n    \r\n    public void bar2(int a, int b, int c)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n}"
+        },
+        {
+            "path": "/src/test/sloctest2.java",
+            "source": "/* 23 lines 16 code 4 comments 3 blanks source: github.com/Aaronepower/tokei */\r\n\r\n/*\r\n * Simple test class\r\n */\r\npublic class sloctest2\r\n{\r\n    int j = 0; // Not counted\r\n    public static void main(String[] args)\r\n    {\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }\r\n}\r\n\r\nclass Foo2\r\n{\r\n    public void bar(int b)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n}"
+        },
+        {
+            "path": "/src/test/sloctest.java",
+            "source": "/* 23 lines 16 code 4 comments 3 blanks source: github.com/Aaronepower/tokei */\r\n\r\n/*\r\n * Simple test class\r\n */\r\npublic class sloctest\r\n{\r\n    int j = 0; // Not counted\r\n    public static void main(String[] args)\r\n    {\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }\r\n}\r\n\r\nclass Foo\r\n{\r\n    public void bar(int a, int b, int c)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n    \r\n    public void bar2(int a, int b, int c)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n}"
+        },
+        {
+            "path": "/src/test/sloctest.java",
+            "source": "/* 23 lines 16 code 4 comments 3 blanks source: github.com/Aaronepower/tokei */\r\n\r\n/*\r\n * Simple test class\r\n */\r\npublic class sloctest\r\n{\r\n    int j = 0; // Not counted\r\n    public static void main(String[] args)\r\n    {\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }\r\n}\r\n\r\nclass Foo\r\n{\r\n    public void bar(int a, int b, int c)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n    \r\n    public void bar2(int a, int b, int c)\r\n    {\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }\r\n}"
+        }
+    ],
+    "nodes": {
+        "children": [
+            {
+                "LOC": 8,
+                "percentageOfProject": 19.04761905,
+                "id": 11,
+                "children": [
+                    {
+                        "attributes": {
+                            "LOC": 4,
+                            "path": "/src/test/sloctest2.java",
+                            "percentageOfClass": 50.0,
+                            "percentageOfProject": 9.523809524,
+                            "endLine": 14,
+                            "startLine": 10,
+                            "file": "sloctest2.java",
+                            "clone": "{\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }"
+                        },
+                        "id": 12
+                    },
+                    {
+                        "attributes": {
+                            "LOC": 4,
+                            "path": "/src/test/sloctest.java",
+                            "percentageOfClass": 50.0,
+                            "percentageOfProject": 9.523809524,
+                            "endLine": 14,
+                            "startLine": 10,
+                            "file": "sloctest.java",
+                            "clone": "{\r\n        Foo f = new Foo();\r\n        f.bar();\r\n        \r\n    }"
+                        },
+                        "id": 13
+                    }
+                ]
+            },
+            {
+                "LOC": 15,
+                "percentageOfProject": 35.71428571,
+                "id": 14,
+                "children": [
+                    {
+                        "attributes": {
+                            "LOC": 5,
+                            "path": "/src/test/sloctest.java",
+                            "percentageOfClass": 33.33333333,
+                            "percentageOfProject": 11.9047619,
+                            "endLine": 31,
+                            "startLine": 27,
+                            "file": "sloctest.java",
+                            "clone": "{\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }"
+                        },
+                        "id": 15
+                    },
+                    {
+                        "attributes": {
+                            "LOC": 5,
+                            "path": "/src/test/sloctest.java",
+                            "percentageOfClass": 33.33333333,
+                            "percentageOfProject": 11.9047619,
+                            "endLine": 24,
+                            "startLine": 20,
+                            "file": "sloctest.java",
+                            "clone": "{\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }"
+                        },
+                        "id": 16
+                    },
+                    {
+                        "attributes": {
+                            "LOC": 5,
+                            "path": "/src/test/sloctest2.java",
+                            "percentageOfClass": 33.33333333,
+                            "percentageOfProject": 11.9047619,
+                            "endLine": 24,
+                            "startLine": 20,
+                            "file": "sloctest2.java",
+                            "clone": "{\r\n    \tint bah = 4;\r\n    \tint boeh = 5;\r\n    \tSystem.out.println(\"FooBar\"); //Not counted\r\n    }"
+                        },
+                        "id": 17
+                    }
+                ]
+            }
+        ]
+    },
+    "relations": [
+        {
+            "target": 13,
+            "source": 12
+        },
+        {
+            "target": 16,
+            "source": 15
+        },
+        {
+            "target": 17,
+            "source": 15
+        },
+        {
+            "target": 17,
+            "source": 16
+        }
+    ],
+    "duplicatesLOC": 23,
+    "totalLOC": 42
+}
