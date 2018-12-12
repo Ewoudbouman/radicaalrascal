@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CloneFinder2000</string>
+    <string name="percentage">%s%%</string>
+    <string name="identifier">CC #%s</string>
+
+    <!-- Projects -->
+    <string name="projects_screen_name">Projects</string>
+    <string name="projects_sloc">SLOC: %d</string>
+
+    <!-- Project details -->
+    <string name="project_details_sloc">Total SLOC:</string>
+    <string name="project_details_summary_title">Summary</string>
+    <string name="project_details_summary_type_1_title">Type 1</string>
+    <string name="project_details_summary_type_2_title">Type 2</string>
+    <string name="project_details_summary_type_3_title">Type 3</string>
+    <string name="project_details_type_1">Type 1 clones:</string>
+    <string name="project_details_type_2">Type 2 clones:</string>
+    <string name="project_details_type_3">Type 3 clones:</string>
+    <string name="project_details_clone_class_sloc">SLOC: %d</string>
+    <string name="project_details_clone_class_percentage">%s%%/project</string>
+    <string name="project_details_clone_classes">%s clone classes</string>
+    <string name="project_details_clones">%s clones</string>
+</resources>

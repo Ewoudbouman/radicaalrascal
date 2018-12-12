@@ -1,0 +1,40 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.peters.michael.clonefinder2000">
+
+    <application android:allowBackup="true"
+                 android:name=".CloneFinderApplication"
+                 android:label="@string/app_name"
+                 android:icon="@mipmap/ic_launcher"
+                 android:roundIcon="@mipmap/ic_launcher_round"
+                 android:supportsRtl="true"
+                 android:theme="@style/AppTheme">
+
+        <activity android:name=".presentation.splash.SplashActivity"
+                  android:launchMode="singleTop"
+                  android:noHistory="true"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.projects.ProjectsActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.projectdetails.ProjectDetailsActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.classdetails.ClassDetailsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.clonedetails.CloneDetailsActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity-alias
+                android:name=".StartupActivity"
+                android:noHistory="true"
+                android:targetActivity=".presentation.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+    </application>
+</manifest>
