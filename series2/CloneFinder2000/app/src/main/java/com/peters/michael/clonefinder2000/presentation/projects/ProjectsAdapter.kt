@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.peters.michael.clonefinder2000.R
-import com.peters.michael.clonefinder2000.domain.model.Project
+import com.peters.michael.clonefinder2000.domain.CloneType.Project
 import kotlinx.android.synthetic.main.list_item_project.view.*
 
 class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder>() {

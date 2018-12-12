@@ -1,5 +1,7 @@
 package com.peters.michael.clonefinder2000.domain.model
 
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneClass
+
 data class CloneDetails(
 
         val duplicatePercentage: Float,

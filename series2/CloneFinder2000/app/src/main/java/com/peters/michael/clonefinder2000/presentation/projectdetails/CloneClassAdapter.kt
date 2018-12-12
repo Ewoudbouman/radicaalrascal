@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider
 import com.peters.michael.clonefinder2000.R
-import com.peters.michael.clonefinder2000.domain.model.CloneClass
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneClass
 import com.peters.michael.clonefinder2000.extension.toThreeDecimalString
 import kotlinx.android.synthetic.main.list_item_clone_class.view.*
 

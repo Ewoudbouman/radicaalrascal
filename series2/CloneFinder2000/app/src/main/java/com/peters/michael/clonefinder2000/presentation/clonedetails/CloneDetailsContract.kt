@@ -1,7 +1,6 @@
 package com.peters.michael.clonefinder2000.presentation.clonedetails
 
 import com.peters.michael.clonefinder2000.domain.model.Clone
-import com.peters.michael.clonefinder2000.domain.model.CloneClass
 
 interface CloneDetailsContract {
 

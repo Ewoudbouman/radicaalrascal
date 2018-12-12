@@ -21,9 +21,12 @@
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".presentation.classdetails.ClassDetailsActivity"
-            android:screenOrientation="portrait"/>
+                  android:screenOrientation="portrait"/>
 
         <activity android:name=".presentation.clonedetails.CloneDetailsActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.graph.GraphActivity"
                   android:screenOrientation="portrait"/>
 
         <activity-alias

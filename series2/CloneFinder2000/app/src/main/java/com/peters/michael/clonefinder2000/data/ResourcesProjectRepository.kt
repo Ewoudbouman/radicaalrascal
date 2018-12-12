@@ -3,8 +3,9 @@ package com.peters.michael.clonefinder2000.data
 import android.content.Context
 import com.google.gson.Gson
 import com.peters.michael.clonefinder2000.data.model.ProjectDetailsResource
+import com.peters.michael.clonefinder2000.domain.CloneType.*
 import com.peters.michael.clonefinder2000.domain.data.ProjectRepository
-import com.peters.michael.clonefinder2000.domain.model.*
+import com.peters.michael.clonefinder2000.domain.model.Clone
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,21 +23,21 @@ class ResourcesProjectRepository @Inject constructor(private val context: Contex
     override fun fetchProjects(): Single<List<Project>> {
         return Single.fromCallable {
             listOf(
-                Project(
-                    TEST_DUP_PROJECT_ID,
-                    TEST_DUP_PROJECT_ID,
-                    readProjectDetails(TEST_DUP_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
-                ),
-                Project(
-                    SMALL_SQL_PROJECT_ID,
-                    SMALL_SQL_PROJECT_ID,
-                    readProjectDetails(SMALL_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
-                ),
-                Project(
-                    H_SQL_PROJECT_ID,
-                    H_SQL_PROJECT_ID,
-                    readProjectDetails(H_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
-                )
+                    Project(
+                            TEST_DUP_PROJECT_ID,
+                            TEST_DUP_PROJECT_ID,
+                            readProjectDetails(TEST_DUP_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
+                    ),
+                    Project(
+                            SMALL_SQL_PROJECT_ID,
+                            SMALL_SQL_PROJECT_ID,
+                            readProjectDetails(SMALL_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
+                    ),
+                    Project(
+                            H_SQL_PROJECT_ID,
+                            H_SQL_PROJECT_ID,
+                            readProjectDetails(H_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
+                    )
             )
         }
     }
@@ -48,10 +49,10 @@ class ResourcesProjectRepository @Inject constructor(private val context: Contex
             val type3 = readProjectDetails(id + TYPE_3_POSTFIX)
 
             ProjectDetails(
-                project = Project(id, id, type1.totalLOC),
-                type1 = mapToCloneDetails(type1),
-                type2 = mapToCloneDetails(type2),
-                type3 = mapToCloneDetails(type3)
+                    project = Project(id, id, type1.totalLOC),
+                    type1 = mapToCloneDetails(type1),
+                    type2 = mapToCloneDetails(type2),
+                    type3 = mapToCloneDetails(type3)
             )
         }
     }
@@ -72,39 +73,58 @@ class ResourcesProjectRepository @Inject constructor(private val context: Contex
 
     private fun mapToCloneDetails(projectDetailsResource: ProjectDetailsResource): CloneDetails {
         return CloneDetails(
-            duplicatePercentage = projectDetailsResource.duplicatesPercentage,
-            duplicateSloc = projectDetailsResource.duplicatesLOC,
-            cloneClasses = projectDetailsResource.nodes.children.map {
-                CloneClass(
-                    id = it.prefixedId,
-                    loc = it.LOC,
-                    percentageOfProject = it.percentageOfProject,
-                    clones = it.clones.map {
-                        Clone(
-                            id = it.id,
-                            percentageOfProject = it.attributes.percentageOfProject,
-                            fileName = it.attributes.file,
-                            path = it.attributes.path,
-                            percentageOfClass = it.attributes.percentageOfClass,
-                            sloc = it.attributes.LOC,
-                            startLine = it.attributes.startLine,
-                            endLine = it.attributes.endLine,
-                            clonedCode = it.attributes.clone,
-                            source = projectDetailsResource.fullSources
-                                .first { source -> source.path == it.attributes.path }.source
-                        )
-                    })
-            }
+                duplicatePercentage = projectDetailsResource.duplicatesPercentage,
+                duplicateSloc = projectDetailsResource.duplicatesLOC,
+                cloneClasses = projectDetailsResource.nodes.children.map {
+                    CloneClass(
+                            id = it.prefixedId,
+                            loc = it.LOC,
+                            percentageOfProject = it.percentageOfProject,
+                            clones = it.clones.map {
+                                Clone(
+                                        id = it.id,
+                                        percentageOfProject = it.attributes.percentageOfProject,
+                                        fileName = it.attributes.file,
+                                        path = it.attributes.path,
+                                        percentageOfClass = it.attributes.percentageOfClass,
+                                        sloc = it.attributes.LOC,
+                                        startLine = it.attributes.startLine,
+                                        endLine = it.attributes.endLine,
+                                        clonedCode = it.attributes.clone,
+                                        source = projectDetailsResource.fullSources
+                                                .first { source -> source.path == it.attributes.path }.source
+                                )
+                            })
+                }
         )
+    }
+
+    override fun fetchProjectData(projectId: String, cloneType: CloneType): Single<String> {
+        return Single.fromCallable {
+            context.assets.open(projectId + cloneTypeToTypePostfix(cloneType)).let {
+                val buffer = ByteArray(it.available())
+                it.read(buffer)
+                it.close()
+                String(buffer)
+            }
+        }
     }
 
     override fun fetchClone(projectId: String, cloneId: String): Single<Clone> {
         return fetchProjectDetails(projectId)
-            .map {
-                (it.type1.cloneClasses + it.type2.cloneClasses + it.type3.cloneClasses)
-                    .flatMap { it.clones }
-                    .first { it.id == cloneId }
-            }
+                .map {
+                    (it.type1.cloneClasses + it.type2.cloneClasses + it.type3.cloneClasses)
+                            .flatMap { it.clones }
+                            .first { it.id == cloneId }
+                }
+    }
+
+    private fun cloneTypeToTypePostfix(cloneType: CloneType): String {
+        return when (cloneType) {
+            CloneType.TYPE_1 -> TYPE_1_POSTFIX
+            CloneType.TYPE_2 -> TYPE_2_POSTFIX
+            CloneType.TYPE_3 -> TYPE_3_POSTFIX
+        }
     }
 
     companion object {

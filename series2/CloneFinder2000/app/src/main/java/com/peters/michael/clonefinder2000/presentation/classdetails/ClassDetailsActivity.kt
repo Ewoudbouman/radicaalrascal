@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.peters.michael.clonefinder2000.R
-import com.peters.michael.clonefinder2000.domain.model.CloneClass
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneClass
 import com.peters.michael.clonefinder2000.presentation.clonedetails.CloneDetailsActivity
 import com.peters.michael.clonefinder2000.extension.toThreeDecimalString
 import dagger.android.support.DaggerAppCompatActivity

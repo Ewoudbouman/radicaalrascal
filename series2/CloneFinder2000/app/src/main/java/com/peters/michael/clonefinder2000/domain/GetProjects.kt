@@ -1,7 +1,7 @@
 package com.peters.michael.clonefinder2000.domain
 
 import com.peters.michael.clonefinder2000.domain.data.ProjectRepository
-import com.peters.michael.clonefinder2000.domain.model.Project
+import com.peters.michael.clonefinder2000.domain.CloneType.Project
 import io.reactivex.Single
 import javax.inject.Inject
 

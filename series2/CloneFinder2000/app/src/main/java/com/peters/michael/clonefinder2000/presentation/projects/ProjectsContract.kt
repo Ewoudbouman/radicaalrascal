@@ -1,6 +1,6 @@
 package com.peters.michael.clonefinder2000.presentation.projects
 
-import com.peters.michael.clonefinder2000.domain.model.Project
+import com.peters.michael.clonefinder2000.domain.CloneType.Project
 
 interface ProjectsContract {
 

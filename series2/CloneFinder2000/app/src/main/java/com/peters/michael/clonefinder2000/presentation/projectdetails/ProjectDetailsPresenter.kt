@@ -1,7 +1,8 @@
 package com.peters.michael.clonefinder2000.presentation.projectdetails
 
 import com.peters.michael.clonefinder2000.domain.GetProjectDetails
-import com.peters.michael.clonefinder2000.domain.model.CloneClass
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneClass
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -36,6 +37,12 @@ class ProjectDetailsPresenter @Inject constructor(
     override fun onCloneClassClicked(cloneClass: CloneClass) {
         view.projectId?.let {
             navigator.openCloneClass(it, cloneClass.id)
+        }
+    }
+
+    override fun onCloneTypeClicked(cloneType: CloneType) {
+        view.projectId?.let {
+            navigator.openProjectGraph(it, cloneType)
         }
     }
 }

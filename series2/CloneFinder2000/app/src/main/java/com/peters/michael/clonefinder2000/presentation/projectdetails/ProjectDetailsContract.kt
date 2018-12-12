@@ -1,7 +1,8 @@
 package com.peters.michael.clonefinder2000.presentation.projectdetails
 
-import com.peters.michael.clonefinder2000.domain.model.CloneClass
-import com.peters.michael.clonefinder2000.domain.model.ProjectDetails
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneClass
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneType
+import com.peters.michael.clonefinder2000.domain.CloneType.ProjectDetails
 
 interface ProjectDetailsContract {
 
@@ -15,7 +16,8 @@ interface ProjectDetailsContract {
 
     interface Navigator {
 
-        fun openCloneClass(projectId:String, classId: String)
+        fun openCloneClass(projectId: String, classId: String)
+        fun openProjectGraph(projectId: String, cloneType: CloneType)
     }
 
     interface Presenter {
@@ -23,5 +25,6 @@ interface ProjectDetailsContract {
         fun startPresenting()
         fun stopPresenting()
         fun onCloneClassClicked(cloneClass: CloneClass)
+        fun onCloneTypeClicked(cloneType: CloneType)
     }
 }

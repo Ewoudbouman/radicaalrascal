@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.peters.michael.clonefinder2000.R
-import com.peters.michael.clonefinder2000.domain.model.ProjectDetails
+import com.peters.michael.clonefinder2000.domain.CloneType.CloneType
+import com.peters.michael.clonefinder2000.domain.CloneType.ProjectDetails
 import com.peters.michael.clonefinder2000.presentation.classdetails.ClassDetailsActivity
+import com.peters.michael.clonefinder2000.presentation.graph.GraphActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_project_details.*
 import org.jetbrains.anko.toast
@@ -19,6 +21,7 @@ class ProjectDetailsActivity : DaggerAppCompatActivity(), ProjectDetailsContract
     private val viewPagerAdapter by lazy {
         DetailsViewPagerAdapter(this, projectDetailsViewPager).apply {
             onCloneClassClicked = { presenter.onCloneClassClicked(it) }
+            onCloneTypeClicked = { presenter.onCloneTypeClicked(it) }
         }
     }
 
@@ -45,6 +48,10 @@ class ProjectDetailsActivity : DaggerAppCompatActivity(), ProjectDetailsContract
 
     override fun openCloneClass(projectId: String, classId: String) {
         startActivity(ClassDetailsActivity.createIntent(this, projectId, classId))
+    }
+
+    override fun openProjectGraph(projectId: String, cloneType: CloneType) {
+        startActivity(GraphActivity.createIntent(this, projectId, cloneType))
     }
 
     companion object {
