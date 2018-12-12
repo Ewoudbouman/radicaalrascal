@@ -11,5 +11,6 @@ data class Clone(
     val source: String,
     val startLine: Int,
     val endLine: Int,
-    val clonedCode: String
+    val clonedCode: String,
+    val parentClassId: String
 )

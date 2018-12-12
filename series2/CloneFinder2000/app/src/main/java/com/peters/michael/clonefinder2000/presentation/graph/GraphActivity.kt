@@ -9,12 +9,13 @@ import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import com.peters.michael.clonefinder2000.R
 import com.peters.michael.clonefinder2000.domain.CloneType.CloneType
+import com.peters.michael.clonefinder2000.presentation.clonedetails.CloneDetailsActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_graph.*
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class GraphActivity : DaggerAppCompatActivity(), GraphContract.View {
+class GraphActivity : DaggerAppCompatActivity(), GraphContract.View, GraphContract.Navigator {
 
     override val projectId: String?
         get() = intent.getStringExtra(PROJECT_ID_EXTRA)
@@ -60,6 +61,10 @@ class GraphActivity : DaggerAppCompatActivity(), GraphContract.View {
 
     override fun showError() {
         toast("Can't show graph of project.")
+    }
+
+    override fun openCloneDetails(projectId: String, cloneId: String) {
+        startActivity(CloneDetailsActivity.createIntent(this, projectId, cloneId))
     }
 
     inner class WebAppInterface {

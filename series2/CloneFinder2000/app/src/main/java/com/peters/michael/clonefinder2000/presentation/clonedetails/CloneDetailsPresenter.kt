@@ -7,8 +7,11 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class CloneDetailsPresenter @Inject constructor(private val view: CloneDetailsContract.View,
-                                                private val getClone: GetClone) : CloneDetailsContract.Presenter {
+class CloneDetailsPresenter @Inject constructor(
+        private val view: CloneDetailsContract.View,
+        private val navigator: CloneDetailsContract.Navigator,
+        private val getClone: GetClone
+) : CloneDetailsContract.Presenter {
 
     private var disposable: Disposable? = null
 
@@ -28,5 +31,11 @@ class CloneDetailsPresenter @Inject constructor(private val view: CloneDetailsCo
 
     override fun stopPresenting() {
         disposable?.dispose()
+    }
+
+    override fun onCloneClassClicked(classId: String) {
+        view.projectId?.let {
+            navigator.openCloneClass(it, classId)
+        }
     }
 }

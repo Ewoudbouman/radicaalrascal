@@ -19,4 +19,9 @@ interface GraphContract {
         fun stopPresenting()
         fun onCloneClicked(cloneId: String)
     }
+
+    interface Navigator {
+
+        fun openCloneDetails(projectId: String, cloneId: String)
+    }
 }

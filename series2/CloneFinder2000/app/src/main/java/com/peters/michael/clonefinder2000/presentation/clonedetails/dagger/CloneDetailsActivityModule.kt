@@ -21,5 +21,8 @@ abstract class CloneDetailsActivityModule {
 
         @Binds
         fun bindPresenter(cloneDetailsPresenter: CloneDetailsPresenter): CloneDetailsContract.Presenter
+
+        @Binds
+        fun bindNavigator(cloneDetailsActivity: CloneDetailsActivity) :CloneDetailsContract.Navigator
     }
 }

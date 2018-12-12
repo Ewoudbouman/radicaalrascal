@@ -21,5 +21,8 @@ abstract class GraphActivityModule {
 
         @Binds
         fun bindPresenter(graphPresenter: GraphPresenter): GraphContract.Presenter
+
+        @Binds
+        fun bindNavigator(graphActivity: GraphActivity) : GraphContract.Navigator
     }
 }

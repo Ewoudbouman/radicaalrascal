@@ -20,4 +20,15 @@
     <string name="project_details_clone_class_percentage">%s%%/project</string>
     <string name="project_details_clone_classes">%s clone classes</string>
     <string name="project_details_clones">%s clones</string>
+
+    <!-- Clone details-->
+    <string name="clone_details_show_source_button">Show source</string>
+    <string name="clone_details_hide_source_button">Hide source</string>
+    <string name="clone_details_id">Identifier:</string>
+    <string name="clone_details_class_parent">Parent clone class:</string>
+    <string name="clone_details_sloc">SLOC:</string>
+    <string name="clone_details_file_name">File:</string>
+    <string name="clone_details_path">Path:</string>
+    <string name="clone_details_start_line">Start line:</string>
+    <string name="clone_details_end_line">End line:</string>
 </resources>

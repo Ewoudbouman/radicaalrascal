@@ -17,7 +17,7 @@ import lang::json::IO;
  * 
  * a: renamed "id" to "prefix_id"
  * 
- * b: added id to private rel[str id, str path, str source] sources = {}; // niet nodig meer? check ff
+ * b: added id to private rel[str id, str path, str source] sources = {}; // niet nodig meer? check ff// YES! otherwise lots of duplicates== large json
  * 
  * c: renamed writeclones : "cloneClasses" : cloneClassesJsonMap.jsonMaps, -> "nodes" : cloneClassesJsonMap.jsonMaps,
  *
@@ -35,9 +35,7 @@ private loc project;
 // vars for clone relations
 private int cloneId = 0;
 private map[int, list[int]] cloneMap = ();
-// private rel[str path, str source] sources = {};
-// added id
-private rel[str id, str path, str source] sources = {};
+private rel[str path, str source] sources = {};
 
 private str createId() {
 	idCounter += 1;
@@ -109,7 +107,7 @@ public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc
 			linesCount = getCloneLoc(clone);	
 			id = createId();
 			cloneMap[curClone] += getId();
-			sources += <id, sourceLoc.path, resourceContent(project + sourceLoc.path)>;
+			sources += <sourceLoc.path, resourceContent(project + sourceLoc.path)>;
 		jsonMaps += ("prefix_id" : id,
 					"id" :  getId(),
 					// moved most to attributes field
@@ -132,7 +130,7 @@ public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc
  */
 public list[map [str, value]] createCloneSourcesJsonMap() {
 	list[map[str, value]] jsonMaps = [];
-	for(<_, path, source> <- sources) {
+	for(<path, source> <- sources) {
 		//jsonMaps += ("id" : id, "source" : source);
 		jsonMaps += ("path" : path, "source" : source);
 	}

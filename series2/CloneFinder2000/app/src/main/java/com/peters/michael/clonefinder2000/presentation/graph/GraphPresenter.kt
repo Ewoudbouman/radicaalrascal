@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class GraphPresenter @Inject constructor(
         private val view: GraphContract.View,
+        private val navigator: GraphContract.Navigator,
         private val getRawProjectData: GetRawProjectData
 ) : GraphContract.Presenter {
 
@@ -35,6 +36,8 @@ class GraphPresenter @Inject constructor(
     }
 
     override fun onCloneClicked(cloneId: String) {
-        Timber.i("Clone was clicked: $cloneId")
+        view.projectId?.let {
+            navigator.openCloneDetails(it, cloneId)
+        }
     }
 }

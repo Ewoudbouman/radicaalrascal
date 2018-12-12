@@ -17,5 +17,11 @@ interface CloneDetailsContract {
 
         fun startPresenting()
         fun stopPresenting()
+        fun onCloneClassClicked(classId: String)
+    }
+
+    interface Navigator {
+
+        fun openCloneClass(projectId: String, cloneClassId: String)
     }
 }
