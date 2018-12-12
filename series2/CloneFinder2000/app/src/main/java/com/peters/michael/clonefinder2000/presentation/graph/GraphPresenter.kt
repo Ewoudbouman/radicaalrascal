@@ -33,4 +33,8 @@ class GraphPresenter @Inject constructor(
     override fun stopPresenting() {
         disposable?.dispose()
     }
+
+    override fun onCloneClicked(cloneId: String) {
+        Timber.i("Clone was clicked: $cloneId")
+    }
 }

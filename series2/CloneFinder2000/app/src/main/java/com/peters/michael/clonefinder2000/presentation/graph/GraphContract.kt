@@ -17,5 +17,6 @@ interface GraphContract {
 
         fun startPresenting()
         fun stopPresenting()
+        fun onCloneClicked(cloneId: String)
     }
 }

@@ -118,23 +118,23 @@ export class Bundleview {
         }
         this.sizeMetricChanged = sizeMetricChanged;
 
-        let sizeMetricSelection = rootContainer.append("form");
-        sizeMetricSelection
-            .html('Size Metric: ');
-        sizeMetricSelection.selectAll('label')
-            .html('Metrics')
-            .data(Object.keys(sizeMetrics))
-            .enter()
-            .append('label')
-            .html(d => d)
-            .append('input')
-            .attr("type", 'radio')
-            .attr('name', 'mode')
-            .attr('value', d => d)
-            .property('checked', (d, i) => d === DEFAULT_IDENTIFIER)
-            .on('change', function() {
-                sizeMetricChanged(sizeMetrics[this.value]);
-            });
+//        let sizeMetricSelection = rootContainer.append("form");
+//        sizeMetricSelection
+//            .html('Size Metric: ');
+//        sizeMetricSelection.selectAll('label')
+//            .html('Metrics')
+//            .data(Object.keys(sizeMetrics))
+//            .enter()
+//            .append('label')
+//            .html(d => d)
+//            .append('input')
+//            .attr("type", 'radio')
+//            .attr('name', 'mode')
+//            .attr('value', d => d)
+//            .property('checked', (d, i) => d === DEFAULT_IDENTIFIER)
+//            .on('change', function() {
+//                sizeMetricChanged(sizeMetrics[this.value]);
+//            });
 
         function getColorMetricsFor(node) {
             var leaf = randomLeaf(node);
@@ -247,23 +247,23 @@ export class Bundleview {
         }
         this.colorMetricChanged = colorMetricChanged;
 
-        let colorMetricSelection = rootContainer.append("form");
-        colorMetricSelection
-            .html('Color Metric: ');
-        colorMetricSelection.selectAll('label')
-            .html('Metrics')
-            .data(Object.keys(colorMetrics))
-            .enter()
-            .append('label')
-            .html(d => d)
-            .append('input')
-            .attr("type", 'radio')
-            .attr('name', 'mode')
-            .attr('value', d => d)
-            .property('checked', (d, i) => d === DEFAULT_IDENTIFIER)
-            .on('change', function() {
-                colorMetricChanged(colorMetrics[this.value]);
-            });
+//        let colorMetricSelection = rootContainer.append("form");
+//        colorMetricSelection
+//            .html('Color Metric: ');
+//        colorMetricSelection.selectAll('label')
+//            .html('Metrics')
+//            .data(Object.keys(colorMetrics))
+//            .enter()
+//            .append('label')
+//            .html(d => d)
+//            .append('input')
+//            .attr("type", 'radio')
+//            .attr('name', 'mode')
+//            .attr('value', d => d)
+//            .property('checked', (d, i) => d === DEFAULT_IDENTIFIER)
+//            .on('change', function() {
+//                colorMetricChanged(colorMetrics[this.value]);
+//            });
 
         var partition = d3.layout.partition()
             .sort(null)
@@ -376,13 +376,13 @@ export class Bundleview {
             /* Invoke the tip in the context of your visualization */
             .call(tip)
             .on('mouseover', d => {
-                tip.show(d);
+//                tip.show(d);
                 if(!lockedNode) {
                     highlightNode(d);
                 }
             })
             .on("mouseout", d => {
-                tip.hide(d);
+//                tip.hide(d);
                 if(!lockedNode) {
                     unhighlightNode();
                 }
@@ -440,7 +440,8 @@ export class Bundleview {
         }
         function clickedOnNode(d) {
             if(isLeaf(d)) {
-                return console.log('clicked on leaf node', d);
+                console.log('clicked on leaf node', d);
+                return Android.onCloneClicked(d.prefix_id);
             } else {
                 return zoomToNode(d);
             }

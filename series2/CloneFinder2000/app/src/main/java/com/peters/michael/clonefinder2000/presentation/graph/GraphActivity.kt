@@ -49,6 +49,7 @@ class GraphActivity : DaggerAppCompatActivity(), GraphContract.View {
                 allowContentAccess = true
                 allowFileAccessFromFileURLs = true
                 allowUniversalAccessFromFileURLs = true
+                builtInZoomControls = true
             }
             webViewClient = WebViewClient()
             webChromeClient = WebChromeClient()
@@ -63,9 +64,19 @@ class GraphActivity : DaggerAppCompatActivity(), GraphContract.View {
 
     inner class WebAppInterface {
 
+        var clickedCloneId: String = ""
+
         @JavascriptInterface
         fun loadData(): String {
             return rawData
+        }
+
+        @JavascriptInterface
+        fun onCloneClicked(cloneId: String) {
+            if(clickedCloneId == cloneId) {
+                presenter.onCloneClicked(cloneId)
+            }
+            clickedCloneId = cloneId
         }
     }
 
