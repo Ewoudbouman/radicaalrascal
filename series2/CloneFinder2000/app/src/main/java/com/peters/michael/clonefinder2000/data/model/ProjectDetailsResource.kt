@@ -13,8 +13,8 @@ class ProjectDetailsResource(
     @SerializedName("totalLOC")
     val totalLOC: Long,
 
-    @SerializedName("nodes")
-    val nodes: NodesResource,
+    @SerializedName("cloneClasses")
+    val cloneClasses: List<CloneClassResource>,
 
     @SerializedName("fullSources")
     val fullSources: List<FullSourceResource>

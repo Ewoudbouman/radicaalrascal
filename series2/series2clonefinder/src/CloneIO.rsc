@@ -204,37 +204,6 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneByDirJ
 				}							
 		}
 	}
-	//check files
-
-	// add files with zero clones!
-	// 
-	allFiles = filesInProject(resource);
-	for(file <- allFiles) {
-		if(file notin dupfiles) {
-			currentId = createCloneId();
-			jsonMaps += ("prefix_id" : getPrefixId(currentId),
-						"label": file,
-						"path" : file,
-						"id" : currentId,
-						"LOC" : (0), 
-						"percentageOfProject" : 0, 
-						"children" : [
-							("prefix_id" : getPrefixId(currentId),
-							"id" :  currentId,
-							"attributes": (
-							"LOC" : 0,
-							"percentageOfProject" : 0, 
-							"percentageOfClass" : 0, 
-							"startLine" : 0,
-							"endLine" : 0,
-							"clone" : 0,
-							"path": "",
-							"file": ""))
-						]);
-			
-		}
-	}
-
 
 	return <jsonMaps, totalDuplicationLoc>;
 }
@@ -292,10 +261,6 @@ public bool checkEmptyLeafs (set[node] clones, str filePath) {
 public list[map[str, value]] createCloneDirJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone, str filePath) {
 	list[map[str, value]] jsonMaps = [];
 
-	//println("IS EMPTY: <isEmpty(clones)>");
-	//for(clone <- clones){
-	//	println("wtffffffffffff");
-	//	println(clone);
 	for(clone <- clones){
 		sourceLoc = nodeSourceLoc(clone);
 		if(!isEmptyLocation(sourceLoc) && (filePath == sourceLoc.path)) {
@@ -313,14 +278,8 @@ public list[map[str, value]] createCloneDirJsonMap(set[node] clones, int project
 						"clone" : getNodeSource(clone),
 						//"path": sourceLoc.path,
 						"file": sourceLoc.file));
-		} //else {
-		//	println("wat is deze empty = <!isEmptyLocation(sourceLoc)>, equal = <filePath == sourceLoc.path> ");
-		//}
+		}
 	}
-	//if (jsonMaps == []) {
-	//	bsCounter += 1;
-	//	jsonMaps = [("id": bsCounter)];
-	//}
 	return jsonMaps;
 }
 

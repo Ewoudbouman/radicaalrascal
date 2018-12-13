@@ -27,16 +27,6 @@ class ResourcesProjectRepository @Inject constructor(private val context: Contex
                     TEST_DUP_PROJECT_ID,
                     TEST_DUP_PROJECT_ID,
                     readProjectDetails(TEST_DUP_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
-                ),
-                Project(
-                    SMALL_SQL_PROJECT_ID,
-                    SMALL_SQL_PROJECT_ID,
-                    readProjectDetails(SMALL_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
-                ),
-                Project(
-                    H_SQL_PROJECT_ID,
-                    H_SQL_PROJECT_ID,
-                    readProjectDetails(H_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
                 )
             )
         }
@@ -75,7 +65,7 @@ class ResourcesProjectRepository @Inject constructor(private val context: Contex
         return CloneDetails(
             duplicatePercentage = projectDetailsResource.duplicatesPercentage,
             duplicateSloc = projectDetailsResource.duplicatesLOC,
-            cloneClasses = projectDetailsResource.nodes.children.map { cloneClass ->
+            cloneClasses = projectDetailsResource.cloneClasses.map { cloneClass ->
                 CloneClass(
                     id = cloneClass.prefixedId,
                     loc = cloneClass.LOC,
