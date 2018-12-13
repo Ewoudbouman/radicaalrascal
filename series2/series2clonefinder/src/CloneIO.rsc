@@ -36,24 +36,29 @@ private loc project;
 private int cloneId = 0;
 private map[int, list[int]] cloneMap = ();
 private rel[str path, str source] sources = {};
-
-private str createId() {
-	idCounter += 1;
-	return "T<cloneType>-<idCounter>";
-}
-
-private int createIntId() {
-	idCounter += 1;
-	return idCounter;
-}
-
-private int getId() {
-	return toInt("<idCounter>");
-}
+private map[node n, int key] nodeKeyMap = ();
 
 private int createCloneId() {
 	cloneId += 1;
 	return cloneId;
+}
+
+/**
+ * if we need to iterate multiple times over the nodes
+ */
+private int getKey(node n){
+	if (n notin nodeKeyMap) {
+		id = createCloneId();
+		nodeKeyMap[n] = id;
+		return id;
+	} else {
+		//println("key match!");
+		return nodeKeyMap[n];
+	}
+}
+
+private str getPrefixId(int id) {
+	return "T<cloneType>-<id>";
 }
 
 public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc projectLoc) {
@@ -62,22 +67,28 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 	cloneId = 0;
 	sources = {};
 	cloneMap = ();
+	cloneDir = ();
+	nodeKeyMap = ();
 	
 	sources = {};
 	cloneType = writeType;
 	project = projectLoc;
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
+	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneDirsJsonMap = createCloneDirJsonMap(cloneClasses, getTotalProjectLoc());
 	writeJSON(|project://series2/src/output/| + "<writeType>_clones.json", 
 		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()), 
 		"duplicatesLOC" : cloneClassesJsonMap.duplicateLoc, 
 		"totalLOC" : getTotalProjectLoc(),
 		"cloneClasses" : cloneClassesJsonMap.jsonMaps,
-		"nodes" : ("children" : cloneClassesJsonMap.jsonMaps),
+		"nodes" : ("children" : cloneDirsJsonMap.jsonMaps),
+		//"nodes" : ("children" : cloneClassesJsonMap.jsonMaps),
 		"fullSources" : createCloneSourcesJsonMap(),
 		"relations": createCloneRelationsJsonMap()));
 }
 
-
+/**
+ *
+ */
 public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJsonMap(map[node, set[node]] cloneClasses, int projectLoc) {
 	list[map[str, value]] jsonMaps = [];
 	totalDuplicationLoc = 0;
@@ -85,8 +96,9 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 		curClone = createCloneId();
 		linesCount = getCloneClassLoc(clones);
 		totalDuplicationLoc += linesCount;
-		jsonMaps += ("prefix_id" : createId(),
-					"id" : getId(),
+		currentId = createCloneId();
+		jsonMaps += ("prefix_id" : getPrefixId(currentId),
+					"id" : currentId,
 					"LOC" : linesCount, 
 					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
 					//"clones" : createCloneJsonMap(clones, projectLoc, linesCount));
@@ -96,6 +108,9 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 	return <jsonMaps, totalDuplicationLoc>;
 }
 
+/**
+ *
+ */
 public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone) {
 	list[map[str, value]] jsonMaps = [];
 	// niet nodig me dunkt?
@@ -105,12 +120,76 @@ public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc
 		sourceLoc = nodeSourceLoc(clone);
 		if(!isEmptyLocation(sourceLoc)) {
 			linesCount = getCloneLoc(clone);	
-			id = createId();
-			cloneMap[curClone] += getId();
+			//currentId = createCloneId();
+			currentId = getKey(clone);
+			cloneMap[curClone] += currentId;
 			sources += <sourceLoc.path, resourceContent(project + sourceLoc.path)>;
-		jsonMaps += ("prefix_id" : id,
-					"id" :  getId(),
+		jsonMaps += ("prefix_id" : getPrefixId(currentId),
+					"id" :  currentId,
 					// moved most to attributes field
+					"attributes": (
+					"LOC" : linesCount, 
+					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+					"percentageOfClass" : locPercentage(linesCount, classLoc), 
+					"startLine" : sourceLoc.begin.line,
+					"endLine" : sourceLoc.end.line,
+					"clone" : getNodeSource(clone),
+					"path": sourceLoc.path,
+					"file": sourceLoc.file));
+		}
+	}
+	return jsonMaps;
+}
+
+/**
+ *
+ */
+public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneDirJsonMap(map[node, set[node]] cloneClasses, int projectLoc) {
+	list[map[str, value]] jsonMaps = [];
+	totalDuplicationLoc = 0;
+	dupfiles = {};
+	for(<_ ,clones> <- toList(cloneClasses)) {
+		for(clone <- clones){
+			sourcePath = (nodeSourceLoc(clone)).path;
+			dupfiles += sourcePath;
+		}
+	}
+	for(filePath <- dupfiles) {
+		println("file is <filePath>");
+		for(<_ ,clones> <- toList(cloneClasses)) {
+			curClone = createCloneId();
+			linesCount = getCloneClassLoc(clones);
+			totalDuplicationLoc += linesCount;
+			currentId = createCloneId();
+			//currentId = getKey(clones);
+			jsonMaps += ("prefix_id" : getPrefixId(currentId),
+						"label": filePath,
+						"path" : filePath,
+						"id" : currentId,
+						"LOC" : linesCount, 
+						"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+						"children" : testJsonMap(clones, projectLoc, linesCount, curClone, filePath));
+							
+		}
+	}
+
+	return <jsonMaps, totalDuplicationLoc>;
+}
+
+/**
+ *
+ */
+public list[map[str, value]] testJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone, str filePath) {
+	list[map[str, value]] jsonMaps = [];
+
+	for(clone <- clones){
+		sourceLoc = nodeSourceLoc(clone);
+		if(!isEmptyLocation(sourceLoc) && (filePath == sourceLoc.path)) {
+			linesCount = getCloneLoc(clone);	
+			currentId = getKey(clone);
+			sources += <sourceLoc.path, resourceContent(project + sourceLoc.path)>;
+		jsonMaps += ("prefix_id" : getPrefixId(currentId),
+					"id" :  currentId,
 					"attributes": (
 					"LOC" : linesCount, 
 					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
@@ -142,8 +221,11 @@ public list[map [str, value]] createCloneSourcesJsonMap() {
  */
 public list[map [str, value]] createCloneRelationsJsonMap() {
 	list[map[str, value]] jsonMaps = [];
+	println("clonemap <cloneMap>");
 	for(clones <- range(cloneMap)) {
+		println("clones <clones>");
 		for(<a, b> <- pairClones(clones)){
+			println("wtf <a>,<b>");
 			jsonMaps += ("source" : a, "target" : b);
 		}
 	}
