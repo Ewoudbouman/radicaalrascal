@@ -12,9 +12,67 @@ import LocUtils;
 import CloneLocProvider;
 import lang::json::IO;
 
+import LocUtils;
+
 /**
- * Changelog
+ * TODO:
+ * - Check valeus wanted/needed from the clone attributes,
+ * some not needed and/or are wrong due to restructering to dir level format.
  * 
+ * - Check if json output formatting can be merged (first check above).
+ *
+ * - cloneclasses hebben geen info over files met zero clones.
+ * Deze gooien we er nu maar zelf weer in.
+ * Ziet er lelijk uit qua json maar werkt. 
+ * Misschien iets beters verzinnen, anders die troep wat netter formatten.
+ * 
+ * Changelog Current:
+ * a: changed key system, nodes are mapped to a keymap.
+ * a: first create id, dan use.
+ * a: prefix values are parsed by supplied int. 
+ *
+ * b: changed grouping of duplicates in "nodes": field of json.
+ * b: Duplicates are now grouped by file location.
+ * b: basic example:
+ * "nodes": {
+ *    "children": [
+ *        {
+ *            "path": "/src/test/sloctest2.java",
+ *            "id": 7,
+ *            "children": [
+ *                {
+ *                    "attributes": {
+ *                        "clone": "int a = 4;"
+ *                    },
+ *                    "id": 5
+ *                }
+ *            ],
+ *        },
+ *        {
+ *            "label": "/src/test/sloctest.java",
+ *            "id": 9,
+ *            "children": [
+ *                {
+ *                    "attributes": {
+ *                        "clone": "int a = 4;"
+ *                    },
+ *                    "id": 3
+ *                },
+ *                {
+ *                    "attributes": {
+ *                        "clone": "int a = 4;"
+ *                    },
+ *                    "id": 4
+ *                }
+ *            ],
+ *        }
+ *    ]
+ * 
+ * c: add files with no duplicates into json object.
+ * c: these are stored in "nodes" for visualstuff
+ * 
+ * Changelog Old:
+ *
  * a: renamed "id" to "prefix_id"
  * 
  * b: added id to private rel[str id, str path, str source] sources = {}; // niet nodig meer? check ff// YES! otherwise lots of duplicates== large json
@@ -29,6 +87,7 @@ import lang::json::IO;
  */
 
 private int idCounter = 0;
+private int bsCounter = 0;
 private int cloneType = -1;
 private loc project;
 
@@ -67,21 +126,22 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 	cloneId = 0;
 	sources = {};
 	cloneMap = ();
-	cloneDir = ();
 	nodeKeyMap = ();
+	
+	bsCounter = 0;
 	
 	sources = {};
 	cloneType = writeType;
 	project = projectLoc;
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
-	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneDirsJsonMap = createCloneDirJsonMap(cloneClasses, getTotalProjectLoc());
+	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneDirsJsonMap = createCloneByDirJsonMap(cloneClasses, getTotalProjectLoc(), projectLoc);
 	writeJSON(|project://series2/src/output/| + "<writeType>_clones.json", 
-		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()), 
+		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()),
+		"label" : projectLoc, 
 		"duplicatesLOC" : cloneClassesJsonMap.duplicateLoc, 
 		"totalLOC" : getTotalProjectLoc(),
 		"cloneClasses" : cloneClassesJsonMap.jsonMaps,
 		"nodes" : ("children" : cloneDirsJsonMap.jsonMaps),
-		//"nodes" : ("children" : cloneClassesJsonMap.jsonMaps),
 		"fullSources" : createCloneSourcesJsonMap(),
 		"relations": createCloneRelationsJsonMap()));
 }
@@ -101,7 +161,6 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 					"id" : currentId,
 					"LOC" : linesCount, 
 					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
-					//"clones" : createCloneJsonMap(clones, projectLoc, linesCount));
 					"children" : createCloneJsonMap(clones, projectLoc, linesCount, curClone));
 		
 	}
@@ -109,98 +168,159 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJ
 }
 
 /**
+ * Formats duplicates based on file location.
  *
+ * - file 1
+ *      - dupX
+ *      - dupY
+ *      - dupY
+ * - file 2
+ *     - dupX
+ *
+ */
+public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneByDirJsonMap(map[node, set[node]] cloneClasses, int projectLoc, loc resource) {
+	list[map[str, value]] jsonMaps = [];
+	totalDuplicationLoc = 0;
+	dupfiles = {};
+	for(<_ ,clones> <- toList(cloneClasses)) {
+		for(clone <- clones){
+			dupfiles += ((nodeSourceLoc(clone)).path);
+		}
+	}
+	for(filePath <- dupfiles) {
+		for(<_ ,clones> <- toList(cloneClasses)) {
+			if(checkEmptyLeafs(clones, filePath)) {
+				curClone = createCloneId();
+				linesCount = getCloneClassLoc(clones);
+				totalDuplicationLoc += linesCount;
+				currentId = createCloneId();
+				jsonMaps += ("prefix_id" : getPrefixId(currentId),
+							"label": filePath,
+							"path" : filePath,
+							"id" : currentId,
+							"LOC" : linesCount, 
+							//percentageOfProject" : locPercentage(linesCount, projectLoc), 
+							"children" : createCloneDirJsonMap(clones, projectLoc, linesCount, curClone, filePath));
+				}							
+		}
+	}
+	//check files
+
+	// add files with zero clones!
+	// 
+	allFiles = filesInProject(resource);
+	for(file <- allFiles) {
+		if(file notin dupfiles) {
+			currentId = createCloneId();
+			jsonMaps += ("prefix_id" : getPrefixId(currentId),
+						"label": file,
+						"path" : file,
+						"id" : currentId,
+						"LOC" : (0), 
+						"percentageOfProject" : 0, 
+						"children" : [
+							("prefix_id" : getPrefixId(currentId),
+							"id" :  currentId,
+							"attributes": (
+							"LOC" : 0,
+							"percentageOfProject" : 0, 
+							"percentageOfClass" : 0, 
+							"startLine" : 0,
+							"endLine" : 0,
+							"clone" : 0,
+							"path": "",
+							"file": ""))
+						]);
+			
+		}
+	}
+
+
+	return <jsonMaps, totalDuplicationLoc>;
+}
+
+/**
+ * 
  */
 public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone) {
 	list[map[str, value]] jsonMaps = [];
-	// niet nodig me dunkt?
+	// 
 	if(!cloneMap[curClone]?) cloneMap[curClone] = [];
 	
 	for(clone <- clones){
 		sourceLoc = nodeSourceLoc(clone);
 		if(!isEmptyLocation(sourceLoc)) {
 			linesCount = getCloneLoc(clone);	
-			//currentId = createCloneId();
 			currentId = getKey(clone);
 			cloneMap[curClone] += currentId;
 			sources += <sourceLoc.path, resourceContent(project + sourceLoc.path)>;
-		jsonMaps += ("prefix_id" : getPrefixId(currentId),
-					"id" :  currentId,
-					// moved most to attributes field
-					"attributes": (
-					"LOC" : linesCount, 
-					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
-					"percentageOfClass" : locPercentage(linesCount, classLoc), 
-					"startLine" : sourceLoc.begin.line,
-					"endLine" : sourceLoc.end.line,
-					"clone" : getNodeSource(clone),
-					"path": sourceLoc.path,
-					"file": sourceLoc.file));
+			jsonMaps += ("prefix_id" : getPrefixId(currentId),
+						"id" :  currentId,
+						"attributes": (
+						"LOC" : linesCount, 
+						"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+						"percentageOfClass" : locPercentage(linesCount, classLoc), 
+						"startLine" : sourceLoc.begin.line,
+						"endLine" : sourceLoc.end.line,
+						"clone" : getNodeSource(clone),
+						"path": sourceLoc.path,
+						"file": sourceLoc.file));
 		}
 	}
 	return jsonMaps;
 }
 
 /**
- *
+ * Ugly fix!, animation cannot handle empty nodes, 
  */
-public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneDirJsonMap(map[node, set[node]] cloneClasses, int projectLoc) {
-	list[map[str, value]] jsonMaps = [];
-	totalDuplicationLoc = 0;
-	dupfiles = {};
-	for(<_ ,clones> <- toList(cloneClasses)) {
-		for(clone <- clones){
-			sourcePath = (nodeSourceLoc(clone)).path;
-			dupfiles += sourcePath;
+ 
+public bool checkEmptyLeafs (set[node] clones, str filePath) {
+	for(clone <- clones){
+		sourceLoc = nodeSourceLoc(clone);
+		if(!isEmptyLocation(sourceLoc) && (filePath == sourceLoc.path)) {
+			return true;
 		}
 	}
-	for(filePath <- dupfiles) {
-		println("file is <filePath>");
-		for(<_ ,clones> <- toList(cloneClasses)) {
-			curClone = createCloneId();
-			linesCount = getCloneClassLoc(clones);
-			totalDuplicationLoc += linesCount;
-			currentId = createCloneId();
-			//currentId = getKey(clones);
-			jsonMaps += ("prefix_id" : getPrefixId(currentId),
-						"label": filePath,
-						"path" : filePath,
-						"id" : currentId,
-						"LOC" : linesCount, 
-						"percentageOfProject" : locPercentage(linesCount, projectLoc), 
-						"children" : testJsonMap(clones, projectLoc, linesCount, curClone, filePath));
-							
-		}
-	}
-
-	return <jsonMaps, totalDuplicationLoc>;
+	return false;
 }
 
 /**
- *
+ * Check iff createCloneJsonMap and createCloneDirJsonMap should be separate/different, currently only different
+ * by (filePath == sourceLoc.path) check in if(!isEmptyLocation(sourceLoc) && (filePath == sourceLoc.path)) {.
+ * dunno how json "cloneClasses" is used atm.
  */
-public list[map[str, value]] testJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone, str filePath) {
+public list[map[str, value]] createCloneDirJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone, str filePath) {
 	list[map[str, value]] jsonMaps = [];
 
+	//println("IS EMPTY: <isEmpty(clones)>");
+	//for(clone <- clones){
+	//	println("wtffffffffffff");
+	//	println(clone);
 	for(clone <- clones){
 		sourceLoc = nodeSourceLoc(clone);
 		if(!isEmptyLocation(sourceLoc) && (filePath == sourceLoc.path)) {
 			linesCount = getCloneLoc(clone);	
 			currentId = getKey(clone);
 			sources += <sourceLoc.path, resourceContent(project + sourceLoc.path)>;
-		jsonMaps += ("prefix_id" : getPrefixId(currentId),
-					"id" :  currentId,
-					"attributes": (
-					"LOC" : linesCount, 
-					"percentageOfProject" : locPercentage(linesCount, projectLoc), 
-					"percentageOfClass" : locPercentage(linesCount, classLoc), 
-					"startLine" : sourceLoc.begin.line,
-					"endLine" : sourceLoc.end.line,
-					"clone" : getNodeSource(clone),
-					"path": sourceLoc.path,
-					"file": sourceLoc.file));
-		}
+			jsonMaps += ("prefix_id" : getPrefixId(currentId),
+						"id" :  currentId,
+						"attributes": (
+						"LOC" : linesCount, 
+						//"percentageOfProject" : locPercentage(linesCount, projectLoc), 
+						//"percentageOfClass" : locPercentage(linesCount, classLoc), 
+						"startLine" : sourceLoc.begin.line,
+						"endLine" : sourceLoc.end.line,
+						"clone" : getNodeSource(clone),
+						//"path": sourceLoc.path,
+						"file": sourceLoc.file));
+		} //else {
+		//	println("wat is deze empty = <!isEmptyLocation(sourceLoc)>, equal = <filePath == sourceLoc.path> ");
+		//}
 	}
+	//if (jsonMaps == []) {
+	//	bsCounter += 1;
+	//	jsonMaps = [("id": bsCounter)];
+	//}
 	return jsonMaps;
 }
 
@@ -210,7 +330,6 @@ public list[map[str, value]] testJsonMap(set[node] clones, int projectLoc, int c
 public list[map [str, value]] createCloneSourcesJsonMap() {
 	list[map[str, value]] jsonMaps = [];
 	for(<path, source> <- sources) {
-		//jsonMaps += ("id" : id, "source" : source);
 		jsonMaps += ("path" : path, "source" : source);
 	}
 	return jsonMaps;
@@ -221,11 +340,8 @@ public list[map [str, value]] createCloneSourcesJsonMap() {
  */
 public list[map [str, value]] createCloneRelationsJsonMap() {
 	list[map[str, value]] jsonMaps = [];
-	println("clonemap <cloneMap>");
 	for(clones <- range(cloneMap)) {
-		println("clones <clones>");
 		for(<a, b> <- pairClones(clones)){
-			println("wtf <a>,<b>");
 			jsonMaps += ("source" : a, "target" : b);
 		}
 	}

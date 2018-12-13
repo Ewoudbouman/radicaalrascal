@@ -2,12 +2,12 @@ module LocUtils
 
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
+import lang::java::jdt::m3::AST;
 import IO;
 import List;
 import Set;
 import String;
 import util::Math;
-
 
 import Utils;
 
@@ -62,4 +62,16 @@ public str removeComments(str text) {
 
 public list[str] splitByNewLineAndFilterEmptyLines(str text) {
 	return [ line | line <- split("\n", text), /^[\s\t]*$/ !:= line ];
+}
+
+/**
+ * Returns all the filepaths in a project.
+ */
+public set[str] filesInProject(loc resource) {
+	projFiles = {};
+	project = createM3FromEclipseProject(resource);
+	for (file <- files(project)) {
+		projFiles += (file.path);
+	}
+	return projFiles;
 }
