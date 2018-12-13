@@ -8,6 +8,8 @@ interface ProjectsContract {
 
         fun showProjects(projects: List<Project>)
         fun showProjectsError()
+        fun showLoading()
+        fun hideLoading()
     }
 
     interface Navigator {

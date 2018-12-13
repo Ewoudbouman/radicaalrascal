@@ -54,6 +54,10 @@ class ProjectDetailsActivity : DaggerAppCompatActivity(), ProjectDetailsContract
         startActivity(GraphActivity.createIntent(this, projectId, cloneType))
     }
 
+    override fun showLoading() = projectDetailsLoadingView.show()
+
+    override fun hideLoading() = projectDetailsLoadingView.hide()
+
     companion object {
 
         private const val PROJECT_ID_EXTRA = "PROJECT_ID_EXTRA"

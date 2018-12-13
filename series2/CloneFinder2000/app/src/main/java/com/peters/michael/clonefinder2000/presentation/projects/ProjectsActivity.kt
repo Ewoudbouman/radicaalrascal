@@ -55,4 +55,8 @@ class ProjectsActivity : DaggerAppCompatActivity(), ProjectsContract.View, Proje
     override fun openProject(projectId: String) {
         startActivity(ProjectDetailsActivity.createIntent(this, projectId))
     }
+
+    override fun showLoading() = projectsLoadingView.show()
+
+    override fun hideLoading() = projectsLoadingView.hide()
 }

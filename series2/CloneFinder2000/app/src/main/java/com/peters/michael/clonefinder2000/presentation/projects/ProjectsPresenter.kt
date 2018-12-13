@@ -1,7 +1,7 @@
 package com.peters.michael.clonefinder2000.presentation.projects
 
-import com.peters.michael.clonefinder2000.domain.GetProjects
 import com.peters.michael.clonefinder2000.domain.CloneType.Project
+import com.peters.michael.clonefinder2000.domain.GetProjects
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +20,8 @@ class ProjectsPresenter @Inject constructor(
         disposable = getProjects()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { view.showLoading() }
+                .doOnEvent { _, _ -> view.hideLoading() }
                 .subscribe(view::showProjects) {
                     Timber.e(it)
                     view.showProjectsError()

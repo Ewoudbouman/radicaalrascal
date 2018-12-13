@@ -12,6 +12,8 @@ interface ProjectDetailsContract {
 
         fun showError()
         fun showProjectDetails(projectDetails: ProjectDetails)
+        fun showLoading()
+        fun hideLoading()
     }
 
     interface Navigator {

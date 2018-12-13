@@ -7,8 +7,8 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.peters.michael.clonefinder2000.R
 import com.peters.michael.clonefinder2000.domain.CloneType.CloneClass
-import com.peters.michael.clonefinder2000.presentation.clonedetails.CloneDetailsActivity
 import com.peters.michael.clonefinder2000.extension.toThreeDecimalString
+import com.peters.michael.clonefinder2000.presentation.clonedetails.CloneDetailsActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_clone_class.*
 import org.jetbrains.anko.toast
@@ -53,6 +53,10 @@ class ClassDetailsActivity : DaggerAppCompatActivity(), ClassDetailsContract.Vie
     override fun openClone(projectId: String, classId: String) {
         startActivity(CloneDetailsActivity.createIntent(this, projectId, classId))
     }
+
+    override fun showLoading() = cloneClassLoadingView.show()
+
+    override fun hideLoading() = cloneClassLoadingView.hide()
 
     companion object {
 

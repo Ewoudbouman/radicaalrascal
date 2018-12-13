@@ -12,6 +12,8 @@ interface ClassDetailsContract {
 
         fun showClass(cloneClass: CloneClass)
         fun showError()
+        fun showLoading()
+        fun hideLoading()
     }
 
     interface Presenter {

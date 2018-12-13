@@ -18,8 +18,10 @@ class ClassDetailsPresenter @Inject constructor(private val view: ClassDetailsCo
         view.classId?.let { classId ->
             view.projectId?.let { projectId ->
                 disposable = getCloneClass(projectId, classId)
+                        .doOnSubscribe { view.showLoading() }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doOnEvent { _, _ -> view.hideLoading() }
                         .subscribe(view::showClass) {
                             Timber.e(it)
                             view.showError()
