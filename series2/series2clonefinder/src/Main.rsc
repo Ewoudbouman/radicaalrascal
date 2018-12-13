@@ -21,8 +21,8 @@ import DateTime;
 public void main() {
 	before = userTime();
 	//projectLocation = |project://smallsql0.21_src|;
-	projectLocation = |project://hsqldb-2.3.1|;
-	//projectLocation = |project://testDUP|;
+	//projectLocation = |project://hsqldb-2.3.1|;
+	projectLocation = |project://testDUP|;
 
 	println("<now()>:Creating M3...");
 	testProject = createProject(projectLocation);
