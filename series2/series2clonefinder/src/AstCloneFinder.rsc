@@ -17,12 +17,13 @@ import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
 private int NODE_MASS_THRESHOLD = 20;
+private real SIMILARITY_THRESHOLD = 1.0;
 
 /**
  *
  */
 public lrel[node fst, node snd] findType1Clones(M3 project) {
-
+	SIMILARITY_THRESHOLD = 1.0;
 	set[Declaration] asts =  projectAsts(project);
 	return findClones(asts);
 }
@@ -31,7 +32,7 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
  *
  */
 public lrel[node fst, node snd] findType2Clones(M3 project) {
-
+	SIMILARITY_THRESHOLD = 1.0;
 	set[Declaration] asts =  projectAsts(project);
 	return findClones(normalizeAst(asts));
 }
@@ -39,10 +40,9 @@ public lrel[node fst, node snd] findType2Clones(M3 project) {
 /**
  *
  */
-public lrel[node fst, node snd] findType3Clones(M3 project) {
-
+public lrel[node fst, node snd] findType3Clones(M3 project, real similarity) {
+	SIMILARITY_THRESHOLD = similarity;
 	set[Declaration] asts =  projectAsts(project);
-	// parse AST + set thresholds
 	return findClones(asts);
 }
 

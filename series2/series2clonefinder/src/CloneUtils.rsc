@@ -4,6 +4,7 @@ import IO;
 import lang::java::m3::Core;
 import lang::java::jdt::m3::AST;
 import lang::java::jdt::m3::Core;
+//import lang::java::m3::TypeSymbol;
 import List;
 import util::Math;
 import Node;
@@ -37,10 +38,13 @@ public map[node, set[node]] convertToCloneClasses(lrel[node, node] clones) {
 /**
  * Normalize the AST tokens to remove subtle differences.
  * Clone types 2/3
- * check from:
  * https://github.com/usethesource/rascal/blob/master/src/org/rascalmpl/library/lang/java/m3/AST.rsc
  *
- * TODO: fix checks
+ * Normalizes all the names of variables, types, literals and functions
+ *
+ * TODO: 
+ * check data Modifier
+ * find resources of what to dooo
 */
 public set[Declaration] normalizeAst(set[Declaration] x) {
 	
@@ -48,49 +52,99 @@ public set[Declaration] normalizeAst(set[Declaration] x) {
 		//
 		// data Declaration
 		//
-		case \enumConstant(_, arguments, class)  => \enumConstant("ec", arguments, class)
-		case \enumConstant(_, arguments)  => \enumConstant("ec", arguments)
-		case \class(_ , extends, implements, body)  => \class("c", extends, implements, body)
-		case \interface(_, extends, implements, body)  => \interface("interface", extends, implements, body)
-		case \method(TYPEDING, _, parameters, exceptions, impl) => \method(wildcard(), "m", parameters, exceptions, impl)
-		//
-		// Check: The called signature: method(loc, str, TypeSymbol, list[TypeSymbol]),
-		//case meth4: \method(TYPEDING, _ , parameters, exceptions)  => \method(wildcard(), "m" , parameters, exceptions)
-		case \constructor(name, parameters, exceptions, impl)  => \constructor("c", parameters, exceptions, impl)
-		case \typeParameter(name, extendsList)  => \typeParameter("tp", extendsList)
-		case \annotationType(_, body)  => \annotationType("at", body)
-		case \annotationTypeMember(TYPEDING, _)  => \annotationTypeMember(wildcard(), "atm")
-		case \annotationTypeMember(TYPEDING, _, defaultBlock)  => \annotationTypeMember(wildcard(), "atm", defaultBlock)
-		case \parameter(TYPEDING, _, extraDimensions)  => \parameter(wildcard(), "param", extraDimensions)
-		case \vararg(TYPEDING, _)  => \vararg(wildcard(), "vararg")
+		case \enumConstant(_, list[Expression] arguments, Declaration class) => 
+			\enumConstant("ec", arguments, class)
+		case \enumConstant(_, list[Expression] arguments) => 
+			\enumConstant("ec", arguments)
+		case \class(_, list[Type] extends, list[Type] implements, list[Declaration] body)  => 
+			\class("c", extends, implements, body)
+		case \interface(_, list[Type] extends, list[Type] implements, list[Declaration] body) => 
+			\interface("interface", extends, implements, body)
+		case \method(Type \return, _, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
+			\method(wildcard(), "m", parameters, exceptions, impl)
+		case \method(Type \return, _, list[Declaration] parameters, list[Expression] exceptions) =>
+			\method(wildcard(), "m", parameters, exceptions)
+		case \constructor(_, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
+			\constructor("c", parameters, exceptions, impl)
+		case \typeParameter(_, list[Type] extendsList) => 
+			\typeParameter("tp", extendsList)
+		case \annotationType(_, list[Declaration] body) =>
+			\annotationType("at", body)
+		case \annotationTypeMember(Type \type, _) => 
+			\annotationTypeMember(wildcard(), "atm")
+		case \annotationTypeMember(Type \type, _, Expression defaultBlock) => 
+			\annotationTypeMember(wildcard(), "atm", defaultBlock)
+		case \parameter(Type \type, _, int extraDimensions) => 
+			\parameter(wildcard(), "param", extraDimensions)
+		case \vararg(Type \type, _) => 
+			\vararg(wildcard(), "vararg")
 		//
 		// data Expression 
 		//
-		case \characterLiteral(_) => \characterLiteral("clit")
-		case \fieldAccess(isSuper, expression, _) => \fieldAccess(isSuper, expression, "fac")
-		case \methodCall(isSuper, _,  arguments) => \methodCall(isSuper, "mc" ,  arguments)
-		case \methodCall(isSuper, receiver, _,  arguments) => \methodCall(isSuper, receiver,"mc",  arguments)
-		// Check: IF RIGHT? less clones not more
-		//case \number(_) => \number("1")
-		case \booleanLiteral(_) => \booleanLiteral(true)
-		case \stringLiteral(_) => \stringLiteral("fransie")
-		case \type(_) => \type(wildcard())
-		case \variable(_, extraDimensions) => \variable("vardec", extraDimensions) 
-		case \variable(_, extraDimensions, \initializer) => \variable("vardec", extraDimensions, \initializer)
+		case \characterLiteral(_) => 
+			\characterLiteral("clit")
+		case \fieldAccess(bool isSuper, Expression expression, _) => 
+			\fieldAccess(isSuper, expression, "fac")
+		case \fieldAccess(bool isSuper, _) => 
+			\fieldAccess(isSuper, "fac")
+		case \methodCall(bool isSuper, _, list[Expression] arguments) => 
+			\methodCall(isSuper, "mc" ,  arguments)
+		case \methodCall(bool isSuper, Expression receiver, _, list[Expression] arguments) => 
+			\methodCall(isSuper, receiver, "mc",  arguments)
+		case \number(str numberValue) => 
+			\number("numberValue")
+		case \booleanLiteral(_) => 
+			\booleanLiteral(true)
+		case \stringLiteral(_) => 
+			\stringLiteral("fransie")
+		case \type(_) => 
+			\type(wildcard())
+		case \variable(_, int extraDimensions) => 
+			\variable("vardec", extraDimensions) 
+		case \variable(_, int extraDimensions, Expression \initializer) => 
+			\variable("vardec", extraDimensions, \initializer)
 		// Check: debug this
-		//case \simpleName(_) => \simpleName("MOEILIJK")
-		case \markerAnnotation(_) => \markerAnnotation("markerAnnotation")
-		case \normalAnnotation(_,  memberValuePairs) => \normalAnnotation("normalAnnotation",  memberValuePairs)
-		case \memberValuePair(_, \value) => \memberValuePair("membervp", \value)            
-		case \singleMemberAnnotation(_, \value) => \singleMemberAnnotation("singlema", \value)
+		//case \simpleName(_) => 
+		//	\simpleName("MOEILIJK")
+		case \markerAnnotation(_) => 
+			\markerAnnotation("markerAnnotation")
+		case \normalAnnotation(_,  memberValuePairs) => 
+			\normalAnnotation("normalAnnotation",  memberValuePairs)
+		case \memberValuePair(_, Expression \value) => 
+			\memberValuePair("membervp", \value)            
+		case \singleMemberAnnotation(_, Expression \value) => 
+			\singleMemberAnnotation("singlema", \value)
 		//
 		// data Statement 
 		//		
-		case \break(_) => \break("brexit")
-		case \continue(_) => \continue("continue")
-		case \label(_, body) => \label("labelname", body)
+		case \break(_) => 
+			\break("brexit")
+		case \continue(_) => 
+			\continue("continue")
+		case \label(_, Statement body) => 
+			\label("labelname", body)
 		// data Modifier
-		// check modifier?
-		
+		//
+		// weet niet wat deze hiero doen :')
+		//
+		//case \arrayType(Type \type) => \wildcard()
+		//case \parameterizedType(Type \type) => \wildcard()
+		//case \qualifiedType(Type qualifier, Expression simpleName) => \wildcard()
+		//case \simpleType(Expression typeName) => \wildcard()
+		//case \unionType(list[Type] types) => \wildcard()
+		//case \wildcard() => \wildcard()
+		//case \upperbound(Type \type) => \wildcard()
+		//case \lowerbound(Type \type) => \wildcard()
+		//case \TypeSymbol::\int() => \double()
+		case \int() => \double()
+		case \short() => \double()
+		case \long() => \double()
+		case \float() => \double()
+		case \double() => \double()
+		case \char() => \double()
+		case \string() => \double()
+		case \byte() => \double()
+		case \void() => \double()
+		case \boolean() => \double()
 	}
 }

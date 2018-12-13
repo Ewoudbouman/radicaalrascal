@@ -23,34 +23,42 @@ public void main() {
 	//projectLocation = |project://smallsql0.21_src|;
 	//projectLocation = |project://hsqldb-2.3.1|;
 	projectLocation = |project://testDUP|;
+	//projectLocation = |project://testSLOC|;
+	
+	runTests(projectLocation, 1);
+	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	runTests(projectLocation, 2);
+	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	runTests(projectLocation, 3, similarity=0.8);
+	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+}
 
+/*
+ *
+ */
+public void runTests(loc projectLocation, int types, real similarity=1.0) {
 	println("<now()>:Creating M3...");
 	testProject = createProject(projectLocation);
 	
 	println("Initialising clone LOC provider...");
  	initCloneLocProvider(testProject);
  	
- 	//type 1 stuff
- 	println("Gathering type 1 clones...");
-	type1Clones = findType1Clones(testProject);
-	println("Converting clones to clone classes..."); 
-	typ1CloneClasses = convertToCloneClasses(type1Clones);
-	println("cloneclasses <size(typ1CloneClasses)>");
-	
-	println("Creating JSON...");
-	writeClones(typ1CloneClasses, 1, projectLocation);
-	
-	//type 2 stuff
- 	println("Gathering type 2 clones...");
-	type2Clones = findType2Clones(testProject);
-	println("Converting clones to clone classes..."); 
-	typ2CloneClasses = convertToCloneClasses(type2Clones);
-	println("cloneclasses <size(typ2CloneClasses)>");
-	
-	println("Creating JSON...");
-	writeClones(typ1CloneClasses, 2, projectLocation);
-	
-	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+ 	println("Gathering type <types> clones...");
+ 	clones = [];
+ 	if (types == 1) {
+ 		clones = findType1Clones(testProject);
+ 	} else if (types == 2) {
+ 		clones = findType2Clones(testProject);
+ 	} else {
+ 		clones = findType3Clones(testProject, similarity);
+ 	}
+ 	println("Converting clones to clone classes..."); 
+ 	cloneClasses = convertToCloneClasses(clones);
+ 	println("cloneclasses <size(cloneClasses)>");
+ 	
+ 	println("Creating JSON...");
+ 	writeClones(cloneClasses, types, projectLocation);
+ 	
 }
 
 private real nanoToSec(int nano) {
