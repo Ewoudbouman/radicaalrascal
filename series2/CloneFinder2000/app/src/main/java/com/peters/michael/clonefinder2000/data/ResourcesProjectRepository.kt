@@ -27,6 +27,11 @@ class ResourcesProjectRepository @Inject constructor(private val context: Contex
                     TEST_DUP_PROJECT_ID,
                     TEST_DUP_PROJECT_ID,
                     readProjectDetails(TEST_DUP_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
+                ),
+                Project(
+                    SMALL_SQL_PROJECT_ID,
+                    SMALL_SQL_PROJECT_ID,
+                    readProjectDetails(SMALL_SQL_PROJECT_ID + TYPE_1_POSTFIX).totalLOC
                 )
             )
         }

@@ -1,547 +1,122 @@
 {
-  "duplicatesPercentage": 22.38267148,
+  "duplicatesPercentage": 11.55234657,
   "nodes": {
     "children": [
       {
-        "LOC": 14,
+        "LOC": 32,
         "path": "/src/t1/CopyOneC.java",
-        "prefix_id": "T1-18",
+        "prefix_id": "T2-14",
         "label": "/src/t1/CopyOneC.java",
-        "id": 18,
+        "id": 14,
         "children": [
           {
-            "prefix_id": "T1-12",
+            "prefix_id": "T2-10",
             "attributes": {
-              "LOC": 7,
-              "endLine": 20,
-              "startLine": 14,
-              "file": "CopyOneC.java",
-              "clone": "{\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}"
-            },
-            "id": 12
-          }
-        ]
-      },
-      {
-        "LOC": 14,
-        "path": "/src/t1/CopyOneA.java",
-        "prefix_id": "T1-20",
-        "label": "/src/t1/CopyOneA.java",
-        "id": 20,
-        "children": [
-          {
-            "prefix_id": "T1-11",
-            "attributes": {
-              "LOC": 7,
-              "endLine": 20,
-              "startLine": 14,
-              "file": "CopyOneA.java",
-              "clone": "{\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}"
-            },
-            "id": 11
-          }
-        ]
-      },
-      {
-        "LOC": 18,
-        "path": "/src/test/case4.java",
-        "prefix_id": "T1-22",
-        "label": "/src/test/case4.java",
-        "id": 22,
-        "children": [
-          {
-            "prefix_id": "T1-15",
-            "attributes": {
-              "LOC": 9,
-              "endLine": 19,
-              "startLine": 9,
-              "file": "case4.java",
-              "clone": "{\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \t// comment + leading whitespace\n    \ta4 = 1;\n    \t// comment\n    \ta4 = 1;\n\t}"
-            },
-            "id": 15
-          },
-          {
-            "prefix_id": "T1-16",
-            "attributes": {
-              "LOC": 9,
-              "endLine": 45,
-              "startLine": 37,
-              "file": "case4.java",
-              "clone": "{\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n\t}"
-            },
-            "id": 16
-          }
-        ]
-      },
-      {
-        "LOC": 14,
-        "path": "/src/test/case3.java",
-        "prefix_id": "T1-24",
-        "label": "/src/test/case3.java",
-        "id": 24,
-        "children": [
-          {
-            "prefix_id": "T1-3",
-            "attributes": {
-              "LOC": 7,
-              "endLine": 18,
-              "startLine": 12,
-              "file": "case3.java",
-              "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
-            },
-            "id": 3
-          },
-          {
-            "prefix_id": "T1-4",
-            "attributes": {
-              "LOC": 7,
+              "LOC": 16,
               "endLine": 25,
-              "startLine": 19,
-              "file": "case3.java",
-              "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
+              "startLine": 1,
+              "file": "CopyOneC.java",
+              "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneC {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}"
             },
-            "id": 4
+            "id": 10
           }
         ]
       },
       {
-        "LOC": 16,
-        "path": "/src/test/case2.java",
-        "prefix_id": "T1-26",
-        "label": "/src/test/case2.java",
-        "id": 26,
+        "LOC": 32,
+        "path": "/src/t1/CopyOneA.java",
+        "prefix_id": "T2-16",
+        "label": "/src/t1/CopyOneA.java",
+        "id": 16,
         "children": [
           {
-            "prefix_id": "T1-7",
+            "prefix_id": "T2-9",
             "attributes": {
-              "LOC": 8,
-              "endLine": 12,
-              "startLine": 5,
-              "file": "case2.java",
-              "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
+              "LOC": 16,
+              "endLine": 25,
+              "startLine": 1,
+              "file": "CopyOneA.java",
+              "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneA {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}\r\n"
             },
-            "id": 7
-          },
-          {
-            "prefix_id": "T1-8",
-            "attributes": {
-              "LOC": 8,
-              "endLine": 20,
-              "startLine": 13,
-              "file": "case2.java",
-              "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
-            },
-            "id": 8
+            "id": 9
           }
         ]
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t3/CopyThreeC.java",
-        "label": "/src/t3/CopyThreeC.java",
-        "id": 27,
-        "children": [
-          {
-            "prefix_id": "T1-27",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 27
-          }
-        ],
-        "prefix_id": "T1-27",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t3/CopyThreeB.java",
-        "label": "/src/t3/CopyThreeB.java",
-        "id": 28,
-        "children": [
-          {
-            "prefix_id": "T1-28",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 28
-          }
-        ],
-        "prefix_id": "T1-28",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t3/CopyThreeA.java",
-        "label": "/src/t3/CopyThreeA.java",
-        "id": 29,
-        "children": [
-          {
-            "prefix_id": "T1-29",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 29
-          }
-        ],
-        "prefix_id": "T1-29",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t1/CopyOneB.java",
-        "label": "/src/t1/CopyOneB.java",
-        "id": 30,
-        "children": [
-          {
-            "prefix_id": "T1-30",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 30
-          }
-        ],
-        "prefix_id": "T1-30",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t2/CopyTwoD.java",
-        "label": "/src/t2/CopyTwoD.java",
-        "id": 31,
-        "children": [
-          {
-            "prefix_id": "T1-31",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 31
-          }
-        ],
-        "prefix_id": "T1-31",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t2/CopyTwoC.java",
-        "label": "/src/t2/CopyTwoC.java",
-        "id": 32,
-        "children": [
-          {
-            "prefix_id": "T1-32",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 32
-          }
-        ],
-        "prefix_id": "T1-32",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t2/CopyTwoB.java",
-        "label": "/src/t2/CopyTwoB.java",
-        "id": 33,
-        "children": [
-          {
-            "prefix_id": "T1-33",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 33
-          }
-        ],
-        "prefix_id": "T1-33",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t3/CopyThreeE.java",
-        "label": "/src/t3/CopyThreeE.java",
-        "id": 34,
-        "children": [
-          {
-            "prefix_id": "T1-34",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 34
-          }
-        ],
-        "prefix_id": "T1-34",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t3/CopyThreeD.java",
-        "label": "/src/t3/CopyThreeD.java",
-        "id": 35,
-        "children": [
-          {
-            "prefix_id": "T1-35",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 35
-          }
-        ],
-        "prefix_id": "T1-35",
-        "percentageOfProject": 0
-      },
-      {
-        "LOC": 0,
-        "path": "/src/t2/CopyTwoA.java",
-        "label": "/src/t2/CopyTwoA.java",
-        "id": 36,
-        "children": [
-          {
-            "prefix_id": "T1-36",
-            "attributes": {
-              "LOC": 0,
-              "path": "",
-              "percentageOfClass": 0,
-              "percentageOfProject": 0,
-              "endLine": 0,
-              "startLine": 0,
-              "file": "",
-              "clone": 0
-            },
-            "id": 36
-          }
-        ],
-        "prefix_id": "T1-36",
-        "percentageOfProject": 0
       }
     ]
   },
   "label": "project://testDUP",
   "relations": [
     {
-      "target": 8,
-      "source": 7
-    },
-    {
-      "target": 16,
-      "source": 15
-    },
-    {
-      "target": 12,
-      "source": 11
-    },
-    {
-      "target": 4,
-      "source": 3
+      "target": 10,
+      "source": 9
     }
   ],
-  "duplicatesLOC": 62,
+  "duplicatesLOC": 32,
   "totalLOC": 277,
   "cloneClasses": [
     {
-      "LOC": 14,
+      "LOC": 0,
       "id": 2,
-      "children": [
-        {
-          "prefix_id": "T1-3",
-          "attributes": {
-            "LOC": 7,
-            "path": "/src/test/case3.java",
-            "percentageOfClass": 50.0,
-            "percentageOfProject": 2.527075812,
-            "endLine": 18,
-            "startLine": 12,
-            "file": "case3.java",
-            "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
-          },
-          "id": 3
-        },
-        {
-          "prefix_id": "T1-4",
-          "attributes": {
-            "LOC": 7,
-            "path": "/src/test/case3.java",
-            "percentageOfClass": 50.0,
-            "percentageOfProject": 2.527075812,
-            "endLine": 25,
-            "startLine": 19,
-            "file": "case3.java",
-            "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
-          },
-          "id": 4
-        }
-      ],
-      "prefix_id": "T1-2",
-      "percentageOfProject": 5.054151625
+      "children": [],
+      "prefix_id": "T2-2",
+      "percentageOfProject": 0.0
     },
     {
-      "LOC": 16,
+      "LOC": 0,
+      "id": 4,
+      "children": [],
+      "prefix_id": "T2-4",
+      "percentageOfProject": 0.0
+    },
+    {
+      "LOC": 0,
       "id": 6,
-      "children": [
-        {
-          "prefix_id": "T1-7",
-          "attributes": {
-            "LOC": 8,
-            "path": "/src/test/case2.java",
-            "percentageOfClass": 50.0,
-            "percentageOfProject": 2.888086643,
-            "endLine": 12,
-            "startLine": 5,
-            "file": "case2.java",
-            "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
-          },
-          "id": 7
-        },
-        {
-          "prefix_id": "T1-8",
-          "attributes": {
-            "LOC": 8,
-            "path": "/src/test/case2.java",
-            "percentageOfClass": 50.0,
-            "percentageOfProject": 2.888086643,
-            "endLine": 20,
-            "startLine": 13,
-            "file": "case2.java",
-            "clone": "{\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}"
-          },
-          "id": 8
-        }
-      ],
-      "prefix_id": "T1-6",
-      "percentageOfProject": 5.776173285
+      "children": [],
+      "prefix_id": "T2-6",
+      "percentageOfProject": 0.0
     },
     {
-      "LOC": 14,
-      "id": 10,
+      "LOC": 32,
+      "id": 8,
       "children": [
         {
-          "prefix_id": "T1-11",
+          "prefix_id": "T2-9",
           "attributes": {
-            "LOC": 7,
+            "LOC": 16,
             "path": "/src/t1/CopyOneA.java",
             "percentageOfClass": 50.0,
-            "percentageOfProject": 2.527075812,
-            "endLine": 20,
-            "startLine": 14,
+            "percentageOfProject": 5.776173285,
+            "endLine": 25,
+            "startLine": 1,
             "file": "CopyOneA.java",
-            "clone": "{\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}"
+            "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneA {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}\r\n"
           },
-          "id": 11
+          "id": 9
         },
         {
-          "prefix_id": "T1-12",
+          "prefix_id": "T2-10",
           "attributes": {
-            "LOC": 7,
+            "LOC": 16,
             "path": "/src/t1/CopyOneC.java",
             "percentageOfClass": 50.0,
-            "percentageOfProject": 2.527075812,
-            "endLine": 20,
-            "startLine": 14,
+            "percentageOfProject": 5.776173285,
+            "endLine": 25,
+            "startLine": 1,
             "file": "CopyOneC.java",
-            "clone": "{\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}"
+            "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneC {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}"
           },
-          "id": 12
+          "id": 10
         }
       ],
-      "prefix_id": "T1-10",
-      "percentageOfProject": 5.054151625
+      "prefix_id": "T2-8",
+      "percentageOfProject": 11.55234657
     },
     {
-      "LOC": 18,
-      "id": 14,
-      "children": [
-        {
-          "prefix_id": "T1-15",
-          "attributes": {
-            "LOC": 9,
-            "path": "/src/test/case4.java",
-            "percentageOfClass": 50.0,
-            "percentageOfProject": 3.249097473,
-            "endLine": 19,
-            "startLine": 9,
-            "file": "case4.java",
-            "clone": "{\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \t// comment + leading whitespace\n    \ta4 = 1;\n    \t// comment\n    \ta4 = 1;\n\t}"
-          },
-          "id": 15
-        },
-        {
-          "prefix_id": "T1-16",
-          "attributes": {
-            "LOC": 9,
-            "path": "/src/test/case4.java",
-            "percentageOfClass": 50.0,
-            "percentageOfProject": 3.249097473,
-            "endLine": 45,
-            "startLine": 37,
-            "file": "case4.java",
-            "clone": "{\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n\t}"
-          },
-          "id": 16
-        }
-      ],
-      "prefix_id": "T1-14",
-      "percentageOfProject": 6.498194946
+      "LOC": 0,
+      "id": 12,
+      "children": [],
+      "prefix_id": "T2-12",
+      "percentageOfProject": 0.0
     }
   ],
   "fullSources": [
@@ -552,18 +127,6 @@
     {
       "path": "/src/t1/CopyOneA.java",
       "source": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneA {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}\r\n"
-    },
-    {
-      "path": "/src/test/case4.java",
-      "source": "// contains 7\npackage test;\npublic class case4\n{\n    public static void main(String[] args)\n    {\n    }\n    \n    public void a4() {\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \t// comment + leading whitespace\n    \ta4 = 1;\n    \t// comment\n    \ta4 = 1;\n\t}\n    \n    public void a3() {\n    \tint a4 = 1;\n\t}\n    \n    public void a2() {\n    \tint a4 = 1;\n    \ta4 = 1;\n\t}\n    \n    public void a1() {\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n\t}\n    \n    public void a5() {\n    \tint a4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n    \ta4 = 1;\n\t}\n}\n\nclass Foos4\n{\n\n}"
-    },
-    {
-      "path": "/src/test/case3.java",
-      "source": "// contains 12 duplicate lines + matches case1\npackage test;\npublic class case3\n{\n    public static void main(String[] args)\n    {\n    }\n}\n\nclass Foos3\n{\n    public void a2() {\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}\n    public void b2() {\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}\n}"
-    },
-    {
-      "path": "/src/test/case2.java",
-      "source": "// contains 14 duplicate lines\npackage test;\npublic class case2\n{\n    public void a() {\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}\n    public void b() {\n    \tint b = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n    \tb = 1;\n\t}\n}"
     }
   ]
 }
