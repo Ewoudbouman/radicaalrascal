@@ -87,7 +87,7 @@ public lrel[node, node] findClones(map[node, list[node]] nodeBuckets, list[node]
 	for(bucket <- sortedBuckets) {
 		combos = pairCombos(nodeBuckets[bucket]);
 		for(<a,b> <- combos){
-			if(similarityScore(a,b) == 1.0) {
+			if(similarityScore(a,b) == SIMILARITY_THRESHOLD) {
 				// Deleting possible sub trees already in the clones list. 
 				// These must be removed, because we want the biggest nodes possible
 				clones = deleteSubTreeClones(clones, a);
