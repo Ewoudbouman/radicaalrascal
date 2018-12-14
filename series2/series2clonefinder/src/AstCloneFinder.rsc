@@ -18,12 +18,12 @@ import CloneUtils;
 // TODO Needs further tweaking between performance and results
 private int NODE_MASS_THRESHOLD = 20;
 private real SIMILARITY_THRESHOLD = 1.0;
+private bool SHOW_OUTPUT = true;
 
 /**
  *
  */
 public lrel[node fst, node snd] findType1Clones(M3 project) {
-	SIMILARITY_THRESHOLD = 1.0;
 	set[Declaration] asts =  projectAsts(project);
 	return findClones(asts);
 }
@@ -32,7 +32,6 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
  *
  */
 public lrel[node fst, node snd] findType2Clones(M3 project) {
-	SIMILARITY_THRESHOLD = 1.0;
 	set[Declaration] asts =  projectAsts(project);
 	return findClones(normalizeAst(asts));
 }
@@ -40,17 +39,20 @@ public lrel[node fst, node snd] findType2Clones(M3 project) {
 /**
  *
  */
-public lrel[node fst, node snd] findType3Clones(M3 project, real similarity) {
-	SIMILARITY_THRESHOLD = similarity;
+public lrel[node fst, node snd] findType3Clones(M3 project, real threshold) {
+	//SIMILARITY_THRESHOLD = similarity;
 	set[Declaration] asts =  projectAsts(project);
-	return findClones(normalizeAst(asts));
+	return findClones(normalizeAst(asts), similarity=threshold);
 }
 
-public lrel[node fst, node snd] findClones(set[Declaration] asts) {
+public lrel[node fst, node snd] findClones(set[Declaration] asts, bool output=true, real similarity=1.0) {
+	SIMILARITY_THRESHOLD = similarity;
+	// suppress progress output for tests
+	SHOW_OUTPUT = output;
 	// Buckets of nodes converted to keys containing lists of nodes which are quite similar. This should provide performance according to Baxter
 	map[node, list[node]] nodeBuckets = ();
-	
-	println("    Collecting sub trees");
+
+	if (SHOW_OUTPUT) println("    Collecting sub trees");
 	visit(asts) {
 		case node n: {
 			int mass = subTreeMass(n);
@@ -70,11 +72,11 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts) {
 	sortedBuckets = sort(toList(domain(nodeBuckets)), bool(node a, node b){ return subTreeMass(b) > subTreeMass(a); });
 	
 	//filtering buckets with less than 2 records
-	println("    Removing buckets with less than 2 records...");
+	if (SHOW_OUTPUT) println("    Removing buckets with less than 2 records...");
 	sortedBuckets = [x | x <- sortedBuckets, size(nodeBuckets[x]) > 1];
 	
 	// Starting comparisons:
-	println("    Starting comparisons for <size(sortedBuckets)> buckets...");
+	if (SHOW_OUTPUT) println("    Starting comparisons for <size(sortedBuckets)> buckets...");
 
 	return findClones(nodeBuckets, sortedBuckets);
 }
