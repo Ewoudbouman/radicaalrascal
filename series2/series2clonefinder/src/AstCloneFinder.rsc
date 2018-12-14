@@ -43,7 +43,7 @@ public lrel[node fst, node snd] findType2Clones(M3 project) {
 public lrel[node fst, node snd] findType3Clones(M3 project, real similarity) {
 	SIMILARITY_THRESHOLD = similarity;
 	set[Declaration] asts =  projectAsts(project);
-	return findClones(asts);
+	return findClones(normalizeAst(asts));
 }
 
 public lrel[node fst, node snd] findClones(set[Declaration] asts) {
