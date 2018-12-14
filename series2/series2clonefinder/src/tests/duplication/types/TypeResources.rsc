@@ -52,12 +52,13 @@ public int checkType1Clones(list [loc] snippets) {
 	return size(cloneClasses);
 }
 
+
 public int checkType2Clones(list [loc] snippets) {
 	set[Declaration] asts = {};
 	for (snippet <- snippets) {
 		asts += createAstFromFile(snippet, true);
 	}
-	results = findClones(normalizeAst(asts), output=false);
+	results = findClones(asts, cloneType=2, output=false);
 	cloneClasses = convertToCloneClasses(results);
 	return size(cloneClasses);
 }
@@ -67,7 +68,7 @@ public int checkType3Clones(list [loc] snippets, real threshold) {
 	for (snippet <- snippets) {
 		asts += createAstFromFile(snippet, true);
 	}
-	results = findClones(normalizeAst(asts), output=false, similarity=threshold);
+	results = findClones(asts, cloneType=2, output=false, similarity=threshold);
 	cloneClasses = convertToCloneClasses(results);
 	return size(cloneClasses);
 }

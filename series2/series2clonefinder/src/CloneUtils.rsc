@@ -46,7 +46,8 @@ public map[node, set[node]] convertToCloneClasses(lrel[node, node] clones) {
  * check data Modifier
  * find resources of what to dooo
 */
-public set[Declaration] normalizeAst(set[Declaration] x) {
+
+public node normalizeValues(node x) {
 	
 	return visit(x) {
 		//
@@ -136,7 +137,9 @@ public set[Declaration] normalizeAst(set[Declaration] x) {
 		//case \upperbound(Type \type) => \wildcard()
 		//case \lowerbound(Type \type) => \wildcard()
 		//case \TypeSymbol::\int() => \double()
-		case \int() => \double()
+		//case Type toType(\float()) = \float();
+		//case \int() => \int() //\double()
+		/*
 		case \short() => \double()
 		case \long() => \double()
 		case \float() => \double()
@@ -144,7 +147,8 @@ public set[Declaration] normalizeAst(set[Declaration] x) {
 		case \char() => \double()
 		case \string() => \double()
 		case \byte() => \double()
-		case \void() => \double()
+		//case \void() => \double()
 		case \boolean() => \double()
+		*/
 	}
 }

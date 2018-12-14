@@ -33,19 +33,18 @@ public lrel[node fst, node snd] findType1Clones(M3 project) {
  */
 public lrel[node fst, node snd] findType2Clones(M3 project) {
 	set[Declaration] asts =  projectAsts(project);
-	return findClones(normalizeAst(asts));
+	return findClones(asts, cloneType=2);
 }
 
 /**
  *
  */
 public lrel[node fst, node snd] findType3Clones(M3 project, real threshold) {
-	//SIMILARITY_THRESHOLD = similarity;
 	set[Declaration] asts =  projectAsts(project);
-	return findClones(normalizeAst(asts), similarity=threshold);
+	return findClones(asts, cloneType=3, similarity=threshold);
 }
 
-public lrel[node fst, node snd] findClones(set[Declaration] asts, bool output=true, real similarity=1.0) {
+public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=1, bool output=true, real similarity=1.0) {
 	SIMILARITY_THRESHOLD = similarity;
 	// suppress progress output for tests
 	SHOW_OUTPUT = output;
@@ -58,6 +57,10 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, bool output=tr
 			int mass = subTreeMass(n);
 
 			if(mass > NODE_MASS_THRESHOLD) {
+				// normalize the node for type2/3
+				if (cloneType != 1) {
+					n = normalizeValues(n);
+				}
 				// unsetRec: reset all keyword parameters of the node and its children back to their default.
 				// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
 				key = unsetRec(n);
