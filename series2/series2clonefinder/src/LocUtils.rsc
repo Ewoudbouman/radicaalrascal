@@ -38,17 +38,21 @@ public int locOfResource(loc resource) {
 	return size(splitText);
 }
 
+/*
 public list[str] splitFilteredStringsOfResource(loc resource) {
 	str strippedText = resourceContent(resource);
 	strippedText = removeComments(strippedText);
 	list[str] splitText = splitByNewLineAndFilterEmptyLines(strippedText);
 	return splitText;
 }
+*/
 
+/*
 private str removeTabsAndSpaces(str text) {
 	str noTabs = replaceAll(text, "\t", "");
 	return replaceAll(noTabs, " ", "");
 }
+*/
 
 /** 
  * Removes all comments from the given text
@@ -64,9 +68,7 @@ public list[str] splitByNewLineAndFilterEmptyLines(str text) {
 	return [ line | line <- split("\n", text), /^[\s\t]*$/ !:= line ];
 }
 
-/**
- * Returns all the filepaths in a project.
- */
+/*
 public set[str] filesInProject(loc resource) {
 	projFiles = {};
 	project = createM3FromEclipseProject(resource);
@@ -75,3 +77,4 @@ public set[str] filesInProject(loc resource) {
 	}
 	return projFiles;
 }
+*/

@@ -7,7 +7,7 @@ import lang::java::jdt::m3::AST;
 import Node;
 import List;
 
-public loc EMPTY_LOCATION = |file:///thisdoesnotexist|;
+private loc EMPTY_LOCATION = |file:///thisdoesnotexist|;
 
 public str resourceContent(loc resource) {
 	return readFile(resource);
@@ -41,6 +41,7 @@ public list[node] subTrees(set[Declaration] decls) {
 	return subTrees;
 }
 
+/*
 public void printNodeSource(node x) {
 	println("---------------");
 	source = nodeSourceLoc(x);
@@ -52,6 +53,7 @@ public void printNodeSource(node x) {
 	}
 	println("---------------");
 }
+*/
 
 public str getNodeSource(node x) {
 	source = nodeSourceLoc(x);
@@ -75,6 +77,7 @@ public bool isEmptyLocation(loc location) {
 	return location == EMPTY_LOCATION;
 }
 
+/*
 public void printNodesSource(list[node] xs) {
 	println("**************");
 	for(x <- xs) {
@@ -82,13 +85,19 @@ public void printNodesSource(list[node] xs) {
 	}
 	println("**************");
 }
+*/
 
+/*
 public void printText(str text) {
 	println(text);
 }
+*/
 
+/*
 public void printTexts(list[str] texts) {
 	for(x <- texts) {
-		printText(x);
+		//printText(x);
+		println(text);
 	}
 }
+*/
