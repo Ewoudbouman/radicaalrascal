@@ -1,0 +1,132 @@
+{
+  "duplicatesPercentage": 11.55234657,
+  "nodes": {
+    "children": [
+      {
+        "LOC": 32,
+        "path": "/src/t1/CopyOneC.java",
+        "prefix_id": "T2-14",
+        "label": "/src/t1/CopyOneC.java",
+        "id": 14,
+        "children": [
+          {
+            "prefix_id": "T2-10",
+            "attributes": {
+              "LOC": 16,
+              "endLine": 25,
+              "startLine": 1,
+              "file": "CopyOneC.java",
+              "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneC {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}"
+            },
+            "id": 10
+          }
+        ]
+      },
+      {
+        "LOC": 32,
+        "path": "/src/t1/CopyOneA.java",
+        "prefix_id": "T2-16",
+        "label": "/src/t1/CopyOneA.java",
+        "id": 16,
+        "children": [
+          {
+            "prefix_id": "T2-9",
+            "attributes": {
+              "LOC": 16,
+              "endLine": 25,
+              "startLine": 1,
+              "file": "CopyOneA.java",
+              "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneA {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}\r\n"
+            },
+            "id": 9
+          }
+        ]
+      }
+    ]
+  },
+  "label": "project://testDUP",
+  "relations": [
+    {
+      "target": 10,
+      "source": 9
+    }
+  ],
+  "duplicatesLOC": 32,
+  "totalLOC": 277,
+  "cloneClasses": [
+    {
+      "LOC": 0,
+      "id": 2,
+      "children": [],
+      "prefix_id": "T2-2",
+      "percentageOfProject": 0.0
+    },
+    {
+      "LOC": 0,
+      "id": 4,
+      "children": [],
+      "prefix_id": "T2-4",
+      "percentageOfProject": 0.0
+    },
+    {
+      "LOC": 0,
+      "id": 6,
+      "children": [],
+      "prefix_id": "T2-6",
+      "percentageOfProject": 0.0
+    },
+    {
+      "LOC": 32,
+      "id": 8,
+      "children": [
+        {
+          "prefix_id": "T2-9",
+          "attributes": {
+            "LOC": 16,
+            "path": "/src/t1/CopyOneA.java",
+            "percentageOfClass": 50.0,
+            "percentageOfProject": 5.776173285,
+            "endLine": 25,
+            "startLine": 1,
+            "file": "CopyOneA.java",
+            "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneA {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}\r\n"
+          },
+          "id": 9
+        },
+        {
+          "prefix_id": "T2-10",
+          "attributes": {
+            "LOC": 16,
+            "path": "/src/t1/CopyOneC.java",
+            "percentageOfClass": 50.0,
+            "percentageOfProject": 5.776173285,
+            "endLine": 25,
+            "startLine": 1,
+            "file": "CopyOneC.java",
+            "clone": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneC {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}"
+          },
+          "id": 10
+        }
+      ],
+      "prefix_id": "T2-8",
+      "percentageOfProject": 11.55234657
+    },
+    {
+      "LOC": 0,
+      "id": 12,
+      "children": [],
+      "prefix_id": "T2-12",
+      "percentageOfProject": 0.0
+    }
+  ],
+  "fullSources": [
+    {
+      "path": "/src/t1/CopyOneC.java",
+      "source": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneC {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t{sum=sum + i;\r\n\t\t\tprod = prod * i;\r\n\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}"
+    },
+    {
+      "path": "/src/t1/CopyOneA.java",
+      "source": "package t1;\r\n\r\n/**\r\n * Source: \r\n * Scenario-Based Comparison of Clone Detection Techniques\r\n * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types\r\n */\r\npublic class CopyOneA {\r\n\t\r\n    public static void main(String[] args)\r\n    {\r\n    }\r\n    \r\n    void sumProd(int n) {\r\n\t\tdouble sum=0.0; //C1\r\n\t\tdouble prod =1.0;\r\n\t\t\tfor (int i=1; i<=n; i++)\r\n\t\t\t\t{sum=sum + i;\r\n\t\t\t\tprod = prod * i;\r\n\t\t\t\tfoo(sum, prod); }}\r\n    \r\n    public double foo(double a, double b) {\r\n    \treturn 1.0;\r\n    }\r\n}\r\n"
+    }
+  ]
+}
