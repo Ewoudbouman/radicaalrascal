@@ -20,17 +20,21 @@ import DateTime;
 
 public void main() {
 	before = userTime();
-	//projectLocation = |project://smallsql0.21_src|;
-	//projectLocation = |project://hsqldb-2.3.1|;
-	projectLocation = |project://testDUP|;
-	//projectLocation = |project://testSLOC|;
 	
-	runTests(projectLocation, 1);
-	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
-	runTests(projectLocation, 2);
-	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
-	runTests(projectLocation, 3, similarity=0.8);
-	println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	//projects = [|project://testDUP|, |project://testSLOC|, |project://smallsql0.21_src|, |project://hsqldb-2.3.1|];
+	projects = [|project://testDUP|, |project://testSLOC|];
+	
+	for(projectLocation <- projects) {
+		println("Analysing: <projectLocation>");
+		runTests(projectLocation, 1);
+		println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+		runTests(projectLocation, 2);
+		println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+		runTests(projectLocation, 3, similarity=0.8);
+		println("<now()>:Analysis took: <nanoToSec(userTime() - before)> seconds\n");
+	}
+	
+	writeProjects(projects);
 }
 
 /*

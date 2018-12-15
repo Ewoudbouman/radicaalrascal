@@ -123,6 +123,10 @@ private str getPrefixId(int id) {
 	return "T<cloneType>-<id>";
 }
 
+public void writeProjects(list[loc] projects) {
+	writeJSON(|project://series2/| + "output/projects/index.json", [x.authority | x <- projects]); 
+}
+
 /**
  *
  */
@@ -142,7 +146,7 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 	//project = projectLoc;
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneDirsJsonMap = convertCloneByDirJsonMap(cloneClasses, getTotalProjectLoc(), projectLoc);
-	writeJSON(|project://series2/src/output/| + "<writeType>_clones.json", 
+	writeJSON(|project://series2/| + "output/<projectLoc.authority>/<writeType>/index.json", 
 		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()),
 		"label" : projectLoc, 
 		"duplicatesLOC" : cloneClassesJsonMap.duplicateLoc, 
