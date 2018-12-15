@@ -92,8 +92,9 @@ public node normalizeValues(node x) {
 			\methodCall(isSuper, "mc" ,  arguments)
 		case \methodCall(bool isSuper, Expression receiver, _, list[Expression] arguments) => 
 			\methodCall(isSuper, receiver, "mc",  arguments)
-		case \number(str numberValue) => 
-			\number("numberValue")
+		case \number(_) =>
+			\number("caseNumber")
+		//case \number(str a) : println("case number <a>");
 		case \booleanLiteral(_) => 
 			\booleanLiteral(true)
 		case \stringLiteral(_) => 

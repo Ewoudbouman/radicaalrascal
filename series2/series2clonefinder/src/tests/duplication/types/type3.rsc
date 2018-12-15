@@ -29,49 +29,85 @@ private real SIMILARITY_THRESHOLD = 0.8;
  * Tests if the type 3 cases are NOT type 1 clones of eachother
  */
  
-test bool T3A_T3B() {
+test bool type1_T3A_T3B() {
+	int cloneType = 1;
 	list [loc] snippets = [t3A, t3B];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3B3");
+	return result;
 }
 
-test bool T3A_T3C() {
+test bool type1_T3A_T3C() {
+	int cloneType = 1;
 	list [loc] snippets = [t3A, t3C];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3C3");
+	return result;
 }
 
-test bool T3A_T3D() {
+test bool type1_T3A_T3D() {
+	int cloneType = 1;
 	list [loc] snippets = [t3A, t3D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3D3");
+	return result;
 }
 
-test bool T3A_T3E() {
+test bool type1_T3A_T3E() {
+	int cloneType = 1;
 	list [loc] snippets = [t3A, t3D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3E3");
+	return result;
 }
 
-test bool T3B_T3C() {
+test bool type1_T3B_T3C() {
+	int cloneType = 1;
 	list [loc] snippets = [t3B, t3C];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3C3");
+	return result;
 }
 
-test bool T3B_T3D() {
+test bool type1_T3B_T3D() {
+	int cloneType = 1;
 	list [loc] snippets = [t3B, t3D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3D3");
+	return result;
 }
 
-test bool T3B_T3E() {
+test bool type1_T3B_T3E() {
+	int cloneType = 1;
 	list [loc] snippets = [t3B, t3D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3E3");
+	return result;
 }
 
-test bool T3C_T3D() {
+test bool type1_T3C_T3D() {
+	int cloneType = 1;
 	list [loc] snippets = [t3C, t3D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C3D3");
+	return result;
 }
 
-test bool T3C_T3E() {
+test bool type1_T3C_T3E() {
+	int cloneType = 1;
 	list [loc] snippets = [t3C, t3D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C3E3");
+	return result;
 }
 
 
@@ -79,96 +115,168 @@ test bool T3C_T3E() {
  * Tests if the type 3 cases are NOT type 2 clones of eachother
  */
  
-test bool T3A_T3B() {
+test bool type2_T3A_T3B() {
+	int cloneType = 2;
 	list [loc] snippets = [t3A, t3B];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3B3");
+	return result;
 }
 
-test bool T3A_T3C() {
+test bool type2_T3A_T3C() {
+	int cloneType = 2;
 	list [loc] snippets = [t3A, t3C];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3C3");
+	return result;
 }
 
-test bool T3A_T3D() {
+test bool type2_T3A_T3D() {
+	int cloneType = 2;
 	list [loc] snippets = [t3A, t3D];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3D3");
+	return result;
 }
 
-test bool T3A_T3E() {
+test bool type2_T3A_T3E() {
+	int cloneType = 2;
 	list [loc] snippets = [t3A, t3D];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3E3");
+	return result;
 }
 
-test bool T3B_T3C() {
+test bool type2_T3B_T3C() {
+	int cloneType = 2;
 	list [loc] snippets = [t3B, t3C];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3C3");
+	return result;
 }
 
-test bool T3B_T3D() {
+test bool type2_T3B_T3D() {
+	int cloneType = 2;
 	list [loc] snippets = [t3B, t3D];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3D3");
+	return result;
 }
 
-test bool T3B_T3E() {
+test bool type2_T3B_T3E() {
+	int cloneType = 2;
 	list [loc] snippets = [t3B, t3D];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3E3");
+	return result;
 }
 
-test bool T3C_T3D() {
+test bool type2_T3C_T3D() {
+	int cloneType = 2;
 	list [loc] snippets = [t3C, t3D];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C3D3");
+	return result;
 }
 
-test bool T3C_T3E() {
+test bool type2_T3C_T3E() {
+	int cloneType = 2;
 	list [loc] snippets = [t3C, t3D];
-	return (checkType2Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C3E3");
+	return result;
 }
 
 /**
  * Tests if the type 3 cases are type 3 clones of eachother
  */
  
-test bool T3A_T3B() {
+test bool type3_T3A_T3B() {
+	int cloneType = 3;
 	list [loc] snippets = [t3A, t3B];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3B3");
+	return result;
 }
 
-test bool T3A_T3C() {
+test bool type3_T3A_T3C() {
+	int cloneType = 3;
 	list [loc] snippets = [t3A, t3C];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3C3");
+	return result;
 }
 
-test bool T3A_T3D() {
+test bool type3_T3A_T3D() {
+	int cloneType = 3;
 	list [loc] snippets = [t3A, t3D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3D3");
+	return result;
 }
 
-test bool T3A_T3E() {
+test bool type3_T3A_T3E() {
+	int cloneType = 3;
 	list [loc] snippets = [t3A, t3D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A3E3");
+	return result;
 }
 
-test bool T3B_T3C() {
+test bool type3_T3B_T3C() {
+	int cloneType = 3;
 	list [loc] snippets = [t3B, t3C];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3C3");
+	return result;
 }
 
-test bool T3B_T3D() {
+test bool type3_T3B_T3D() {
+	int cloneType = 3;
 	list [loc] snippets = [t3B, t3D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3D3");
+	return result;
 }
 
-test bool T3B_T3E() {
+test bool type3_T3B_T3E() {
+	int cloneType = 3;
 	list [loc] snippets = [t3B, t3D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B3E3");
+	return result;
 }
 
-test bool T3C_T3D() {
+test bool type3_T3C_T3D() {
+	int cloneType = 3;
 	list [loc] snippets = [t3C, t3D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C3D3");
+	return result;
 }
 
-test bool T3C_T3E() {
+test bool type3_T3C_T3E() {
+	int cloneType = 3;
 	list [loc] snippets = [t3C, t3D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C3E3");
+	return result;
 }
