@@ -12,7 +12,9 @@ import Set;
 import LocUtils;
 import Utils;
 
-int totalLinesOfCode;
+// change for debugging stuff?
+//int totalLinesOfCode;
+int totalLinesOfCode = 1;
 
 map[node, int] clonesLoc = ();
 

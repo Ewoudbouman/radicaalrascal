@@ -23,7 +23,8 @@ public void main() {
 	
 	//projects = [|project://testDUP|, |project://testSLOC|, |project://smallsql0.21_src|, |project://hsqldb-2.3.1|];
 	//projects = [|project://testDUP|, |project://testSLOC|, |project://smallsql0.21_src|];
-	projects = [|project://testDUP|, |project://testSLOC|];
+	//projects = [|project://testDUP|, |project://testSLOC|];
+	projects = [|project://testDUP|];
 	
 	for(projectLocation <- projects) {
 		println("Analysing: <projectLocation>");
@@ -62,7 +63,8 @@ public void runTests(loc projectLocation, int types, real similarity=1.0) {
  	println("cloneclasses <size(cloneClasses)>");
  	
  	println("Creating JSON...");
- 	writeClones(cloneClasses, types, projectLocation);
+ 	loc outputLoc = |project://series2/| + "output/<projectLocation.authority>/<types>/index.json";
+ 	writeClones(cloneClasses, types, projectLocation, outputLoc);
  	
 }
 

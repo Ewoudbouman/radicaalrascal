@@ -11,14 +11,27 @@ import util::Math;
 import Node;
 import Map;
 import Set;
+import String;
+import CloneLocProvider;
+import lang::json::IO;
 
 import CloneUtils;
 import AstCloneFinder;
+import LocUtils;
+import CloneIO;
 
 //import CloneUtils;
 //import AstCloneFinder;
-
+private bool SHOW_OUTPUT = false;
 // file locs
+// del this
+public loc t1A1 = |project://testDUP/src/t1/CopyOneDummy.java|;
+public loc t1A2 = |project://testDUP/src/t1/CopyOneDummy2.java|;
+
+public loc t2X = |project://testDUP/src/t2/CopyTwoDummy.java|;
+public loc t2X2 = |project://testDUP/src/t2/CopyTwoDummy.java|;
+// project loc
+public loc testCases = |project://testDUP|;
 // t1
 public loc t1A = |project://testDUP/src/t1/CopyOneA.java|;
 public loc t1B = |project://testDUP/src/t1/CopyOneB.java|;
@@ -42,33 +55,34 @@ public loc t3E = |project://testDUP/src/t3/CopyThreeE.java|;
  */
 
 
-public int checkType1Clones(list [loc] snippets) {
+public map[node, set[node]] checkTypeXClones(list [loc] snippets, int cloneType, real threshold=1.0) {
 	set[Declaration] asts = {};
+	lrel[node, node] results = [];
+	
 	for (snippet <- snippets) {
 		asts += createAstFromFile(snippet, true);
 	}
-	results = findClones(asts, output=false);
-	cloneClasses = convertToCloneClasses(results);
-	return size(cloneClasses);
-}
-
-
-public int checkType2Clones(list [loc] snippets) {
-	set[Declaration] asts = {};
-	for (snippet <- snippets) {
-		asts += createAstFromFile(snippet, true);
+	if (cloneType == 3) {
+		results = findClones(asts, cloneType=3, output=false, similarity=threshold);
+	} else if (cloneType == 2) {
+		results = findClones(asts, cloneType=2, output=false);
+	} else {
+		results = findClones(asts, cloneType=1, output=false);
 	}
-	results = findClones(asts, cloneType=2, output=false);
 	cloneClasses = convertToCloneClasses(results);
-	return size(cloneClasses);
+	if (SHOW_OUTPUT) {
+		println("size Type <cloneType> cloneclasses <size(cloneClasses)>");
+	}
+	return cloneClasses;
 }
 
-public int checkType3Clones(list [loc] snippets, real threshold) {
-	set[Declaration] asts = {};
-	for (snippet <- snippets) {
-		asts += createAstFromFile(snippet, true);
-	}
-	results = findClones(asts, cloneType=2, output=false, similarity=threshold);
-	cloneClasses = convertToCloneClasses(results);
-	return size(cloneClasses);
-}
+/**
+ * Debug clone writer
+ */
+ 
+ public void writeDebugClones(map[node, set[node]] cloneClasses, int writeType, loc projectLoc, str files) {
+ 	loc outputLoc = |project://series2/src/tests/duplication/types/output/| + "<writeType>_<files>_clones.json";
+ 	writeClones(cloneClasses, writeType, projectLoc, outputLoc);
+ }
+
+

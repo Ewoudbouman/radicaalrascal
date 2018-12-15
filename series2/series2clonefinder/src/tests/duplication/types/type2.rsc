@@ -28,57 +28,92 @@ private real SIMILARITY_THRESHOLD = 0.8;
 /**
  * Tests if the type 2 cases are NOT type 1 clones of eachother
  */
- 
-test bool T2A_T2B() {
+
+test bool type1_T2A_T2B() {
+	int cloneType = 1;
 	list [loc] snippets = [t2A, t2B];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2B2");
+	return result;
 }
 
-test bool T2A_T2C() {
+test bool type1_T2A_T2C() {
+	int cloneType = 1;
 	list [loc] snippets = [t2A, t2C];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2C2");
+	return result;
 }
 
-test bool T2A_T2D() {
+test bool type1_T2A_T2D() {
+	int cloneType = 1;
 	list [loc] snippets = [t2A, t2D];
-	return (checkType1Clones(snippets) != clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) != clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2D2");
+	return result;
 }
 
 /**
  * Tests if the type 2 cases are type 2 clones of eachother when normalized
  */
- 
-test bool T2A_T2B() {
+
+test bool type2_T2A_T2B() {
+	int cloneType = 2;
 	list [loc] snippets = [t2A, t2B];
-	return (checkType2Clones(snippets) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2B2");
+	return result;
 }
 
-test bool T2A_T2C() {
+test bool type2_T2A_T2C() {
+	int cloneType = 2;
 	list [loc] snippets = [t2A, t2C];
-	return (checkType2Clones(snippets) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2C2");
+	return result;
 }
 
-test bool T2A_T2D() {
+test bool type2_T2A_T2D() {
+	int cloneType = 2;
 	list [loc] snippets = [t2A, t2D];
-	return (checkType2Clones(snippets) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2D2");
+	return result;
 }
 
 /**
  * Tests if the type 2 cases are ALSO type 3 clones of eachother when normalized
  */
-test bool T2A_T2B() {
+
+test bool type3_T2A_T2B() {
+	int cloneType = 3;
 	list [loc] snippets = [t2A, t2B];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2B2");
+	return result;
 }
 
-test bool T2A_T2C() {
+test bool type3_T2A_T2C() {
+	int cloneType = 3;
 	list [loc] snippets = [t2A, t2C];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2C2");
+	return result;
 }
 
-test bool T2A_T2D() {
+test bool type3_T2A_T2D() {
+	int cloneType = 3;
 	list [loc] snippets = [t2A, t2D];
-	return (checkType3Clones(snippets, SIMILARITY_THRESHOLD) == clones);
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A2D2");
+	return result;
 }
-
- 

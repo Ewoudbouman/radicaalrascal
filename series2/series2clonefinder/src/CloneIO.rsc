@@ -128,9 +128,9 @@ public void writeProjects(list[loc] projects) {
 }
 
 /**
- *
+ * Writes the json output to the destination folder.
  */
-public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc projectLoc) {
+public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc projectLoc, loc outputLoc) {
 	// vars dont reset while console active
 	idCounter = 0;
 	sources = {};
@@ -140,13 +140,11 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 	project = projectLoc;
 	cloneType = writeType;
 	//
-	
-	//sources = {};
-	//cloneType = writeType;
-	//project = projectLoc;
+
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneDirsJsonMap = convertCloneByDirJsonMap(cloneClasses, getTotalProjectLoc(), projectLoc);
-	writeJSON(|project://series2/| + "output/<projectLoc.authority>/<writeType>/index.json", 
+	//writeJSON(|project://series2/src/output/| + "<writeType>_clones.json", 
+	writeJSON(outputLoc, 
 		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()),
 		"label" : projectLoc, 
 		"duplicatesLOC" : cloneClassesJsonMap.duplicateLoc, 
