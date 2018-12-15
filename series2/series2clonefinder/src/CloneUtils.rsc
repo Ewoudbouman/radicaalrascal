@@ -53,32 +53,19 @@ public node normalizeValues(node x) {
 		//
 		// data Declaration
 		//
-		case \enumConstant(_, list[Expression] arguments, Declaration class) => 
-			\enumConstant("ec", arguments, class)
-		case \enumConstant(_, list[Expression] arguments) => 
-			\enumConstant("ec", arguments)
-		case \class(_, list[Type] extends, list[Type] implements, list[Declaration] body)  => 
-			\class("c", extends, implements, body)
-		case \interface(_, list[Type] extends, list[Type] implements, list[Declaration] body) => 
-			\interface("interface", extends, implements, body)
-		case \method(Type \return, _, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
-			\method(wildcard(), "m", parameters, exceptions, impl)
-		case \method(Type \return, _, list[Declaration] parameters, list[Expression] exceptions) =>
-			\method(wildcard(), "m", parameters, exceptions)
-		case \constructor(_, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
-			\constructor("c", parameters, exceptions, impl)
-		case \typeParameter(_, list[Type] extendsList) => 
-			\typeParameter("tp", extendsList)
-		case \annotationType(_, list[Declaration] body) =>
-			\annotationType("at", body)
-		case \annotationTypeMember(Type \type, _) => 
-			\annotationTypeMember(wildcard(), "atm")
-		case \annotationTypeMember(Type \type, _, Expression defaultBlock) => 
-			\annotationTypeMember(wildcard(), "atm", defaultBlock)
-		case \parameter(Type \type, _, int extraDimensions) => 
-			\parameter(wildcard(), "param", extraDimensions)
-		case \vararg(Type \type, _) => 
-			\vararg(wildcard(), "vararg")
+		case \enumConstant(_, a, b) => \enumConstant("ec", a, b)
+		case \enumConstant(_, a) => \enumConstant("ec", a)
+		case \class(_, a, b, c)  => \class("c", a, b, c)
+		case \interface(_, a, b, c) => \interface("interface", a, b, c)
+		case \method(x, _, a, b, c) => \method(wildcard(), "method", a, b, c)
+		case \method(x, _, a, b) => \method(wildcard(), "method", a, b)
+		case \constructor(_, a, b, c) => \constructor("c", a, b, c)
+		case \typeParameter(_, a) => \typeParameter("tp", a)
+		case \annotationType(_, a) => \annotationType("at", a)
+		case \annotationTypeMember(Type \type, _) => \annotationTypeMember(wildcard(), "atm")
+		case \annotationTypeMember(Type \type, _, a) => \annotationTypeMember(wildcard(), "atm", a)
+		case \parameter(Type \type, _, a) => \parameter(wildcard(), "param", a)
+		case \vararg(Type \type, _) => \vararg(wildcard(), "vararg")
 		//
 		// data Expression 
 		//
@@ -100,10 +87,8 @@ public node normalizeValues(node x) {
 			\stringLiteral("fransie")
 		case \type(_) => 
 			\type(wildcard())
-		case \variable(_, int extraDimensions) => 
-			\variable("vardec", extraDimensions) 
-		case \variable(_, int extraDimensions, Expression \initializer) => 
-			\variable("vardec", extraDimensions, \initializer)
+		case \variable(_, a) => variable("variable", a)
+		case \variable(_, a, b) => variable("variable", a, b)
 		// Check: debug this
 		//case \simpleName(_) => 
 		//	\simpleName("MOEILIJK")
@@ -132,6 +117,7 @@ public node normalizeValues(node x) {
 		//case \parameterizedType(Type \type) => \wildcard()
 		//case \qualifiedType(Type qualifier, Expression simpleName) => \wildcard()
 		//case \simpleType(Expression typeName) => \wildcard()
+		case \simpleName(_) => simpleName("simpleName")
 		//case \unionType(list[Type] types) => \wildcard()
 		//case \wildcard() => \wildcard()
 		//case \upperbound(Type \type) => \wildcard()

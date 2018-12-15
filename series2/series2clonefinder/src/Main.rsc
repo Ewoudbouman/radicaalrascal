@@ -22,8 +22,8 @@ public void main() {
 	before = userTime();
 	
 	//projects = [|project://testDUP|, |project://testSLOC|, |project://smallsql0.21_src|, |project://hsqldb-2.3.1|];
-	projects = [|project://testDUP|, |project://testSLOC|, |project://smallsql0.21_src|];
-	//projects = [|project://testDUP|, |project://testSLOC|];
+	//projects = [|project://testDUP|, |project://testSLOC|, |project://smallsql0.21_src|];
+	projects = [|project://testDUP|, |project://testSLOC|];
 	
 	for(projectLocation <- projects) {
 		println("Analysing: <projectLocation>");
