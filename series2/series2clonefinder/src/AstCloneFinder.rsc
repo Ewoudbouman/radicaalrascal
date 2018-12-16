@@ -16,7 +16,7 @@ import Utils;
 import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
-private int NODE_MASS_THRESHOLD = 20;
+private int NODE_MASS_THRESHOLD = 30;
 private real SIMILARITY_THRESHOLD = 1.0;
 private bool SHOW_OUTPUT = false;
 
