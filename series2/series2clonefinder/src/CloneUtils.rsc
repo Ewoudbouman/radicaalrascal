@@ -60,7 +60,7 @@ public node normalizeValues(node x) {
 		case \method(x, _, a, b, c) => \method(wildcard(), "method", a, b, c)
 		case \method(x, _, a, b) => \method(wildcard(), "method", a, b)
 		case \constructor(_, a, b, c) => \constructor("c", a, b, c)
-		case \typeParameter(_, a) => \typeParameter("tp", a)
+		case \typeParameter(_, list[Type] extendsList) => \typeParameter("tp", extendsList)
 		case \annotationType(_, a) => \annotationType("at", a)
 		case \annotationTypeMember(Type \type, _) => \annotationTypeMember(wildcard(), "atm")
 		case \annotationTypeMember(Type \type, _, a) => \annotationTypeMember(wildcard(), "atm", a)
