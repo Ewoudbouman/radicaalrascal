@@ -2,3 +2,5 @@
 .recommenders/
 /bin
 netbeans-javadoc/
+
+series2/series2clonefinder/src/tests/duplication/types/output/
