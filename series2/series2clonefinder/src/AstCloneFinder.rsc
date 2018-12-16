@@ -16,7 +16,7 @@ import Utils;
 import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
-private int NODE_MASS_THRESHOLD = 30;
+private int NODE_MASS_THRESHOLD = 40;
 private real SIMILARITY_THRESHOLD = 1.0;
 private bool SHOW_OUTPUT = false;
 
@@ -58,7 +58,7 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=
 			//println("node mass <mass>");
 			//println("node is <n>");
 
-			if(mass > NODE_MASS_THRESHOLD) {
+			if(mass >= NODE_MASS_THRESHOLD) {
 				// normalize the node for type2/3
 				if (cloneType != 1) {
 					n = normalizeValues(n);
