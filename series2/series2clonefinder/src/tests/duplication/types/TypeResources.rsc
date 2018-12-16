@@ -20,18 +20,12 @@ import AstCloneFinder;
 import LocUtils;
 import CloneIO;
 
-//import CloneUtils;
-//import AstCloneFinder;
 private bool SHOW_OUTPUT = false;
-// file locs
-// del this
-public loc t1A1 = |project://testDUP/src/t1/CopyOneDummy.java|;
-public loc t1A2 = |project://testDUP/src/t1/CopyOneDummy2.java|;
 
-public loc t2X = |project://testDUP/src/t2/CopyTwoDummy.java|;
-public loc t2X2 = |project://testDUP/src/t2/CopyTwoDummy.java|;
 // project loc
 public loc testCases = |project://testDUP|;
+// original source
+public loc orig = |project://testDUP/src/orig/OriginalCopy.java|;
 // t1
 public loc t1A = |project://testDUP/src/t1/CopyOneA.java|;
 public loc t1B = |project://testDUP/src/t1/CopyOneB.java|;

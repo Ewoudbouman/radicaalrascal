@@ -27,6 +27,99 @@ private real SIMILARITY_THRESHOLD = 0.8;
  */
 
 /**
+ * Checks if the clone cases are correctly marked as type 1 clones of the source.
+ */
+
+test bool type1_orig_T1A() {
+	int cloneType = 1;
+	list [loc] snippets = [orig, t1A];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origA1");
+	return result;
+}
+
+test bool type1_orig_T1B() {
+	int cloneType = 1;
+	list [loc] snippets = [orig, t1B];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origB1");
+	return result;
+}
+
+test bool type1_orig_T1C() {
+	int cloneType = 1;
+	list [loc] snippets = [orig, t1C];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origC1");
+	return result;
+}
+
+/**
+ * Checks if the clone cases are correctly marked as type 2 clones of the source.
+ */
+
+test bool type1_orig_T1A() {
+	int cloneType = 2;
+	list [loc] snippets = [orig, t1A];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origA1");
+	return result;
+}
+
+test bool type1_orig_T1B() {
+	int cloneType = 2;
+	list [loc] snippets = [orig, t1B];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origB1");
+	return result;
+}
+
+test bool type1_orig_T1C() {
+	int cloneType = 2;
+	list [loc] snippets = [orig, t1C];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origC1");
+	return result;
+}
+
+/**
+ * Checks if the clone cases are correctly marked as type 3 clones of the source.
+ */
+
+test bool type1_orig_T1A() {
+	int cloneType = 3;
+	list [loc] snippets = [orig, t1A];
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origA1");
+	return result;
+}
+
+test bool type1_orig_T1B() {
+	int cloneType = 3;
+	list [loc] snippets = [orig, t1B];
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origB1");
+	return result;
+}
+
+test bool type1_orig_T1C() {
+	int cloneType = 3;
+	list [loc] snippets = [orig, t1C];
+	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origC1");
+	return result;
+}
+
+/**
  * Tests if the type 1 cases are correctly marked as type 1 clones of eachother.
  */
 
