@@ -44,8 +44,9 @@ public lrel[node fst, node snd] findType3Clones(M3 project, real threshold) {
 	return findClones(asts, cloneType=3, similarity=threshold);
 }
 
-public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=1, bool output=true, real similarity=1.0) {
+public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=1, bool output=true, real similarity=SIMILARITY_THRESHOLD, int nodeThreshold=NODE_MASS_THRESHOLD) {
 	SIMILARITY_THRESHOLD = similarity;
+	NODE_MASS_THRESHOLD = nodeThreshold;
 	// suppress progress output for tests
 	SHOW_OUTPUT = output;
 	// Buckets of nodes converted to keys containing lists of nodes which are quite similar. This should provide performance according to Baxter
@@ -59,7 +60,7 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=
 				n = normalizeValues(n);
 			}
 			int mass = subTreeMass(n);
-
+			
 			if(mass >= NODE_MASS_THRESHOLD) {
 				// unsetRec: reset all keyword parameters of the node and its children back to their default.
 				// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
@@ -81,6 +82,7 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=
 	// Starting comparisons:
 	if (SHOW_OUTPUT) println("    Starting comparisons for <size(sortedBuckets)> buckets...");
 
+	//println(findClones(nodeBuckets, sortedBuckets));
 	return findClones(nodeBuckets, sortedBuckets);
 }
 
@@ -112,10 +114,10 @@ public lrel[node, node] deleteSubTreeClones(lrel[node, node] clones, node x){
 	visit(x) {
 		case node n : {
 			// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
-			if(subTreeMass(n) > NODE_MASS_THRESHOLD && n != x ) {
+			// second statement is to disable optimisation for testing purposes.
+			if(subTreeMass(n) > NODE_MASS_THRESHOLD && n != x || NODE_MASS_THRESHOLD == 2 && n != x) {
 				for(<fst, snd> <- clones) {
 					if(fst == n || snd == n){ 
-						//clones = delete(clones, indexOf(clones, <fst, snd>));
 						clones = delete(clones, indexOf(clones, <fst, snd>));
 					}
 				}
