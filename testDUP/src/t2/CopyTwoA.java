@@ -1,9 +1,4 @@
-/**
- * Source: 
- * Scenario-Based Comparison of Clone Detection Techniques
- * Figure 1. Taxonomy of Editing Scenarios for Different Clone Types
- */
-public class CopyTwoA {
+public class Copy {
     void sumProd(int n){
     	double s=0.0; //C1
     	double p =1.0;

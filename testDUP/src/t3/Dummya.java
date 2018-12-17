@@ -1,4 +1,4 @@
-public class Copy {
+public class Dummya {
     void sumProd(int n) {
 		double sum=0.0; //C1
 		double prod =1.0;
