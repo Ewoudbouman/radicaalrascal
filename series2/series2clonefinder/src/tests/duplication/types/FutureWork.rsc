@@ -26,6 +26,16 @@ private real T3_SIMILARITY_THRESHOLD = 0.8;
  * All covered
  */
  
+/*
+test bool type2_wtf() {
+	int cloneType = 1;
+	list [loc] snippets = [cda];
+	cloneClasses = checkTypeXClones(snippets, cloneType);
+	result = size(cloneClasses) == clones;
+	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origD2");
+	return true;
+}   
+*/
 /**
  * Case 2: 
  *

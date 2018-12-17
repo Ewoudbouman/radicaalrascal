@@ -13,6 +13,7 @@ import Map;
 import Set;
 import Utils;
 
+import NodeNormalizer;
 import CloneUtils;
 
 // TODO Needs further tweaking between performance and results
@@ -53,14 +54,13 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=
 	map[node, list[node]] nodeBuckets = ();
 
 	if (SHOW_OUTPUT) println("    Collecting sub trees");
+
+	if (cloneType != 1) {
+		asts = normalizeValues(asts);
+	}
 	visit(asts) {
 		case node n: {
-			// normalize the node for type2/3
-			if (cloneType != 1) {
-				n = normalizeValues(n);
-			}
 			int mass = subTreeMass(n);
-			
 			if(mass >= NODE_MASS_THRESHOLD) {
 				// unsetRec: reset all keyword parameters of the node and its children back to their default.
 				// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
