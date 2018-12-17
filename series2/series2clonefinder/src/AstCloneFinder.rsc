@@ -54,15 +54,13 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=
 	if (SHOW_OUTPUT) println("    Collecting sub trees");
 	visit(asts) {
 		case node n: {
+			// normalize the node for type2/3
+			if (cloneType != 1) {
+				n = normalizeValues(n);
+			}
 			int mass = subTreeMass(n);
-			//println("node mass <mass>");
-			//println("node is <n>");
 
 			if(mass >= NODE_MASS_THRESHOLD) {
-				// normalize the node for type2/3
-				if (cloneType != 1) {
-					n = normalizeValues(n);
-				}
 				// unsetRec: reset all keyword parameters of the node and its children back to their default.
 				// this is necessary to compare nodes universally. Ofc we need all the info in the list of nodes so we only use it as keys
 				key = unsetRec(n);
