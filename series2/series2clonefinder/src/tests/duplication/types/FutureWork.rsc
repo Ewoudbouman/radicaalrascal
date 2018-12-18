@@ -1,6 +1,6 @@
 module tests::duplication::types::FutureWork
 
-import tests::TypeResources;
+import tests::TestResources;
 import CloneUtils;
 import AstCloneFinder;
 import CloneIO;
@@ -18,7 +18,35 @@ import util::Math;
 
 private int clones = 1;
 private real SIMILARITY_THRESHOLD = 1.0;
-private real T3_SIMILARITY_THRESHOLD = 0.8;
+private real T3_SIMILARITY_THRESHOLD = 0.2;
+
+
+//type 2 stuff
+
+/**
+ * Checks if the scenario 1 cases are correctly marked as type 2 clones of the source.
+ * and eachother
+ */
+
+test bool type2_scenario1() {
+	int cloneType = 2;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t1A, t1B, t1C];
+	int i = 0;
+	for (sc <- pairLocs(scenarios1)) {
+		i +=1;
+		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		result = size(cloneClasses) == clones;
+		if (!result) {
+			failures += result;
+			writeDebugClones(cloneClasses, cloneType, testCases, "type2_scenario1_<i>");
+		}
+	}
+	return failures == [];
+}
+
+// Checks if the scenario 2 cases are correctly marked as type 2 clones of the source and eachother
+
 
 /**
  * Case 1:
@@ -27,12 +55,12 @@ private real T3_SIMILARITY_THRESHOLD = 0.8;
  */
  
 /*
-test bool type2_wtf() {
-	int cloneType = 1;
-	list [loc] snippets = [cda];
-	cloneClasses = checkTypeXClones(snippets, cloneType);
+test bool type_wtf() {
+	int cloneType = 3;
+	list [loc] snippets = [cda, cdb];
+	cloneClasses = checkTypeXClones(snippets, cloneType,threshold=T3_SIMILARITY_THRESHOLD);
 	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origD2");
+	writeDebugClones(cloneClasses, cloneType, testCases, "debug");
 	return true;
 }   
 */

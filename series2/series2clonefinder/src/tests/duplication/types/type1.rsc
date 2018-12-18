@@ -1,6 +1,6 @@
 module tests::duplication::types::type1
 
-import tests::TypeResources;
+import tests::TestResources;
 import CloneUtils;
 import AstCloneFinder;
 import CloneIO;
@@ -28,446 +28,140 @@ private real T3_SIMILARITY_THRESHOLD = 0.8;
  */
 
 /**
- * Checks if the clone cases are correctly marked as type 1 clones of the source.
+ * Checks if the scenario 1 cases are correctly marked as type 1 clones of the source.
+ * and of each other.
  */
 
-test bool type1_orig_T1A() {
+test bool type1_scenario1() {
 	int cloneType = 1;
-	list [loc] snippets = [orig, t1A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origA1");
-	return result;
-}
-
-test bool type1_orig_T1B() {
-	int cloneType = 1;
-	list [loc] snippets = [orig, t1B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origB1");
-	return result;
-}
-
-test bool type1_orig_T1C() {
-	int cloneType = 1;
-	list [loc] snippets = [orig, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origC1");
-	return result;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t1A, t1B, t1C];
+	int i = 0;
+	for (sc <- pairLocs(scenarios1)) {
+		i +=1;
+		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		result = size(cloneClasses) == clones;
+		if (!result) {
+			failures += result;
+			writeDebugClones(cloneClasses, cloneType, testCases, "type1_scenario1_<i>");
+		}
+	}
+	return failures == [];
 }
 
 /**
- * Checks if the clone cases are correctly marked as type 2 clones of the source.
+ * Checks if the type 1 scenarios are correctly marked as type 3 clones of the source.
+ * and eachother.
  */
 
-test bool type2_orig_T1A() {
-	int cloneType = 2;
-	list [loc] snippets = [orig, t1A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origA1");
-	
-	return result;
-}
-
-test bool type2_orig_T1B() {
-	int cloneType = 2;
-	list [loc] snippets = [orig, t1B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origB1");
-	return result;
-}
-
-test bool type2_orig_T1C() {
-	int cloneType = 2;
-	list [loc] snippets = [orig, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origC1");
-	return result;
-}
-
-/**
- * Checks if the clone cases are correctly marked as type 3 clones of the source.
- */
-
-test bool type1_orig_T1A() {
+test bool type3_scenario1() {
 	int cloneType = 3;
-	list [loc] snippets = [orig, t1A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origA1");
-	return result;
-}
-
-test bool type1_orig_T1B() {
-	int cloneType = 3;
-	list [loc] snippets = [orig, t1B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origB1");
-	return result;
-}
-
-test bool type1_orig_T1C() {
-	int cloneType = 3;
-	list [loc] snippets = [orig, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "origC1");
-	return result;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t1A, t1B, t1C];
+	int i = 0;
+	for (sc <- pairLocs(scenarios1)) {
+		i +=1;
+		cloneClasses = checkTypeXClones(sc, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
+		result = size(cloneClasses) == clones;
+		if (!result) {
+			failures += result;
+			writeDebugClones(cloneClasses, cloneType, testCases, "type3_scenario1_<i>");
+		}
+	}
+	return failures == [];
 }
 
 /**
- * Tests if the type 1 cases are correctly marked as type 1 clones of eachother.
+ * Checks if the source and type 2 scenarios are not type 1 clones of the type 2 
+ * scenarios.
  */
 
-test bool type1_T1A_T1B() {
+ test bool type1_scenario2() {
 	int cloneType = 1;
-	list [loc] snippets = [t1A, t1B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1B1");
-	return result;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t2A, t2B, t2C];
+	int i = 0;
+	for (sc <- pairLocs(scenarios1)) {
+		i +=1;
+		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		result = size(cloneClasses) != clones;
+		if (!result) {
+			failures += result;
+			writeDebugClones(cloneClasses, cloneType, testCases, "type1_scenario2_<i>");
+		}
+	}
+	return failures == [];
 }
-
-test bool type1_T1A_T1C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1C1");
-	return result;
-}
-
-test bool type1_T1B_T1C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = (size(cloneClasses) == clones);
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1C1");
-	return result;
-}
-
-/**
- * Tests if the type 1 cases are ALSO correctly marked as type 2 clones of eachother.
- */
-
-test bool type2_T1A_T1B() {
-	int cloneType = 2;
-	list [loc] snippets = [t1A, t1B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1B1");
-	return result;
-}
-
-test bool type2_T1A_T1C() {
-	int cloneType = 2;
-	list [loc] snippets = [t1A, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1C1");
-	return result;
-}
-
-test bool type2_T1B_T1C() {
-	int cloneType = 2;
-	list [loc] snippets = [t1B, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1C1");
-	return result;
-}
-
-
+ 
  /**
- * Tests if the type 1 cases are ALSO correctly marked as type 3 clones of eachother.
+ * Checks if the source and type 3 scenarios are not type 1 clones of the type 3 
+ * scenarios.
  */
 
-test bool type3_T1A_T1B() {
-	int cloneType = 3;
-	list [loc] snippets = [t1A, t1B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1B1");
-	return result;
-}
-
-test bool type3_T1A_T1C() {
-	int cloneType = 3;
-	list [loc] snippets = [t1A, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1C1");
-	return result;
-}
-
-test bool type3_T1B_T1C() {
-	int cloneType = 3;
-	list [loc] snippets = [t1B, t1C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
-	result = size(cloneClasses) == clones;
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1C1");
-	return result;
+test bool type1_scenario3() {
+	int cloneType = 1;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t3A, t3B, t3C, t3D, t3E];
+	int i = 0;
+	for (sc <- pairLocs(scenarios1)) {
+		i +=1;
+		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		result = size(cloneClasses) != clones;
+		if (!result) {
+			failures += result;
+			writeDebugClones(cloneClasses, cloneType, testCases, "type1_scenario3_<i>");
+		}
+	}
+	return failures == [];
 }
 
 /**
- * Tests where the files are NOT type 1 clones of eachother.
- *
- * Compares type 1 cases with type 2 cases
+ * Checks if the source and type 1 scenarios are not type 1 clones of the type 2 
+ * scenarios.
  */
 
-test bool type1_T1A_T2A() {
+ test bool type1_scenario1_scenario2() {
 	int cloneType = 1;
-	list [loc] snippets = [t1A, t2A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
-	result = (size(cloneClasses) != clones);
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1A2");
-	return result;
-}
-
-test bool type1_T1A_T2B() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t2B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1B2"); 	
-	return result;
-}
-
-test bool type1_T1A_T2C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t2C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1C2"); 	
-	return result;
-}
-
-test bool type1_T1A_T2D() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t2D];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1D2"); 	
-	return result;
-}
-
-test bool type1_T1B_T2A() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t2A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1A2"); 	
-	return result;
-}
-
-test bool type1_T1B_T2B() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t2B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1B2"); 	
-	return result;
-}
-
-test bool type1_T1B_T2C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t2C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1C2"); 	
-	return result;
-}
-
-test bool type1_T1B_T2D() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t2D];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD); 	
-	result = (size(cloneClasses) != clones);
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1D2"); 	
-	return result;
-}
-
-test bool type1_T1C_T2A() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t2A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C12A"); 	
-	return result;
-}
-
-test bool type1_T1C_T2B() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t2B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1B2"); 	
-	return result;
-}
-
-test bool type1_T1C_T2C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t2C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1C2"); 	
-	return result;
-}
-
-test bool type1_T1C_T2D() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t2D];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C2D2"); 	
-	return result;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t1A, t1B, t1C];
+	list [loc] scenarios2 = [t2A, t2B, t2C];
+	int i = 0;
+	for (sc1 <- scenarios1) {
+		for (sc2 <- scenarios2) {
+			i +=1;
+			cloneClasses = checkTypeXClones([sc1, sc2], cloneType, threshold=SIMILARITY_THRESHOLD);
+			result = size(cloneClasses) != clones;
+			if (!result) {
+				failures += result;
+				writeDebugClones(cloneClasses, cloneType, testCases, "type1_scenario1_scenario2_<i>");
+			}
+		}
+	}
+	return failures == [];
 }
 
 /**
- * Tests where the files are NOT type 1 clones of eachother.
- * Check if the our solution marks them as the correct number of clones.
- *
- * Compares type 1 cases with type 3 cases
+ * Checks if the source and type 1 scenarios are not type 1 clones of the type 3
+ * scenarios.
  */
-
-test bool type1_T1A_T3A() {
+ 
+ test bool type1_scenario2_scenario3() {
 	int cloneType = 1;
-	list [loc] snippets = [t1A, t3A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1A3"); 	
-	return result;
+	list [bool] failures = [];
+	list [loc] scenarios1 = [orig, t2A, t2B, t2C];
+	list [loc] scenarios2 = [t3A, t3B, t3C, t3D, t3E];
+	int i = 0;
+	for (sc1 <- scenarios1) {
+		for (sc2 <- scenarios2) {
+			i +=1;
+			cloneClasses = checkTypeXClones([sc1, sc2], cloneType, threshold=SIMILARITY_THRESHOLD);
+			result = size(cloneClasses) != clones;
+			if (!result) {
+				failures += result;
+				writeDebugClones(cloneClasses, cloneType, testCases, "type1_scenario2_scenario3_<i>");
+			}
+		}
+	}
+	return failures == [];
 }
-
-test bool type_T1A_T3B() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t3B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1B3"); 	
-	return result;
-}
-
-test bool type_T1A_T3C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t3C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1C3"); 	
-	return result;
-}
-
-test bool type_T1A_T3D() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t3D];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones);
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1D3"); 	
-	return result;
-}
-
-test bool type_T1A_T3E() {
-	int cloneType = 1;
-	list [loc] snippets = [t1A, t3E];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "A1E3"); 	
-	return result;
-}
-
-test bool type_T1B_T3A() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t3A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1A3"); 	
-	return result;
-}
-
-test bool type_T1B_T3B() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t3B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1B3"); 	
-	return result;
-}
-
-test bool type_T1B_T3C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t3C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1C3"); 	
-	return result;
-}
-
-test bool type_T1B_T3D() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t3D];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1D3"); 	
-	return result;
-}
-
-test bool type_T1B_T3E() {
-	int cloneType = 1;
-	list [loc] snippets = [t1B, t3E];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "B1E3"); 	
-	return result;
-}
-
-test bool type_T1C_T3A() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t3A];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1A3"); 	
-	return result;
-}
-
-test bool type_T1C_T3B() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t3B];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1B3"); 	
-	return result;
-}
-
-test bool type_T1C_T3C() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t3C];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1C3"); 	
-	return result;
-}
-
-test bool type_T1C_T3D() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t3D];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1D3"); 	
-	return result;
-}
-
-test bool type_T1C_T3E() {
-	int cloneType = 1;
-	list [loc] snippets = [t1C, t3E];
-	cloneClasses = checkTypeXClones(snippets, cloneType, threshold=SIMILARITY_THRESHOLD);
- 	result = (size(cloneClasses) != clones); 	
-	if (!result) writeDebugClones(cloneClasses, cloneType, testCases, "C1E3"); 	
-	writeDebugClones(cloneClasses, cloneType, testCases, "C1E3");
-	return result;
-}
+ 
