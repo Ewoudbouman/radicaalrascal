@@ -115,7 +115,7 @@ public lrel[node, node] deleteSubTreeClones(lrel[node, node] clones, node x){
 		case node n : {
 			// Skip "child nodes" which are the same as the parent and skip nodes below mass threshold
 			// second statement is to disable optimisation for testing purposes.
-			if(subTreeMass(n) > NODE_MASS_THRESHOLD && n != x || NODE_MASS_THRESHOLD == 2 && n != x) {
+			if(subTreeMass(n) >= NODE_MASS_THRESHOLD && n != x || NODE_MASS_THRESHOLD == 2 && n != x) {
 				for(<fst, snd> <- clones) {
 					if(fst == n || snd == n){ 
 						clones = delete(clones, indexOf(clones, <fst, snd>));

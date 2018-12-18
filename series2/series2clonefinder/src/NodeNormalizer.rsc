@@ -26,10 +26,8 @@ set[Declaration] normalizeValues(set[Declaration] x) {
 			\class("c", extends, implements, body)
 		case \interface(_, list[Type] extends, list[Type] implements, list[Declaration] body) => 
 			\interface("interface", extends, implements, body)
-		case \method(Type \return, _, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
-			\method(wildcard(), "m", parameters, exceptions, impl)
-		case \method(Type \return, _, list[Declaration] parameters, list[Expression] exceptions) =>
-			\method(wildcard(), "m", parameters, exceptions)
+		case \method(x, _, y, z, q) => \method(x, "method", y, z, q)
+		case \method(x, _, y, z) => \method(x, "method", y, z)
 		case \constructor(_, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
 			\constructor("c", parameters, exceptions, impl)
 		case \typeParameter(_, list[Type] extendsList) => 
@@ -58,7 +56,7 @@ set[Declaration] normalizeValues(set[Declaration] x) {
 		case \methodCall(bool isSuper, Expression receiver, _, list[Expression] arguments) => 
 			\methodCall(isSuper, receiver, "mc",  arguments)
 		case \number(_) =>
-			\number("caseNumber")
+			\number("1337")
 		case \booleanLiteral(_) => 
 			\booleanLiteral(true)
 		case \stringLiteral(_) => 
