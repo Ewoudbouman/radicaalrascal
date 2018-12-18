@@ -50,28 +50,6 @@ test bool type1_scenario1() {
 }
 
 /**
- * Checks if the type 1 scenarios are correctly marked as type 3 clones of the source.
- * and eachother.
- */
-
-test bool type3_scenario1() {
-	int cloneType = 3;
-	list [bool] failures = [];
-	list [loc] scenarios1 = [orig, t1A, t1B, t1C];
-	int i = 0;
-	for (sc <- pairLocs(scenarios1)) {
-		i +=1;
-		cloneClasses = checkTypeXClones(sc, cloneType, T3_SIMILARITY_THRESHOLD);
-		result = size(cloneClasses) == clones;
-		if (!result) {
-			failures += result;
-			writeDebugClones(cloneClasses, cloneType, testCases, "type3_scenario1_<i>");
-		}
-	}
-	return failures == [];
-}
-
-/**
  * Checks if the source and type 2 scenarios are not type 1 clones of the type 2 
  * scenarios.
  */

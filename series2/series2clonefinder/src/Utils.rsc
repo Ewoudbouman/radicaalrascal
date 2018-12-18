@@ -9,22 +9,37 @@ import List;
 
 private loc EMPTY_LOCATION = |file:///thisdoesnotexist|;
 
+/*
+ * Returns the contents of a resource as a string
+ */
 public str resourceContent(loc resource) {
 	return readFile(resource);
 }
 
+/*
+ * Returns the target location as a M3 project.
+ */
 public M3 createProject(loc location) {
  	return createM3FromEclipseProject(location);
 }
 
+/*
+ * Returns the target location as set of declarations
+ */
 public set[Declaration] projectAsts(M3 project) {
 	return {createAstFromFile(file, true) | file <- files(project)};
 }
 
+/*
+ * Returns the size of all nodes in a tree
+ */
 public int subTreeMass(node x) {
 	return size(subNodes(x));
 }
 
+/*
+ * Returns the size of all subnodes in a node
+ */
 public list[node] subNodes(node x) {
 	list[node] subNodes = [];
 	visit(x) {
@@ -33,6 +48,9 @@ public list[node] subNodes(node x) {
 	return subNodes;
 }
 
+/*
+ * Returns all the subtrees of the set of declarations
+ */
 public list[node] subTrees(set[Declaration] decls) {
 	list[node] subTrees = [];
 	visit(decls) {
@@ -42,19 +60,8 @@ public list[node] subTrees(set[Declaration] decls) {
 }
 
 /*
-public void printNodeSource(node x) {
-	println("---------------");
-	source = nodeSourceLoc(x);
-	if(!isEmptyLocation(source)) {
-		println(source);
-		println(resourceContent(source));
-	} else {
-		println("Unknown:\n<x>");
-	}
-	println("---------------");
-}
-*/
-
+ * Returns the type of contents a node contains
+ */
 public str getNodeSource(node x) {
 	source = nodeSourceLoc(x);
 	if(!isEmptyLocation(source)) {
@@ -64,6 +71,9 @@ public str getNodeSource(node x) {
 	}
 }
 
+/*
+ * 
+ */
 public loc nodeSourceLoc(node x) {
  	switch (x) {
 		case Declaration decl: { if(decl.src?) return decl.src; }
@@ -73,31 +83,9 @@ public loc nodeSourceLoc(node x) {
 	return EMPTY_LOCATION;
 }
 
+/*
+ * Returns if the target location does not contain any elements
+ */
 public bool isEmptyLocation(loc location) {
 	return location == EMPTY_LOCATION;
 }
-
-/*
-public void printNodesSource(list[node] xs) {
-	println("**************");
-	for(x <- xs) {
-		printNodeSourceLoc(x);
-	}
-	println("**************");
-}
-*/
-
-/*
-public void printText(str text) {
-	println(text);
-}
-*/
-
-/*
-public void printTexts(list[str] texts) {
-	for(x <- texts) {
-		//printText(x);
-		println(text);
-	}
-}
-*/

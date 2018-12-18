@@ -12,20 +12,29 @@ import Set;
 import LocUtils;
 import Utils;
 
-// change for debugging stuff?
-//int totalLinesOfCode;
+
 int totalLinesOfCode = 1;
 
 map[node, int] clonesLoc = ();
 
+/*
+ * Calculates the total number of lines in the project
+ */
 public void initCloneLocProvider(M3 project) {
 	totalLinesOfCode = locOfProject(project);
 }
 
+/*
+ * Returns the total number of lines in the project
+ */
+ 
 public int getTotalProjectLoc() {
 	return totalLinesOfCode;
 }
 
+/*
+ * Returns the loc of a specific node
+ */
 public int getCloneLoc(node x) {
 	if(clonesLoc[x]?) return clonesLoc[x];
 	source = nodeSourceLoc(x);
@@ -37,6 +46,9 @@ public int getCloneLoc(node x) {
 	return result;
 }
 
+/*
+ * Returns the loc of a group of nodes
+ */
 public int getCloneClassLoc(set[node] xs) {
 	linesCount = 0;
 	for(x <- xs) {

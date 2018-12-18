@@ -21,6 +21,9 @@ public int locOfProject(M3 project) {
 	return sum( [locOfResource(resource) | resource <- files(project)]);
 }
 
+/*
+ * Returns the percentage of a target loc from the total loc 
+ */
 public real locPercentage(int linesOfCode, int totalLinesOfCode) {
 	if(linesOfCode == 0) return 0.0;
 	if(totalLinesOfCode == 0) return 100.0;
@@ -38,22 +41,6 @@ public int locOfResource(loc resource) {
 	return size(splitText);
 }
 
-/*
-public list[str] splitFilteredStringsOfResource(loc resource) {
-	str strippedText = resourceContent(resource);
-	strippedText = removeComments(strippedText);
-	list[str] splitText = splitByNewLineAndFilterEmptyLines(strippedText);
-	return splitText;
-}
-*/
-
-/*
-private str removeTabsAndSpaces(str text) {
-	str noTabs = replaceAll(text, "\t", "");
-	return replaceAll(noTabs, " ", "");
-}
-*/
-
 /** 
  * Removes all comments from the given text
  * https://blog.ostermiller.org/find-comment
@@ -64,17 +51,10 @@ public str removeComments(str text) {
 	};
 }
 
+/*
+ * Splits a string based on a control character regex. 
+ */
+
 public list[str] splitByNewLineAndFilterEmptyLines(str text) {
 	return [ line | line <- split("\n", text), /^[\s\t]*$/ !:= line ];
 }
-
-/*
-public set[str] filesInProject(loc resource) {
-	projFiles = {};
-	project = createM3FromEclipseProject(resource);
-	for (file <- files(project)) {
-		projFiles += (file.path);
-	}
-	return projFiles;
-}
-*/

@@ -14,78 +14,7 @@ import lang::json::IO;
 
 import LocUtils;
 
-/**
- * TODO:
- * - Check valeus wanted/needed from the clone attributes,
- * some not needed and/or are wrong due to restructering to dir level format.
- * 
- * - Check if json output formatting can be merged (first check above).
- *
- * - cloneclasses hebben geen info over files met zero clones.
- * Deze gooien we er nu maar zelf weer in.
- * Ziet er lelijk uit qua json maar werkt. 
- * Misschien iets beters verzinnen, anders die troep wat netter formatten.
- * 
- * Changelog Current:
- * a: changed key system, nodes are mapped to a keymap.
- * a: first create id, dan use.
- * a: prefix values are parsed by supplied int. 
- *
- * b: changed grouping of duplicates in "nodes": field of json.
- * b: Duplicates are now grouped by file location.
- * b: basic example:
- * "nodes": {
- *    "children": [
- *        {
- *            "path": "/src/test/sloctest2.java",
- *            "id": 7,
- *            "children": [
- *                {
- *                    "attributes": {
- *                        "clone": "int a = 4;"
- *                    },
- *                    "id": 5
- *                }
- *            ],
- *        },
- *        {
- *            "label": "/src/test/sloctest.java",
- *            "id": 9,
- *            "children": [
- *                {
- *                    "attributes": {
- *                        "clone": "int a = 4;"
- *                    },
- *                    "id": 3
- *                },
- *                {
- *                    "attributes": {
- *                        "clone": "int a = 4;"
- *                    },
- *                    "id": 4
- *                }
- *            ],
- *        }
- *    ]
- * 
- * c: add files with no duplicates into json object.
- * c: these are stored in "nodes" for visualstuff
- * 
- * Changelog Old:
- *
- * a: renamed "id" to "prefix_id"
- * 
- * b: added id to private rel[str id, str path, str source] sources = {}; // niet nodig meer? check ff// YES! otherwise lots of duplicates== large json
- * 
- * c: renamed writeclones : "cloneClasses" : cloneClassesJsonMap.jsonMaps, -> "nodes" : cloneClassesJsonMap.jsonMaps,
- *
- * d: added children to "nodes"
- *
- * e: "renamed createCloneClassJsonMap: "clones" : createCloneJsonMap(clones, projectLoc, linesCount)); -> "children" : createCloneJsonMap(clones, projectLoc, linesCount));
- *
- * f: changed createCloneJsonMap to hold data in a attributes leaf (id -> attributes)
- */
-
+// global parameters
 private int idCounter = 0;
 private int cloneType = -1;
 private loc project;
@@ -96,7 +25,7 @@ private rel[str path, str source] sources = {};
 private map[node n, int key] nodeKeyMap = ();
 
 /**
- *
+ * Creates an id for each clone
  */
 private int createCloneId() {
 	idCounter += 1;
@@ -104,7 +33,8 @@ private int createCloneId() {
 }
 
 /**
- * if we need to iterate multiple times over the nodes
+ * Returns the id of a clone,
+ * If it does not exist one will be created first
  */
 private int getCloneId(node n){
 	if (n notin nodeKeyMap) {
@@ -117,11 +47,12 @@ private int getCloneId(node n){
 }
 
 /**
- *
+ * Formats the clone id
  */
 private str getPrefixId(int id) {
 	return "T<cloneType>-<id>";
 }
+
 
 public void writeProjects(list[loc] projects) {
 	writeJSON(|project://series2/| + "output/projects/index.json", [x.authority | x <- projects]); 
@@ -136,14 +67,11 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 	sources = {};
 	cloneMap = ();
 	nodeKeyMap = ();
-	//
 	project = projectLoc;
 	cloneType = writeType;
-	//
 
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneClassesJsonMap = createCloneClassJsonMap(cloneClasses, getTotalProjectLoc());
 	tuple[list[map[str, value]] jsonMaps, int duplicateLoc] cloneDirsJsonMap = convertCloneByDirJsonMap(cloneClasses, getTotalProjectLoc(), projectLoc);
-	//writeJSON(|project://series2/src/output/| + "<writeType>_clones.json", 
 	writeJSON(outputLoc, 
 		("duplicatesPercentage" : locPercentage(cloneClassesJsonMap.duplicateLoc, getTotalProjectLoc()),
 		"label" : projectLoc, 
@@ -159,7 +87,7 @@ public void writeClones(map[node, set[node]] cloneClasses, int writeType, loc pr
 }
 
 /**
- *
+ * Creates an Json entry for each clone class.
  */
 public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] createCloneClassJsonMap(map[node, set[node]] cloneClasses, int projectLoc) {
 	list[map[str, value]] jsonMaps = [];
@@ -193,7 +121,7 @@ public set[str] duplicationSources(map[node, set[node]] cloneClasses) {
 	return dupSources;
 }
 /**
- * Formats duplicates based on file location.
+ * Formats duplicates based on file location for the Json output.
  *
  * - file 1
  *      - dupX
@@ -230,11 +158,11 @@ public tuple[list[map[str, value]] jsonMaps, int duplicateLoc] convertCloneByDir
 }
 
 /**
- * 
+ * Writes the details of each clone to an Json child element.
  */
 public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone) {
 	list[map[str, value]] jsonMaps = [];
-	// 
+	
 	if(!cloneMap[curClone]?) cloneMap[curClone] = [];
 	
 	for(clone <- clones){
@@ -264,9 +192,8 @@ public list[map[str, value]] createCloneJsonMap(set[node] clones, int projectLoc
 }
 
 /**
- * Ugly fix!, d3 animation cannot handle empty childen nodes ([]), 
+ * Removes empty([]) elements, fix for d3 animation bug that  cannot handle empty childen nodes ([]), 
  */
- 
 public bool checkEmptyLeafs (set[node] clones, str dupFile) {
 	for(clone <- clones){
 		sourceLoc = nodeSourceLoc(clone);
@@ -278,9 +205,7 @@ public bool checkEmptyLeafs (set[node] clones, str dupFile) {
 }
 
 /**
- * Check iff createCloneJsonMap and createCloneDirJsonMap should be separate/different, currently only different
- * by (dupFile == sourceLoc.path) check in if(!isEmptyLocation(sourceLoc) && (dupFile == sourceLoc.path)) {.
- * dunno how json "cloneClasses" is used atm.
+ * Creates an Json entry for the clones for each file in the project.
  */
 public list[map[str, value]] createCloneDirJsonMap(set[node] clones, int projectLoc, int classLoc, int curClone, str dupFile) {
 	list[map[str, value]] jsonMaps = [];
@@ -295,12 +220,9 @@ public list[map[str, value]] createCloneDirJsonMap(set[node] clones, int project
 				"id" :  cloneId,
 				"attributes": (
 					"LOC" : linesCount, 
-					//"percentageOfProject" : locPercentage(linesCount, projectLoc), 
-					//"percentageOfClass" : locPercentage(linesCount, classLoc), 
 					"startLine" : sourceLoc.begin.line,
 					"endLine" : sourceLoc.end.line,
 					"clone" : getNodeSource(clone),
-					//"path": sourceLoc.path,
 					"file": sourceLoc.file
 					)
 				);
@@ -310,7 +232,7 @@ public list[map[str, value]] createCloneDirJsonMap(set[node] clones, int project
 }
 
 /**
- * 
+ * Creates the links between all paths and sources
  */
 public list[map [str, value]] createCloneSourcesJsonMap() {
 	list[map[str, value]] jsonMaps = [];
@@ -321,7 +243,7 @@ public list[map [str, value]] createCloneSourcesJsonMap() {
 }
 
 /**
- * maakt relaties tussen clone ids [x1, x2, .., xn]
+ * Creates a relation between a pair of clones
  */
 public list[map [str, value]] createCloneRelationsJsonMap() {
 	list[map[str, value]] jsonMaps = [];
@@ -333,8 +255,11 @@ public list[map [str, value]] createCloneRelationsJsonMap() {
 	return jsonMaps;
 }
 
-// Answer borrowed from post below and rewritten in Rascal
-// https://stackoverflow.com/questions/5360220/how-to-split-a-list-into-pairs-in-all-possible-ways
+/**
+ * Returns all possible clone combinations
+ * Answer borrowed from post below and rewritten in Rascal
+ * https://stackoverflow.com/questions/5360220/how-to-split-a-list-into-pairs-in-all-possible-ways
+ */
 public lrel[int fst, int snd] pairClones(list[int] clones) {
 	return [<clones[i], clones[j]> | i <- [0..size(clones)], j <- [(i+1)..size(clones)]];
 }
