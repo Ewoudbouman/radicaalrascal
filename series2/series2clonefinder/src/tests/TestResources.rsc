@@ -44,18 +44,36 @@ public loc t3C = |project://testDUP/src/t3/CopyThreeC.java|;
 public loc t3D = |project://testDUP/src/t3/CopyThreeD.java|;
 public loc t3E = |project://testDUP/src/t3/CopyThreeE.java|;
 
+// projects
+public loc projSmallSql = |project://smallsql0.21_src|;
+
 /**
  * Prepares the testcases to be handled by the cloneFinder.
  */
 
-public map[node, set[node]] checkTypeXClones(list [loc] snippets, int cloneType, real similarity) {
+public map[node, set[node]] checkTypeXClones(list [loc] snippets, int cloneType, real similarity, int nodeMass=NODE_MASS_THRESHOLD_TESTCASE) {
 	set[Declaration] asts = {};
 	lrel[node, node] results = [];
 	
 	for (snippet <- snippets) {
 		asts += createAstFromFile(snippet, false);
 	}
-	results = findClones(asts, cloneType, similarity, nodeThreshold=NODE_MASS_THRESHOLD_TESTCASE, output=false);
+	results = findClones(asts, cloneType, similarity, nodeThreshold=nodeMass, output=false);
+	cloneClasses = convertToCloneClasses(results);
+	if (SHOW_OUTPUT) {
+		println("size Type <cloneType> cloneclasses <size(cloneClasses)>");
+	}
+	return cloneClasses;
+}
+
+/**
+ * Prepares the testcases to be handled by the cloneFinder.
+ */
+
+public map[node, set[node]] checkTypeXClones(set[Declaration] asts, int cloneType, real similarity, int nodeMass=NODE_MASS_THRESHOLD_TESTCASE) {
+	lrel[node, node] results = [];
+	
+	results = findClones(asts, cloneType, similarity, nodeThreshold=nodeMass, output=false);
 	cloneClasses = convertToCloneClasses(results);
 	if (SHOW_OUTPUT) {
 		println("size Type <cloneType> cloneclasses <size(cloneClasses)>");

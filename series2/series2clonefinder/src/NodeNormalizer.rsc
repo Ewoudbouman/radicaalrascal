@@ -26,8 +26,10 @@ set[Declaration] normalizeValues(set[Declaration] x) {
 			\class("c", extends, implements, body)
 		case \interface(_, list[Type] extends, list[Type] implements, list[Declaration] body) => 
 			\interface("interface", extends, implements, body)
-		case \method(x, _, y, z, q) => \method(x, "method", y, z, q)
-		case \method(x, _, y, z) => \method(x, "method", y, z)
+		case \method(x, _, y, z, q) => 
+			\method(x, "method", y, z, q)
+		case \method(x, _, y, z) => 
+			\method(x, "method", y, z)
 		case \constructor(_, list[Declaration] parameters, list[Expression] exceptions, Statement impl) => 
 			\constructor("c", parameters, exceptions, impl)
 		case \typeParameter(_, list[Type] extendsList) => 
