@@ -39,7 +39,7 @@ test bool type1_scenario1() {
 	int i = 0;
 	for (sc <- pairLocs(scenarios1)) {
 		i +=1;
-		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		cloneClasses = checkTypeXClones(sc, cloneType, SIMILARITY_THRESHOLD);
 		result = size(cloneClasses) == clones;
 		if (!result) {
 			failures += result;
@@ -61,7 +61,7 @@ test bool type3_scenario1() {
 	int i = 0;
 	for (sc <- pairLocs(scenarios1)) {
 		i +=1;
-		cloneClasses = checkTypeXClones(sc, cloneType, threshold=T3_SIMILARITY_THRESHOLD);
+		cloneClasses = checkTypeXClones(sc, cloneType, T3_SIMILARITY_THRESHOLD);
 		result = size(cloneClasses) == clones;
 		if (!result) {
 			failures += result;
@@ -83,7 +83,7 @@ test bool type3_scenario1() {
 	int i = 0;
 	for (sc <- pairLocs(scenarios1)) {
 		i +=1;
-		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		cloneClasses = checkTypeXClones(sc, cloneType, SIMILARITY_THRESHOLD);
 		result = size(cloneClasses) != clones;
 		if (!result) {
 			failures += result;
@@ -105,7 +105,7 @@ test bool type1_scenario3() {
 	int i = 0;
 	for (sc <- pairLocs(scenarios1)) {
 		i +=1;
-		cloneClasses = checkTypeXClones(sc, cloneType, threshold=SIMILARITY_THRESHOLD);
+		cloneClasses = checkTypeXClones(sc, cloneType, SIMILARITY_THRESHOLD);
 		result = size(cloneClasses) != clones;
 		if (!result) {
 			failures += result;
@@ -129,7 +129,7 @@ test bool type1_scenario3() {
 	for (sc1 <- scenarios1) {
 		for (sc2 <- scenarios2) {
 			i +=1;
-			cloneClasses = checkTypeXClones([sc1, sc2], cloneType, threshold=SIMILARITY_THRESHOLD);
+			cloneClasses = checkTypeXClones([sc1, sc2], cloneType, SIMILARITY_THRESHOLD);
 			result = size(cloneClasses) != clones;
 			if (!result) {
 				failures += result;
@@ -154,7 +154,7 @@ test bool type1_scenario3() {
 	for (sc1 <- scenarios1) {
 		for (sc2 <- scenarios2) {
 			i +=1;
-			cloneClasses = checkTypeXClones([sc1, sc2], cloneType, threshold=SIMILARITY_THRESHOLD);
+			cloneClasses = checkTypeXClones([sc1, sc2], cloneType, SIMILARITY_THRESHOLD);
 			result = size(cloneClasses) != clones;
 			if (!result) {
 				failures += result;

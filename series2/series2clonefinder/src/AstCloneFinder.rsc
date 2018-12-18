@@ -16,45 +16,27 @@ import Utils;
 import NodeNormalizer;
 import CloneUtils;
 
-// TODO Needs further tweaking between performance and results
 private int NODE_MASS_THRESHOLD = 40;
 private real SIMILARITY_THRESHOLD = 1.0;
 private bool SHOW_OUTPUT = false;
 
-/**
- *
+/*
+ * Parses the AST structure for nodes that can be considered as type X clones.
+ * Idea is from Baxter 1998
  */
-public lrel[node fst, node snd] findType1Clones(M3 project) {
-	set[Declaration] asts =  projectAsts(project);
-	return findClones(asts);
-}
+public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType, real similarity, int nodeThreshold=NODE_MASS_THRESHOLD, bool output=true) {
 
-/**
- *
- */
-public lrel[node fst, node snd] findType2Clones(M3 project) {
-	set[Declaration] asts =  projectAsts(project);
-	return findClones(asts, cloneType=2);
-}
-
-/**
- *
- */
-public lrel[node fst, node snd] findType3Clones(M3 project, real threshold) {
-	set[Declaration] asts =  projectAsts(project);
-	return findClones(asts, cloneType=3, similarity=threshold);
-}
-
-public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=1, bool output=true, real similarity=SIMILARITY_THRESHOLD, int nodeThreshold=NODE_MASS_THRESHOLD) {
+	// set shared parameters
 	SIMILARITY_THRESHOLD = similarity;
 	NODE_MASS_THRESHOLD = nodeThreshold;
-	// suppress progress output for tests
 	SHOW_OUTPUT = output;
-	// Buckets of nodes converted to keys containing lists of nodes which are quite similar. This should provide performance according to Baxter
+	
+	// Buckets of nodes converted to keys containing lists of nodes which are quite similar (Baxter).
 	map[node, list[node]] nodeBuckets = ();
 
 	if (SHOW_OUTPUT) println("    Collecting sub trees");
-
+	
+	// Normalize the ast for the non 1 type tests
 	if (cloneType != 1) {
 		asts = normalizeValues(asts);
 	}
@@ -82,12 +64,12 @@ public lrel[node fst, node snd] findClones(set[Declaration] asts, int cloneType=
 	// Starting comparisons:
 	if (SHOW_OUTPUT) println("    Starting comparisons for <size(sortedBuckets)> buckets...");
 
-	//println(findClones(nodeBuckets, sortedBuckets));
 	return findClones(nodeBuckets, sortedBuckets);
 }
 
 /**
- *
+ * Finds all nodes who can be considered as clones within an AST
+ * and returns the group of cloned nodes.
  */
 public lrel[node, node] findClones(map[node, list[node]] nodeBuckets, list[node] sortedBuckets){
 	lrel[node, node] clones = [];
@@ -108,7 +90,8 @@ public lrel[node, node] findClones(map[node, list[node]] nodeBuckets, list[node]
 }
 
 /**
- *
+ * Removes the nodes from the cloned nodes who are considered to be part
+ * of the cloned structure. 
  */
 public lrel[node, node] deleteSubTreeClones(lrel[node, node] clones, node x){
 	visit(x) {
@@ -135,11 +118,13 @@ public lrel[node fst, node snd] pairCombos(list[node] nodes) {
 }
 
 /**
- * Similarity=2xS/ (2xS+L+R)
- * where:
+ * Checks if 2 nodes are considerd similar enough to be considered as a clone pair
+ *
+ * The similarity is weighted as (2 x S / (2 x S + L + R))
+ * with:
  * S = number of shared nodes
- * L = number of different nodes in sub-tree 1 
- * R = number of different nodes in sub-tree 2
+ * L = number of different nodes in sub-tree a 
+ * R = number of different nodes in sub-tree b
  */
 private real similarityScore(node a, node b) {
 	list[node] as = [];

@@ -21,13 +21,7 @@ import LocUtils;
 import CloneIO;
 
 private bool SHOW_OUTPUT = false;
-private real SIMILARITY_THRESHOLD = 1.0;
-private real T3_SIMILARITY_THRESHOLD = 0.8;
 private int NODE_MASS_THRESHOLD_TESTCASE = 2;
-
-// DELME locs
-public loc cda = |project://testDUP/src/t3/Dummya.java|;
-public loc cdb = |project://testDUP/src/t3/Dummyb.java|;
 
 // project loc
 public loc testCases = |project://testDUP|;
@@ -51,24 +45,17 @@ public loc t3D = |project://testDUP/src/t3/CopyThreeD.java|;
 public loc t3E = |project://testDUP/src/t3/CopyThreeE.java|;
 
 /**
- * logic stuff
+ * Prepares the testcases to be handled by the cloneFinder.
  */
 
-
-public map[node, set[node]] checkTypeXClones(list [loc] snippets, int cloneType, real threshold=SIMILARITY_THRESHOLD) {
+public map[node, set[node]] checkTypeXClones(list [loc] snippets, int cloneType, real similarity) {
 	set[Declaration] asts = {};
 	lrel[node, node] results = [];
 	
 	for (snippet <- snippets) {
 		asts += createAstFromFile(snippet, false);
 	}
-	if (cloneType == 3) {
-		results = findClones(asts, cloneType=3, output=false, similarity=threshold, nodeThreshold=NODE_MASS_THRESHOLD_TESTCASE);
-	} else if (cloneType == 2) {
-		results = findClones(asts, cloneType=2, output=false, similarity=threshold, nodeThreshold=NODE_MASS_THRESHOLD_TESTCASE);
-	} else {
-		results = findClones(asts, cloneType=1, output=false, similarity=threshold, nodeThreshold=NODE_MASS_THRESHOLD_TESTCASE);
-	}
+	results = findClones(asts, cloneType, similarity, nodeThreshold=NODE_MASS_THRESHOLD_TESTCASE, output=false);
 	cloneClasses = convertToCloneClasses(results);
 	if (SHOW_OUTPUT) {
 		println("size Type <cloneType> cloneclasses <size(cloneClasses)>");
